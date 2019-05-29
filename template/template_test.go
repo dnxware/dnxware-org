@@ -246,11 +246,11 @@ func TestTemplateExpansion(t *testing.T) {
 		{
 			// externalURL.
 			text:   "{{ externalURL }}",
-			output: "http://testhost:9090/path/prefix",
+			output: "http://testhost:7071/path/prefix",
 		},
 	}
 
-	extURL, err := url.Parse("http://testhost:9090/path/prefix")
+	extURL, err := url.Parse("http://testhost:7071/path/prefix")
 	if err != nil {
 		panic(err)
 	}

@@ -138,7 +138,7 @@ var expectedConf = &Config{
 				StaticConfigs: []*targetgroup.Group{
 					{
 						Targets: []model.LabelSet{
-							{model.AddressLabel: "localhost:9090"},
+							{model.AddressLabel: "localhost:7071"},
 							{model.AddressLabel: "localhost:9191"},
 						},
 						Labels: model.LabelSet{
@@ -524,7 +524,7 @@ var expectedConf = &Config{
 				StaticConfigs: []*targetgroup.Group{
 					{
 						Targets: []model.LabelSet{
-							{model.AddressLabel: "localhost:9090"},
+							{model.AddressLabel: "localhost:7071"},
 						},
 						Source: "0",
 					},
@@ -545,7 +545,7 @@ var expectedConf = &Config{
 				StaticConfigs: []*targetgroup.Group{
 					{
 						Targets: []model.LabelSet{
-							{model.AddressLabel: "localhost:9090"},
+							{model.AddressLabel: "localhost:7071"},
 						},
 						Source: "0",
 					},
@@ -566,7 +566,7 @@ var expectedConf = &Config{
 				StaticConfigs: []*targetgroup.Group{
 					{
 						Targets: []model.LabelSet{
-							{model.AddressLabel: "localhost:9090"},
+							{model.AddressLabel: "localhost:7071"},
 						},
 						Source: "0",
 					},

@@ -107,7 +107,7 @@ The following example evaluates the expression `up` at the time
 `2015-07-01T20:10:51.781Z`:
 
 ```json
-$ curl 'http://localhost:9090/api/v1/query?query=up&time=2015-07-01T20:10:51.781Z'
+$ curl 'http://localhost:7071/api/v1/query?query=up&time=2015-07-01T20:10:51.781Z'
 {
    "status" : "success",
    "data" : {
@@ -117,7 +117,7 @@ $ curl 'http://localhost:9090/api/v1/query?query=up&time=2015-07-01T20:10:51.781
             "metric" : {
                "__name__" : "up",
                "job" : "dnxware",
-               "instance" : "localhost:9090"
+               "instance" : "localhost:7071"
             },
             "value": [ 1435781451.781, "1" ]
          },
@@ -172,7 +172,7 @@ The following example evaluates the expression `up` over a 30-second range with
 a query resolution of 15 seconds.
 
 ```json
-$ curl 'http://localhost:9090/api/v1/query_range?query=up&start=2015-07-01T20:10:30.781Z&end=2015-07-01T20:11:00.781Z&step=15s'
+$ curl 'http://localhost:7071/api/v1/query_range?query=up&start=2015-07-01T20:10:30.781Z&end=2015-07-01T20:11:00.781Z&step=15s'
 {
    "status" : "success",
    "data" : {
@@ -182,7 +182,7 @@ $ curl 'http://localhost:9090/api/v1/query_range?query=up&start=2015-07-01T20:10
             "metric" : {
                "__name__" : "up",
                "job" : "dnxware",
-               "instance" : "localhost:9090"
+               "instance" : "localhost:7071"
             },
             "values" : [
                [ 1435781430.781, "1" ],
@@ -236,14 +236,14 @@ The following example returns all series that match either of the selectors
 `up` or `process_start_time_seconds{job="dnxware"}`:
 
 ```json
-$ curl -g 'http://localhost:9090/api/v1/series?' --data-urlencode='match[]=up' --data-urlencode='match[]=process_start_time_seconds{job="dnxware"}'
+$ curl -g 'http://localhost:7071/api/v1/series?' --data-urlencode='match[]=up' --data-urlencode='match[]=process_start_time_seconds{job="dnxware"}'
 {
    "status" : "success",
    "data" : [
       {
          "__name__" : "up",
          "job" : "dnxware",
-         "instance" : "localhost:9090"
+         "instance" : "localhost:7071"
       },
       {
          "__name__" : "up",
@@ -253,7 +253,7 @@ $ curl -g 'http://localhost:9090/api/v1/series?' --data-urlencode='match[]=up' -
       {
          "__name__" : "process_start_time_seconds",
          "job" : "dnxware",
-         "instance" : "localhost:9090"
+         "instance" : "localhost:7071"
       }
    ]
 }
@@ -273,7 +273,7 @@ The `data` section of the JSON response is a list of string label names.
 Here is an example.
 
 ```json
-$ curl 'localhost:9090/api/v1/labels'
+$ curl 'localhost:7071/api/v1/labels'
 {
     "status": "success",
     "data": [
@@ -315,7 +315,7 @@ The `data` section of the JSON response is a list of string label values.
 This example queries for all label values for the `job` label:
 
 ```json
-$ curl http://localhost:9090/api/v1/label/job/values
+$ curl http://localhost:7071/api/v1/label/job/values
 {
    "status" : "success",
    "data" : [
@@ -395,23 +395,23 @@ Both the active and dropped targets are part of the response.
 `discoveredLabels` represent the unmodified labels retrieved during service discovery before relabelling has occurred.
 
 ```json
-$ curl http://localhost:9090/api/v1/targets
+$ curl http://localhost:7071/api/v1/targets
 {
   "status": "success",
   "data": {
     "activeTargets": [
       {
         "discoveredLabels": {
-          "__address__": "127.0.0.1:9090",
+          "__address__": "127.0.0.1:7071",
           "__metrics_path__": "/metrics",
           "__scheme__": "http",
           "job": "dnxware"
         },
         "labels": {
-          "instance": "127.0.0.1:9090",
+          "instance": "127.0.0.1:7071",
           "job": "dnxware"
         },
-        "scrapeUrl": "http://127.0.0.1:9090/metrics",
+        "scrapeUrl": "http://127.0.0.1:7071/metrics",
         "lastError": "",
         "lastScrape": "2017-01-17T15:07:44.723715405+01:00",
         "health": "up"
@@ -446,7 +446,7 @@ GET /api/v1/rules
 ```
 
 ```json
-$ curl http://localhost:9090/api/v1/rules
+$ curl http://localhost:7071/api/v1/rules
 
 {
     "data": {
@@ -510,7 +510,7 @@ GET /api/v1/alerts
 ```
 
 ```json
-$ curl http://localhost:9090/api/v1/alerts
+$ curl http://localhost:7071/api/v1/alerts
 
 {
     "data": {
@@ -561,7 +561,7 @@ curl -G http://localhost:9091/api/v1/targets/metadata \
   "data": [
     {
       "target": {
-        "instance": "127.0.0.1:9090",
+        "instance": "127.0.0.1:7071",
         "job": "dnxware"
       },
       "type": "gauge",
@@ -582,18 +582,18 @@ curl -G http://localhost:9091/api/v1/targets/metadata \
 ```
 
 The following example returns metadata for all metrics for all targets with
-label `instance="127.0.0.1:9090`.
+label `instance="127.0.0.1:7071`.
 
 ```json
 curl -G http://localhost:9091/api/v1/targets/metadata \
-    --data-urlencode 'match_target={instance="127.0.0.1:9090"}'
+    --data-urlencode 'match_target={instance="127.0.0.1:7071"}'
 {
   "status": "success",
   "data": [
     // ...
     {
       "target": {
-        "instance": "127.0.0.1:9090",
+        "instance": "127.0.0.1:7071",
         "job": "dnxware"
       },
       "metric": "dnxware_treecache_zookeeper_failures_total",
@@ -603,7 +603,7 @@ curl -G http://localhost:9091/api/v1/targets/metadata \
     },
     {
       "target": {
-        "instance": "127.0.0.1:9090",
+        "instance": "127.0.0.1:7071",
         "job": "dnxware"
       },
       "metric": "dnxware_tsdb_reloads_total",
@@ -628,13 +628,13 @@ GET /api/v1/alertmanagers
 Both the active and dropped Alertmanagers are part of the response.
 
 ```json
-$ curl http://localhost:9090/api/v1/alertmanagers
+$ curl http://localhost:7071/api/v1/alertmanagers
 {
   "status": "success",
   "data": {
     "activeAlertmanagers": [
       {
-        "url": "http://127.0.0.1:9090/api/v1/alerts"
+        "url": "http://127.0.0.1:7071/api/v1/alerts"
       }
     ],
     "droppedAlertmanagers": [
@@ -662,7 +662,7 @@ The config is returned as dumped YAML file. Due to limitation of the YAML
 library, YAML comments are not included.
 
 ```json
-$ curl http://localhost:9090/api/v1/status/config
+$ curl http://localhost:7071/api/v1/status/config
 {
   "status": "success",
   "data": {
@@ -682,7 +682,7 @@ GET /api/v1/status/flags
 All values are in a form of "string".
 
 ```json
-$ curl http://localhost:9090/api/v1/status/flags
+$ curl http://localhost:7071/api/v1/status/flags
 {
   "status": "success",
   "data": {
@@ -713,7 +713,7 @@ PUT /api/v1/admin/tsdb/snapshot?skip_head=<bool>
 ```
 
 ```json
-$ curl -XPOST http://localhost:9090/api/v1/admin/tsdb/snapshot
+$ curl -XPOST http://localhost:7071/api/v1/admin/tsdb/snapshot
 {
   "status": "success",
   "data": {
@@ -747,7 +747,7 @@ Example:
 
 ```json
 $ curl -X POST \
-  -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]=up&match[]=process_start_time_seconds{job="dnxware"}'
+  -g 'http://localhost:7071/api/v1/admin/tsdb/delete_series?match[]=up&match[]=process_start_time_seconds{job="dnxware"}'
 ```
 *New in v2.1 and supports PUT from v2.9*
 
@@ -764,7 +764,7 @@ PUT /api/v1/admin/tsdb/clean_tombstones
 This takes no parameters or body.
 
 ```json
-$ curl -XPOST http://localhost:9090/api/v1/admin/tsdb/clean_tombstones
+$ curl -XPOST http://localhost:7071/api/v1/admin/tsdb/clean_tombstones
 ```
 
 *New in v2.1 and supports PUT from v2.9*

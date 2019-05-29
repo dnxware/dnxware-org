@@ -753,8 +753,8 @@ func TestTargetSetRecreatesTargetGroupsEveryRun(t *testing.T) {
 scrape_configs:
  - job_name: 'dnxware'
    static_configs:
-   - targets: ["foo:9090"]
-   - targets: ["bar:9090"]
+   - targets: ["foo:7071"]
+   - targets: ["bar:7071"]
 `
 	if err := yaml.UnmarshalStrict([]byte(sOne), cfg); err != nil {
 		t.Fatalf("Unable to load YAML config sOne: %s", err)
@@ -772,14 +772,14 @@ scrape_configs:
 	discoveryManager.ApplyConfig(c)
 
 	<-discoveryManager.SyncCh()
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"bar:9090\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"foo:7071\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"bar:7071\"}", true)
 
 	sTwo := `
 scrape_configs:
  - job_name: 'dnxware'
    static_configs:
-   - targets: ["foo:9090"]
+   - targets: ["foo:7071"]
 `
 	if err := yaml.UnmarshalStrict([]byte(sTwo), cfg); err != nil {
 		t.Fatalf("Unable to load YAML config sTwo: %s", err)
@@ -791,8 +791,8 @@ scrape_configs:
 	discoveryManager.ApplyConfig(c)
 
 	<-discoveryManager.SyncCh()
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"bar:9090\"}", false)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"foo:7071\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"bar:7071\"}", false)
 }
 
 // TestTargetSetRecreatesEmptyStaticConfigs ensures that reloading a config file after
@@ -805,7 +805,7 @@ func TestTargetSetRecreatesEmptyStaticConfigs(t *testing.T) {
 scrape_configs:
  - job_name: 'dnxware'
    static_configs:
-   - targets: ["foo:9090"]
+   - targets: ["foo:7071"]
 `
 	if err := yaml.UnmarshalStrict([]byte(sOne), cfg); err != nil {
 		t.Fatalf("Unable to load YAML config sOne: %s", err)
@@ -823,7 +823,7 @@ scrape_configs:
 	discoveryManager.ApplyConfig(c)
 
 	<-discoveryManager.SyncCh()
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"foo:7071\"}", true)
 
 	sTwo := `
 scrape_configs:
@@ -862,7 +862,7 @@ func TestIdenticalConfigurationsAreCoalesced(t *testing.T) {
 		t.Fatalf("error creating temporary file: %v", err)
 	}
 	defer os.Remove(tmpFile.Name())
-	if _, err := tmpFile.Write([]byte(`[{"targets": ["foo:9090"]}]`)); err != nil {
+	if _, err := tmpFile.Write([]byte(`[{"targets": ["foo:7071"]}]`)); err != nil {
 		t.Fatalf("error writing temporary file: %v", err)
 	}
 	if err := tmpFile.Close(); err != nil {
@@ -902,8 +902,8 @@ scrape_configs:
 	discoveryManager.ApplyConfig(c)
 
 	<-discoveryManager.SyncCh()
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "*file.SDConfig/0"}, "{__address__=\"foo:9090\"}", true)
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware2", provider: "*file.SDConfig/0"}, "{__address__=\"foo:9090\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "*file.SDConfig/0"}, "{__address__=\"foo:7071\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware2", provider: "*file.SDConfig/0"}, "{__address__=\"foo:7071\"}", true)
 	if len(discoveryManager.providers) != 1 {
 		t.Fatalf("Invalid number of providers: expected 1, got %d", len(discoveryManager.providers))
 	}
@@ -914,9 +914,9 @@ func TestApplyConfigDoesNotModifyStaticProviderTargets(t *testing.T) {
 scrape_configs:
  - job_name: 'dnxware'
    static_configs:
-   - targets: ["foo:9090"]
-   - targets: ["bar:9090"]
-   - targets: ["baz:9090"]
+   - targets: ["foo:7071"]
+   - targets: ["bar:7071"]
+   - targets: ["baz:7071"]
 `
 	originalConfig := &config.Config{}
 	if err := yaml.UnmarshalStrict([]byte(cfgText), originalConfig); err != nil {

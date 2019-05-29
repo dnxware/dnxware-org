@@ -58,7 +58,7 @@ while also enabling the `honor_labels` scrape option (to not overwrite any
 labels exposed by the source server) and passing in the desired `match[]`
 parameters. For example, the following `scrape_config` federates any series
 with the label `job="dnxware"` or a metric name starting with `job:` from
-the dnxware servers at `source-dnxware-{1,2,3}:9090` into the scraping
+the dnxware servers at `source-dnxware-{1,2,3}:7071` into the scraping
 dnxware:
 
 ```yaml
@@ -75,7 +75,7 @@ dnxware:
 
   static_configs:
     - targets:
-      - 'source-dnxware-1:9090'
-      - 'source-dnxware-2:9090'
-      - 'source-dnxware-3:9090'
+      - 'source-dnxware-1:7071'
+      - 'source-dnxware-2:7071'
+      - 'source-dnxware-3:7071'
 ```

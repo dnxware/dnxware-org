@@ -6,7 +6,7 @@ metadata:
     name: rabbitmq
 spec:
   ports:
-  - port: 9090
+  - port: 7071
     name: exporter
     targetPort: exporter
     protocol: TCP

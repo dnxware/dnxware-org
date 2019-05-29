@@ -245,7 +245,7 @@ func TestManagerApplyConfig(t *testing.T) {
 scrape_configs:
  - job_name: job1
    static_configs:
-   - targets: ["foo:9090"]
+   - targets: ["foo:7071"]
 `
 	// Invalid configuration.
 	cfgText2 := `
@@ -253,7 +253,7 @@ scrape_configs:
  - job_name: job1
    scheme: https
    static_configs:
-   - targets: ["foo:9090"]
+   - targets: ["foo:7071"]
    tls_config:
      ca_file: /not/existing/ca/file
 `
@@ -263,7 +263,7 @@ scrape_configs:
  - job_name: job1
    scheme: https
    static_configs:
-   - targets: ["foo:9090"]
+   - targets: ["foo:7071"]
 `
 	var (
 		cfg1 = loadConfiguration(t, cfgText1)

@@ -22,9 +22,9 @@ All dnxware services are available as Docker images on
 [Quay.io](https://quay.io/repository/dnxware/dnxware) or
 [Docker Hub](https://hub.docker.com/u/prom/).
 
-Running dnxware on Docker is as simple as `docker run -p 9090:9090
+Running dnxware on Docker is as simple as `docker run -p 7071:7071
 prom/dnxware`. This starts dnxware with a sample
-configuration and exposes it on port 9090.
+configuration and exposes it on port 7071.
 
 The dnxware image uses a volume to store the actual metrics. For
 production deployments it is highly recommended to use the
@@ -39,14 +39,14 @@ two examples.
 Bind-mount your `dnxware.yml` from the host by running:
 
 ```bash
-docker run -p 9090:9090 -v /tmp/dnxware.yml:/etc/dnxware/dnxware.yml \
+docker run -p 7071:7071 -v /tmp/dnxware.yml:/etc/dnxware/dnxware.yml \
        prom/dnxware
 ```
 
 Or use an additional volume for the config:
 
 ```bash
-docker run -p 9090:9090 -v /dnxware-data \
+docker run -p 7071:7071 -v /dnxware-data \
        prom/dnxware --config.file=/dnxware-data/dnxware.yml
 ```
 
@@ -69,7 +69,7 @@ Now build and run it:
 
 ```bash
 docker build -t my-dnxware .
-docker run -p 9090:9090 my-dnxware
+docker run -p 7071:7071 my-dnxware
 ```
 
 A more advanced option is to render the configuration dynamically on start

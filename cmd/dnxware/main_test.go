@@ -88,7 +88,7 @@ func TestStartupInterrupt(t *testing.T) {
 Loop:
 	for x := 0; x < 10; x++ {
 		// error=nil means dnxware has started so can send the interrupt signal and wait for the grace shutdown.
-		if _, err := http.Get("http://localhost:9090/graph"); err == nil {
+		if _, err := http.Get("http://localhost:7071/graph"); err == nil {
 			startedOk = true
 			prom.Process.Signal(os.Interrupt)
 			select {
@@ -152,7 +152,7 @@ func TestComputeExternalURL(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		_, err := computeExternalURL(test.input, "0.0.0.0:9090")
+		_, err := computeExternalURL(test.input, "0.0.0.0:7071")
 		if test.valid {
 			testutil.Ok(t, err)
 		} else {
@@ -209,7 +209,7 @@ func TestSendAlerts(t *testing.T) {
 					Annotations:  []labels.Label{{Name: "a2", Value: "v2"}},
 					StartsAt:     time.Unix(2, 0),
 					EndsAt:       time.Unix(3, 0),
-					GeneratorURL: "http://localhost:9090/graph?g0.expr=up&g0.tab=1",
+					GeneratorURL: "http://localhost:7071/graph?g0.expr=up&g0.tab=1",
 				},
 			},
 		},
@@ -229,7 +229,7 @@ func TestSendAlerts(t *testing.T) {
 					Annotations:  []labels.Label{{Name: "a2", Value: "v2"}},
 					StartsAt:     time.Unix(2, 0),
 					EndsAt:       time.Unix(4, 0),
-					GeneratorURL: "http://localhost:9090/graph?g0.expr=up&g0.tab=1",
+					GeneratorURL: "http://localhost:7071/graph?g0.expr=up&g0.tab=1",
 				},
 			},
 		},
@@ -247,7 +247,7 @@ func TestSendAlerts(t *testing.T) {
 				}
 				testutil.Equals(t, tc.exp, alerts)
 			})
-			sendAlerts(senderFunc, "http://localhost:9090")(context.TODO(), "up", tc.in...)
+			sendAlerts(senderFunc, "http://localhost:7071")(context.TODO(), "up", tc.in...)
 		})
 	}
 }

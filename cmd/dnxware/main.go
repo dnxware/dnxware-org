@@ -136,7 +136,7 @@ func main() {
 		Default("dnxware.yml").StringVar(&cfg.configFile)
 
 	a.Flag("web.listen-address", "Address to listen on for UI, API, and telemetry.").
-		Default("0.0.0.0:9090").StringVar(&cfg.web.ListenAddress)
+		Default("0.0.0.0:7071").StringVar(&cfg.web.ListenAddress)
 
 	a.Flag("web.read-timeout",
 		"Maximum duration before timing out read of the request, and closing idle connections.").

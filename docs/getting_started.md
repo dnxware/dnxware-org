@@ -52,7 +52,7 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['localhost:7071']
 ```
 
 For a complete specification of configuration options, see the
@@ -70,21 +70,21 @@ directory containing the dnxware binary and run:
 ```
 
 dnxware should start up. You should also be able to browse to a status page
-about itself at [localhost:9090](http://localhost:9090). Give it a couple of
+about itself at [localhost:7071](http://localhost:7071). Give it a couple of
 seconds to collect data about itself from its own HTTP metrics endpoint.
 
 You can also verify that dnxware is serving metrics about itself by
 navigating to its metrics endpoint:
-[localhost:9090/metrics](http://localhost:9090/metrics)
+[localhost:7071/metrics](http://localhost:7071/metrics)
 
 ## Using the expression browser
 
 Let us try looking at some data that dnxware has collected about itself. To
 use dnxware's built-in expression browser, navigate to
-http://localhost:9090/graph and choose the "Console" view within the "Graph"
+http://localhost:7071/graph and choose the "Console" view within the "Graph"
 tab.
 
-As you can gather from [localhost:9090/metrics](http://localhost:9090/metrics),
+As you can gather from [localhost:7071/metrics](http://localhost:7071/metrics),
 one metric that dnxware exports about itself is called
 `dnxware_target_interval_length_seconds` (the actual amount of time between
 target scrapes). Go ahead and enter this into the expression console:
@@ -116,7 +116,7 @@ For more about the expression language, see the
 
 ## Using the graphing interface
 
-To graph expressions, navigate to http://localhost:9090/graph and use the "Graph"
+To graph expressions, navigate to http://localhost:7071/graph and use the "Graph"
 tab.
 
 For example, enter the following expression to graph the per-second rate of chunks 
@@ -244,7 +244,7 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['localhost:7071']
 
   - job_name:       'example-random'
 

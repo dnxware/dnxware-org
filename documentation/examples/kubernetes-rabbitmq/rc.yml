@@ -23,5 +23,5 @@ spec:
       - image: kbudde/rabbitmq-exporter
         name: rabbitmq-exporter
         ports:
-        - containerPort: 9090
+        - containerPort: 7071
           name: exporter

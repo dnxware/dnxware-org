@@ -273,9 +273,9 @@ func New(logger log.Logger, o *Options) *Handler {
 
 	readyf := h.testReady
 
-	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, path.Join(o.ExternalURL.Path, "/graph"), http.StatusFound)
-	})
+	// router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+	// 	http.Redirect(w, r, path.Join(o.ExternalURL.Path, "/targets"), http.StatusFound)
+	// })
 
 	router.Get("/alerts", readyf(h.alerts))
 	router.Get("/graph", readyf(h.graph))

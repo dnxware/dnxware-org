@@ -130,7 +130,7 @@ Internally it works like the scrape discovery manager.
 
 ## Web UI and API
 
-dnxware serves its web UI and API on port `9090` by default. The web UI is available at `/` and serves a human-usable interface for running expression queries, inspecting active alerts, or getting other insight into the status of the dnxware server.
+dnxware serves its web UI and API on port `7071` by default. The web UI is available at `/` and serves a human-usable interface for running expression queries, inspecting active alerts, or getting other insight into the status of the dnxware server.
 
 The web API is served under `/api/v1` and allows programmatical [querying, metadata, and server status inspection](https://dnxware.io/docs/dnxware/latest/querying/api/).
 

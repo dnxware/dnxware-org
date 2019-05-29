@@ -20,7 +20,7 @@ is exposing metrics. To do that you need to define a service that:
 
 * Exposes the exporter port
 * Has a **dnxware.io/scrape: "true"** annotation
-* Has a **dnxware.io/port: "9090"** annotation
+* Has a **dnxware.io/port: "7071"** annotation
 
 And you should be able to see your RabbitMQ exporter being scraped on the dnxware status page.
 Since the IP that will be scraped will be the pod endpoint it is important that the node

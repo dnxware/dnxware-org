@@ -308,7 +308,7 @@ examples:
 
 $ cat metrics.prom | promtool check metrics
 
-$ curl -s http://localhost:9090/metrics | promtool check metrics
+$ curl -s http://localhost:7071/metrics | promtool check metrics
 `)
 
 // CheckMetrics performs a linting pass on input metrics.

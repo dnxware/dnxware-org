@@ -528,7 +528,7 @@ func makeInputTargetGroup() *targetgroup.Group {
 	return &targetgroup.Group{
 		Targets: []model.LabelSet{
 			{
-				model.AddressLabel:            model.LabelValue("1.1.1.1:9090"),
+				model.AddressLabel:            model.LabelValue("1.1.1.1:7071"),
 				model.LabelName("notcommon1"): model.LabelValue("label"),
 			},
 		},

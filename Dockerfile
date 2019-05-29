@@ -16,7 +16,7 @@ RUN mkdir -p /dnxware && \
     chown -R nobody:nogroup etc/dnxware /dnxware
 
 USER       nobody
-EXPOSE     9090
+EXPOSE     7071
 VOLUME     [ "/dnxware" ]
 WORKDIR    /dnxware
 ENTRYPOINT [ "/bin/dnxware" ]

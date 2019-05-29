@@ -6,7 +6,7 @@ scrape_configs:
   # Make dnxware scrape itself for metrics.
   - job_name: 'dnxware'
     static_configs:
-    - targets: ['localhost:9090']
+    - targets: ['localhost:7071']
 
   # Discover Marathon services to scrape.
   - job_name: 'marathon'

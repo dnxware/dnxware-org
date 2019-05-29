@@ -41,7 +41,7 @@ func TestMain(m *testing.M) {
 }
 func TestGlobalURL(t *testing.T) {
 	opts := &Options{
-		ListenAddress: ":9090",
+		ListenAddress: ":7071",
 		ExternalURL: &url.URL{
 			Scheme: "https",
 			Host:   "externalhost:80",
@@ -55,12 +55,12 @@ func TestGlobalURL(t *testing.T) {
 	}{
 		{
 			// Nothing should change if the input URL is not on localhost, even if the port is our listening port.
-			inURL:  "http://somehost:9090/metrics",
-			outURL: "http://somehost:9090/metrics",
+			inURL:  "http://somehost:7071/metrics",
+			outURL: "http://somehost:7071/metrics",
 		},
 		{
 			// Port and host should change if target is on localhost and port is our listening port.
-			inURL:  "http://localhost:9090/metrics",
+			inURL:  "http://localhost:7071/metrics",
 			outURL: "https://externalhost:80/metrics",
 		},
 		{
@@ -70,7 +70,7 @@ func TestGlobalURL(t *testing.T) {
 		},
 		{
 			// Alternative localhost representations should also work.
-			inURL:  "http://127.0.0.1:9090/metrics",
+			inURL:  "http://127.0.0.1:7071/metrics",
 			outURL: "https://externalhost:80/metrics",
 		},
 	}
@@ -99,7 +99,7 @@ func TestReadyAndHealthy(t *testing.T) {
 	testutil.Ok(t, err)
 
 	opts := &Options{
-		ListenAddress:  ":9090",
+		ListenAddress:  ":7071",
 		ReadTimeout:    30 * time.Second,
 		MaxConnections: 512,
 		Context:        nil,
@@ -113,7 +113,7 @@ func TestReadyAndHealthy(t *testing.T) {
 		TSDB:           func() *libtsdb.DB { return db },
 		ExternalURL: &url.URL{
 			Scheme: "http",
-			Host:   "localhost:9090",
+			Host:   "localhost:7071",
 			Path:   "/",
 		},
 		Version: &PrometheusVersion{},
@@ -137,72 +137,72 @@ func TestReadyAndHealthy(t *testing.T) {
 	// to be up before starting tests.
 	time.Sleep(5 * time.Second)
 
-	resp, err := http.Get("http://localhost:9090/-/healthy")
+	resp, err := http.Get("http://localhost:7071/-/healthy")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/-/ready")
+	resp, err = http.Get("http://localhost:7071/-/ready")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/version")
+	resp, err = http.Get("http://localhost:7071/version")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/graph")
+	resp, err = http.Get("http://localhost:7071/graph")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Post("http://localhost:9090/api/v2/admin/tsdb/snapshot", "", strings.NewReader(""))
+	resp, err = http.Post("http://localhost:7071/api/v2/admin/tsdb/snapshot", "", strings.NewReader(""))
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Post("http://localhost:9090/api/v2/admin/tsdb/delete_series", "", strings.NewReader("{}"))
+	resp, err = http.Post("http://localhost:7071/api/v2/admin/tsdb/delete_series", "", strings.NewReader("{}"))
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/graph")
+	resp, err = http.Get("http://localhost:7071/graph")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/alerts")
+	resp, err = http.Get("http://localhost:7071/alerts")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/flags")
+	resp, err = http.Get("http://localhost:7071/flags")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/rules")
+	resp, err = http.Get("http://localhost:7071/rules")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/service-discovery")
+	resp, err = http.Get("http://localhost:7071/service-discovery")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/targets")
+	resp, err = http.Get("http://localhost:7071/targets")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/config")
+	resp, err = http.Get("http://localhost:7071/config")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/status")
+	resp, err = http.Get("http://localhost:7071/status")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusServiceUnavailable, resp.StatusCode)
@@ -210,67 +210,67 @@ func TestReadyAndHealthy(t *testing.T) {
 	// Set to ready.
 	webHandler.Ready()
 
-	resp, err = http.Get("http://localhost:9090/-/healthy")
+	resp, err = http.Get("http://localhost:7071/-/healthy")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/-/ready")
+	resp, err = http.Get("http://localhost:7071/-/ready")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/version")
+	resp, err = http.Get("http://localhost:7071/version")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/graph")
+	resp, err = http.Get("http://localhost:7071/graph")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Post("http://localhost:9090/api/v2/admin/tsdb/snapshot", "", strings.NewReader(""))
+	resp, err = http.Post("http://localhost:7071/api/v2/admin/tsdb/snapshot", "", strings.NewReader(""))
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Post("http://localhost:9090/api/v2/admin/tsdb/delete_series", "", strings.NewReader("{}"))
+	resp, err = http.Post("http://localhost:7071/api/v2/admin/tsdb/delete_series", "", strings.NewReader("{}"))
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/alerts")
+	resp, err = http.Get("http://localhost:7071/alerts")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/flags")
+	resp, err = http.Get("http://localhost:7071/flags")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/rules")
+	resp, err = http.Get("http://localhost:7071/rules")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/service-discovery")
+	resp, err = http.Get("http://localhost:7071/service-discovery")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/targets")
+	resp, err = http.Get("http://localhost:7071/targets")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/config")
+	resp, err = http.Get("http://localhost:7071/config")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)
 
-	resp, err = http.Get("http://localhost:9090/status")
+	resp, err = http.Get("http://localhost:7071/status")
 
 	testutil.Ok(t, err)
 	testutil.Equals(t, http.StatusOK, resp.StatusCode)

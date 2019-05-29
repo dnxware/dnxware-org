@@ -80,12 +80,12 @@ func TestDroppedTargetsList(t *testing.T) {
 		tgs = []*targetgroup.Group{
 			{
 				Targets: []model.LabelSet{
-					{model.AddressLabel: "127.0.0.1:9090"},
+					{model.AddressLabel: "127.0.0.1:7071"},
 				},
 			},
 		}
 		sp, _                  = newScrapePool(cfg, app, 0, nil)
-		expectedLabelSetString = "{__address__=\"127.0.0.1:9090\", __metrics_path__=\"\", __scheme__=\"\", job=\"dropMe\"}"
+		expectedLabelSetString = "{__address__=\"127.0.0.1:7071\", __metrics_path__=\"\", __scheme__=\"\", job=\"dropMe\"}"
 		expectedLength         = 1
 	)
 	sp.Sync(tgs)
@@ -360,14 +360,14 @@ func TestScrapePoolRaces(t *testing.T) {
 	tgts := []*targetgroup.Group{
 		{
 			Targets: []model.LabelSet{
-				{model.AddressLabel: "127.0.0.1:9090"},
-				{model.AddressLabel: "127.0.0.2:9090"},
-				{model.AddressLabel: "127.0.0.3:9090"},
-				{model.AddressLabel: "127.0.0.4:9090"},
-				{model.AddressLabel: "127.0.0.5:9090"},
-				{model.AddressLabel: "127.0.0.6:9090"},
-				{model.AddressLabel: "127.0.0.7:9090"},
-				{model.AddressLabel: "127.0.0.8:9090"},
+				{model.AddressLabel: "127.0.0.1:7071"},
+				{model.AddressLabel: "127.0.0.2:7071"},
+				{model.AddressLabel: "127.0.0.3:7071"},
+				{model.AddressLabel: "127.0.0.4:7071"},
+				{model.AddressLabel: "127.0.0.5:7071"},
+				{model.AddressLabel: "127.0.0.6:7071"},
+				{model.AddressLabel: "127.0.0.7:7071"},
+				{model.AddressLabel: "127.0.0.8:7071"},
 			},
 		},
 	}

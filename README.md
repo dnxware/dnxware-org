@@ -51,9 +51,9 @@ Docker images are available on [Quay.io](https://quay.io/repository/dnxware/dnxw
 
 You can launch a dnxware container for trying it out with
 
-    $ docker run --name dnxware -d -p 127.0.0.1:9090:9090 prom/dnxware
+    $ docker run --name dnxware -d -p 127.0.0.1:7071:7071 prom/dnxware
 
-dnxware will now be reachable at http://localhost:9090/.
+dnxware will now be reachable at http://localhost:7071/.
 
 ### Building from source
 

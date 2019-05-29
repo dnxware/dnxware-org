@@ -54,7 +54,7 @@ scrape_configs:
       - bar/*.yaml
 
   static_configs:
-  - targets: ['localhost:9090', 'localhost:9191']
+  - targets: ['localhost:7071', 'localhost:9191']
     labels:
       my:   label
       your: label
@@ -228,20 +228,20 @@ scrape_configs:
   metrics_path: /metrics
   static_configs:
     - targets:
-      - localhost:9090
+      - localhost:7071
 
 - job_name: badfederation
   honor_timestamps: false
   metrics_path: /federate
   static_configs:
     - targets:
-      - localhost:9090
+      - localhost:7071
 
 - job_name: 測試
   metrics_path: /metrics
   static_configs:
     - targets:
-      - localhost:9090
+      - localhost:7071
 
 - job_name: service-triton
   triton_sd_configs:
