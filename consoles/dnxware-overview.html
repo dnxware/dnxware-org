@@ -1,0 +1,96 @@
+{{ template "head" . }}
+
+{{ template "prom_right_table_head" }}
+  <tr>
+    <th colspan="2">Overview</th>
+  </tr>
+  <tr>
+    <td>CPU</td>
+    <td>{{ template "prom_query_drilldown" (args (printf "irate(process_cpu_seconds_total{job='dnxware',instance='%s'}[5m])" .Params.instance) "s/s" "humanizeNoSmallPrefix") }}</td>
+  </tr>
+  <tr>
+    <td>Memory</td>
+    <td>{{ template "prom_query_drilldown" (args (printf "process_resident_memory_bytes{job='dnxware',instance='%s'}" .Params.instance) "B" "humanize1024") }}</td>
+  </tr>
+  <tr>
+    <td>Version</td>
+    <td>{{ with query (printf "dnxware_build_info{job='dnxware',instance='%s'}" .Params.instance) }}{{. | first | label "version"}}{{end}}</td>
+  </tr>
+
+  <tr>
+    <th colspan="2">Storage</th>
+  </tr>
+  <tr>
+    <td>Ingested Samples</td>
+    <td>{{ template "prom_query_drilldown" (args (printf "irate(dnxware_tsdb_head_samples_appended_total{job='dnxware',instance='%s'}[5m])" .Params.instance) "/s" "humanizeNoSmallPrefix") }}</td>
+  </tr>
+  <tr>
+    <td>Head Series</td>
+    <td>{{ template "prom_query_drilldown" (args (printf "dnxware_tsdb_head_series{job='dnxware',instance='%s'}" .Params.instance) "" "humanize") }}</td>
+  </tr>
+  <tr>
+    <td>Blocks Loaded</td>
+    <td>{{ template "prom_query_drilldown" (args (printf "dnxware_tsdb_blocks_loaded{job='dnxware',instance='%s'}" .Params.instance) "" "humanize") }}</td>
+  </tr>
+  <tr>
+    <th colspan="2">Rules</th>
+  </tr>
+  <tr>
+    <td>Evaluation Duration</td>
+    <td>{{ template "prom_query_drilldown" (args (printf "irate(dnxware_evaluator_duration_seconds_sum{job='dnxware',instance='%s'}[5m]) / irate(dnxware_evaluator_duration_seconds_count{job='dnxware',instance='%s'}[5m])" .Params.instance .Params.instance) "" "humanizeDuration") }}</td>
+  </tr>
+  <tr>
+    <td>Notification Latency</td>
+    <td>{{ template "prom_query_drilldown" (args (printf "irate(dnxware_notifications_latency_seconds_sum{job='dnxware',instance='%s'}[5m]) / irate(dnxware_notifications_latency_seconds_count{job='dnxware',instance='%s'}[5m])" .Params.instance .Params.instance) "" "humanizeDuration") }}</td>
+  </tr>
+  <tr>
+    <td>Notification Queue</td>
+    <td>{{ template "prom_query_drilldown" (args (printf "dnxware_notifications_queue_length{job='dnxware',instance='%s'}" .Params.instance) "" "humanize") }}</td>
+  </tr>
+  <tr>
+    <th colspan="2">HTTP Server</th>
+  </tr>
+{{ range printf "http_request_duration_microseconds_count{job='dnxware',instance='%s',handler=~'^(query.*|federate|consoles)$'}" .Params.instance | query | sortByLabel "handler" }}
+  <tr>
+    <td>{{ .Labels.handler }}</td>
+    <td>{{ template "prom_query_drilldown" (args (printf "irate(http_request_duration_microseconds_count{job='dnxware',instance='%s',handler='%s'}[5m])" .Labels.instance .Labels.handler) "/s" "humanizeNoSmallPrefix") }}</td>
+  </tr>
+{{ end }}
+
+{{ template "prom_right_table_tail" }}
+
+{{ template "prom_content_head" . }}
+ <div class="prom_content_div">
+  <h1>dnxware Overview - {{ .Params.instance }}</h1>
+
+  <h3>Ingested Samples</h3>
+  <div id="samplesGraph"></div>
+  <script>
+  new PromConsole.Graph({
+    node: document.querySelector("#samplesGraph"),
+    expr: "irate(dnxware_tsdb_head_samples_appended_total{job='dnxware',instance='{{ .Params.instance }}'}[5m])",
+    name: 'Ingested Samples',
+    yAxisFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+    yHoverFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+    yTitle: "Samples",
+    yUnits: "/s",
+  })
+  </script>
+
+  <h3>HTTP Server</h3>
+  <div id="serverGraph"></div>
+  <script>
+  new PromConsole.Graph({
+    node: document.querySelector("#serverGraph"),
+    expr: "irate(http_request_duration_microseconds_count{job='dnxware',instance='{{ .Params.instance }}',handler=~'^(query.*|federate|consoles)$'}[5m])",
+    name: '[[handler]]',
+    yAxisFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+    yHoverFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+    yTitle: "Requests",
+    yUnits: "/s",
+  })
+  </script>
+ </div>
+{{ template "prom_content_tail" . }}
+
+{{ template "tail" }}

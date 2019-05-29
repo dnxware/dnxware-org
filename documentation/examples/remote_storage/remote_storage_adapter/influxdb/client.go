@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -24,20 +24,20 @@ import (
 	"github.com/go-kit/kit/log/level"
 	influx "github.com/influxdata/influxdb/client/v2"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/common/model"
 
-	"github.com/prometheus/prometheus/prompb"
+	"github.com/dnxware/dnxware/prompb"
 )
 
-// Client allows sending batches of Prometheus samples to InfluxDB.
+// Client allows sending batches of dnxware samples to InfluxDB.
 type Client struct {
 	logger log.Logger
 
 	client          influx.Client
 	database        string
 	retentionPolicy string
-	ignoredSamples  prometheus.Counter
+	ignoredSamples  dnxware.Counter
 }
 
 // NewClient creates a new Client.
@@ -58,16 +58,16 @@ func NewClient(logger log.Logger, conf influx.HTTPConfig, db string, rp string) 
 		client:          c,
 		database:        db,
 		retentionPolicy: rp,
-		ignoredSamples: prometheus.NewCounter(
-			prometheus.CounterOpts{
-				Name: "prometheus_influxdb_ignored_samples_total",
+		ignoredSamples: dnxware.NewCounter(
+			dnxware.CounterOpts{
+				Name: "dnxware_influxdb_ignored_samples_total",
 				Help: "The total number of samples not sent to InfluxDB due to unsupported float values (Inf, -Inf, NaN).",
 			},
 		),
 	}
 }
 
-// tagsFromMetric extracts InfluxDB tags from a Prometheus metric.
+// tagsFromMetric extracts InfluxDB tags from a dnxware metric.
 func tagsFromMetric(m model.Metric) map[string]string {
 	tags := make(map[string]string, len(m)-1)
 	for l, v := range m {
@@ -232,7 +232,7 @@ func tagsToLabelPairs(name string, tags map[string]string) []prompb.Label {
 			// If we select metrics with different sets of labels names,
 			// InfluxDB returns *all* possible tag names on all returned
 			// series, with empty tag values on series where they don't
-			// apply. In Prometheus, an empty label value is equivalent
+			// apply. In dnxware, an empty label value is equivalent
 			// to a non-existent label, so we just skip empty ones here
 			// to make the result correct.
 			continue
@@ -312,12 +312,12 @@ func (c Client) Name() string {
 	return "influxdb"
 }
 
-// Describe implements prometheus.Collector.
-func (c *Client) Describe(ch chan<- *prometheus.Desc) {
+// Describe implements dnxware.Collector.
+func (c *Client) Describe(ch chan<- *dnxware.Desc) {
 	ch <- c.ignoredSamples.Desc()
 }
 
-// Collect implements prometheus.Collector.
-func (c *Client) Collect(ch chan<- prometheus.Metric) {
+// Collect implements dnxware.Collector.
+func (c *Client) Collect(ch chan<- dnxware.Metric) {
 	ch <- c.ignoredSamples
 }

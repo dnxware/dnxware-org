@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright 2019 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,12 +22,12 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/client_golang/dnxware/promauto"
 )
 
 var interner = newPool()
-var noReferenceReleases = promauto.NewCounter(prometheus.CounterOpts{
+var noReferenceReleases = promauto.NewCounter(dnxware.CounterOpts{
 	Namespace: namespace,
 	Subsystem: subsystem,
 	Name:      "string_interner_zero_reference_releases_total",

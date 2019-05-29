@@ -3,11 +3,11 @@
     Please do *NOT* ask usage questions in Github issues.
 
     If your issue is not a feature request or bug report use:
-    https://groups.google.com/forum/#!forum/prometheus-users. If
+    https://groups.google.com/forum/#!forum/dnxware-users. If
     you are unsure whether you hit a bug, search and ask in the
     mailing list first.
 
-    You can find more information at: https://prometheus.io/community/
+    You can find more information at: https://dnxware.io/community/
 
 -->
 ## Proposal
@@ -28,15 +28,15 @@
 
 	insert output of `uname -srm` here
 
-* Prometheus version:
+* dnxware version:
 
-	insert output of `prometheus --version` here
+	insert output of `dnxware --version` here
 
 * Alertmanager version:
 
 	insert output of `alertmanager --version` here (if relevant to the issue)
 
-* Prometheus configuration file:
+* dnxware configuration file:
 ```
 insert configuration here
 ```
@@ -51,5 +51,5 @@ insert configuration here (if relevant to the issue)
 
 * Logs:
 ```
-insert Prometheus and Alertmanager logs relevant to the issue here
+insert dnxware and Alertmanager logs relevant to the issue here
 ```

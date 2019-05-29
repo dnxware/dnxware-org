@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -33,24 +33,24 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/gogo/protobuf/proto"
 	"github.com/golang/snappy"
-	"github.com/prometheus/client_golang/prometheus"
-	config_util "github.com/prometheus/common/config"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/common/promlog"
-	"github.com/prometheus/common/route"
-	tsdbLabels "github.com/prometheus/tsdb/labels"
+	"github.com/dnxware/client_golang/dnxware"
+	config_util "github.com/dnxware/common/config"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/common/promlog"
+	"github.com/dnxware/common/route"
+	tsdbLabels "github.com/dnxware/tsdb/labels"
 
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/pkg/gate"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/timestamp"
-	"github.com/prometheus/prometheus/prompb"
-	"github.com/prometheus/prometheus/promql"
-	"github.com/prometheus/prometheus/rules"
-	"github.com/prometheus/prometheus/scrape"
-	"github.com/prometheus/prometheus/storage"
-	"github.com/prometheus/prometheus/storage/remote"
-	"github.com/prometheus/prometheus/util/testutil"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/pkg/gate"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/timestamp"
+	"github.com/dnxware/dnxware/prompb"
+	"github.com/dnxware/dnxware/promql"
+	"github.com/dnxware/dnxware/rules"
+	"github.com/dnxware/dnxware/scrape"
+	"github.com/dnxware/dnxware/storage"
+	"github.com/dnxware/dnxware/storage/remote"
+	"github.com/dnxware/dnxware/util/testutil"
 )
 
 type testTargetRetriever struct{}
@@ -201,7 +201,7 @@ func (m rulesRetrieverMock) RuleGroups() []*rules.Group {
 	return []*rules.Group{group}
 }
 
-var samplePrometheusCfg = config.Config{
+var samplednxwareCfg = config.Config{
 	GlobalConfig:       config.GlobalConfig{},
 	AlertingConfig:     config.AlertingConfig{},
 	RuleFiles:          []string{},
@@ -253,7 +253,7 @@ func TestEndpoints(t *testing.T) {
 			alertmanagerRetriever: testAlertmanagerRetriever{},
 			flagsMap:              sampleFlagMap,
 			now:                   func() time.Time { return now },
-			config:                func() config.Config { return samplePrometheusCfg },
+			config:                func() config.Config { return samplednxwareCfg },
 			ready:                 func(f http.HandlerFunc) http.HandlerFunc { return f },
 			rulesRetriever:        algr,
 		}
@@ -287,7 +287,7 @@ func TestEndpoints(t *testing.T) {
 		defer os.RemoveAll(dbDir)
 
 		testutil.Ok(t, err)
-		remote := remote.NewStorage(promlog.New(&promlogConfig), prometheus.DefaultRegisterer, func() (int64, error) {
+		remote := remote.NewStorage(promlog.New(&promlogConfig), dnxware.DefaultRegisterer, func() (int64, error) {
 			return 0, nil
 		}, dbDir, 1*time.Second)
 
@@ -318,7 +318,7 @@ func TestEndpoints(t *testing.T) {
 			alertmanagerRetriever: testAlertmanagerRetriever{},
 			flagsMap:              sampleFlagMap,
 			now:                   func() time.Time { return now },
-			config:                func() config.Config { return samplePrometheusCfg },
+			config:                func() config.Config { return samplednxwareCfg },
 			ready:                 func(f http.HandlerFunc) http.HandlerFunc { return f },
 			rulesRetriever:        algr,
 		}
@@ -740,8 +740,8 @@ func testEndpoints(t *testing.T, api *API, testLabelAPI bool) {
 		},
 		{
 			endpoint: api.serveConfig,
-			response: &prometheusConfig{
-				YAML: samplePrometheusCfg.String(),
+			response: &dnxwareConfig{
+				YAML: samplednxwareCfg.String(),
 			},
 		},
 		{

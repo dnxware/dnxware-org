@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright 2017 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,9 +18,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/prometheus/storage"
-	"github.com/prometheus/prometheus/storage/tsdb"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/dnxware/storage"
+	"github.com/dnxware/dnxware/storage/tsdb"
 )
 
 // NewStorage returns a new storage for testing purposes

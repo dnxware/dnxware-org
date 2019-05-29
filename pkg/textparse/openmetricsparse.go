@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2018 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -26,8 +26,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/value"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/value"
 )
 
 type openMetricsLexer struct {
@@ -107,7 +107,7 @@ func (p *OpenMetricsParser) Help() ([]byte, []byte) {
 
 	// Replacer causes allocations. Replace only when necessary.
 	if strings.IndexByte(yoloString(p.text), byte('\\')) >= 0 {
-		// OpenMetrics always uses the Prometheus format label value escaping.
+		// OpenMetrics always uses the dnxware format label value escaping.
 		return m, []byte(lvalReplacer.Replace(string(p.text)))
 	}
 	return m, p.text
@@ -124,7 +124,7 @@ func (p *OpenMetricsParser) Type() ([]byte, MetricType) {
 // Must only be called after Next returned a unit entry.
 // The returned byte slices become invalid after the next call to Next.
 func (p *OpenMetricsParser) Unit() ([]byte, []byte) {
-	// The Prometheus format does not have units.
+	// The dnxware format does not have units.
 	return p.l.b[p.offsets[0]:p.offsets[1]], p.text
 }
 

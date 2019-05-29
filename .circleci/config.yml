@@ -30,12 +30,12 @@ jobs:
          make proto
     - run: git diff --exit-code
     - store_artifacts:
-        path: prometheus
-        destination: /build/prometheus
+        path: dnxware
+        destination: /build/dnxware
     - store_artifacts:
         path: promtool
         destination: /build/promtool
-    - run: rm -v prometheus promtool
+    - run: rm -v dnxware promtool
 
   build:
     machine: true
@@ -63,14 +63,14 @@ jobs:
     - attach_workspace:
         at: .
     - run: make docker
-    - run: make docker DOCKER_REPO=quay.io/prometheus
+    - run: make docker DOCKER_REPO=quay.io/dnxware
     - run: docker images
     - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
     - run: docker login -u $QUAY_LOGIN -p $QUAY_PASSWORD quay.io
     - run: make docker-publish
-    - run: make docker-publish DOCKER_REPO=quay.io/prometheus
+    - run: make docker-publish DOCKER_REPO=quay.io/dnxware
     - run: make docker-manifest
-    - run: make docker-manifest DOCKER_REPO=quay.io/prometheus
+    - run: make docker-manifest DOCKER_REPO=quay.io/dnxware
 
   docker_hub_release_tags:
     executor: golang
@@ -90,21 +90,21 @@ jobs:
         path: .tarballs
         destination: releases
     - run: make docker DOCKER_IMAGE_TAG=$CIRCLE_TAG
-    - run: make docker DOCKER_IMAGE_TAG=$CIRCLE_TAG DOCKER_REPO=quay.io/prometheus
+    - run: make docker DOCKER_IMAGE_TAG=$CIRCLE_TAG DOCKER_REPO=quay.io/dnxware
     - run: docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
     - run: docker login -u $QUAY_LOGIN -p $QUAY_PASSWORD quay.io
     - run: make docker-publish DOCKER_IMAGE_TAG="$CIRCLE_TAG"
-    - run: make docker-publish DOCKER_IMAGE_TAG="$CIRCLE_TAG" DOCKER_REPO=quay.io/prometheus
+    - run: make docker-publish DOCKER_IMAGE_TAG="$CIRCLE_TAG" DOCKER_REPO=quay.io/dnxware
     - run: make docker-manifest DOCKER_IMAGE_TAG="$CIRCLE_TAG"
-    - run: make docker-manifest DOCKER_IMAGE_TAG="$CIRCLE_TAG" DOCKER_REPO=quay.io/prometheus
+    - run: make docker-manifest DOCKER_IMAGE_TAG="$CIRCLE_TAG" DOCKER_REPO=quay.io/dnxware
     - run: |
         if [[ "$CIRCLE_TAG" =~ ^v[0-9]+(\.[0-9]+){2}$ ]]; then
           make docker-tag-latest DOCKER_IMAGE_TAG="$CIRCLE_TAG"
-          make docker-tag-latest DOCKER_IMAGE_TAG="$CIRCLE_TAG" DOCKER_REPO=quay.io/prometheus
+          make docker-tag-latest DOCKER_IMAGE_TAG="$CIRCLE_TAG" DOCKER_REPO=quay.io/dnxware
           make docker-publish DOCKER_IMAGE_TAG="latest"
-          make docker-publish DOCKER_IMAGE_TAG="latest" DOCKER_REPO=quay.io/prometheus
+          make docker-publish DOCKER_IMAGE_TAG="latest" DOCKER_REPO=quay.io/dnxware
           make docker-manifest DOCKER_IMAGE_TAG="latest"
-          make docker-manifest DOCKER_IMAGE_TAG="latest" DOCKER_REPO=quay.io/prometheus
+          make docker-manifest DOCKER_IMAGE_TAG="latest" DOCKER_REPO=quay.io/dnxware
         fi
 
   makefile_sync:
@@ -115,7 +115,7 @@ jobs:
 
 workflows:
   version: 2
-  prometheus:
+  dnxware:
     jobs:
     - test:
         filters:

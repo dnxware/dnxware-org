@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright 2019 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -19,22 +19,22 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/prometheus/client_golang/prometheus"
+	"github.com/dnxware/client_golang/dnxware"
 
-	"github.com/prometheus/prometheus/discovery/targetgroup"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
 )
 
 var (
-	failuresCount = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "prometheus_sd_refresh_failures_total",
+	failuresCount = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
+			Name: "dnxware_sd_refresh_failures_total",
 			Help: "Number of refresh failures for the given SD mechanism.",
 		},
 		[]string{"mechanism"},
 	)
-	duration = prometheus.NewSummaryVec(
-		prometheus.SummaryOpts{
-			Name: "prometheus_sd_refresh_duration_seconds",
+	duration = dnxware.NewSummaryVec(
+		dnxware.SummaryOpts{
+			Name: "dnxware_sd_refresh_duration_seconds",
 			Help: "The duration of a refresh in seconds for the given SD mechanism.",
 		},
 		[]string{"mechanism"},
@@ -42,7 +42,7 @@ var (
 )
 
 func init() {
-	prometheus.MustRegister(duration, failuresCount)
+	dnxware.MustRegister(duration, failuresCount)
 }
 
 // Discovery implements the Discoverer interface.
@@ -51,8 +51,8 @@ type Discovery struct {
 	interval time.Duration
 	refreshf func(ctx context.Context) ([]*targetgroup.Group, error)
 
-	failures prometheus.Counter
-	duration prometheus.Observer
+	failures dnxware.Counter
+	duration dnxware.Observer
 }
 
 // NewDiscovery returns a Discoverer function that calls a refresh() function at every interval.

@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// This file provides abstractions for setting the provider (e.g., prometheus)
+// This file provides abstractions for setting the provider (e.g., dnxware)
 // of metrics.
 
 package cache

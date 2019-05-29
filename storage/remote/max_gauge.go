@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright 2019 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,13 +16,13 @@ package remote
 import (
 	"sync"
 
-	"github.com/prometheus/client_golang/prometheus"
+	"github.com/dnxware/client_golang/dnxware"
 )
 
 type maxGauge struct {
 	mtx   sync.Mutex
 	value float64
-	prometheus.Gauge
+	dnxware.Gauge
 }
 
 func (m *maxGauge) Set(value float64) {

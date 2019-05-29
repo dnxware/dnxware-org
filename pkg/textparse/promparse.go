@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright 2017 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -28,8 +28,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/value"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/value"
 )
 
 type promlexer struct {
@@ -140,7 +140,7 @@ func (l *promlexer) Error(es string) {
 }
 
 // PromParser parses samples from a byte slice of samples in the official
-// Prometheus text exposition format.
+// dnxware text exposition format.
 type PromParser struct {
 	l       *promlexer
 	series  []byte
@@ -191,7 +191,7 @@ func (p *PromParser) Type() ([]byte, MetricType) {
 // Must only be called after Next returned a unit entry.
 // The returned byte slices become invalid after the next call to Next.
 func (p *PromParser) Unit() ([]byte, []byte) {
-	// The Prometheus format does not have units.
+	// The dnxware format does not have units.
 	return nil, nil
 }
 

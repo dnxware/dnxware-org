@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2018 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -27,12 +27,12 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/tsdb"
-	"github.com/prometheus/tsdb/fileutil"
-	"github.com/prometheus/tsdb/wal"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/tsdb"
+	"github.com/dnxware/tsdb/fileutil"
+	"github.com/dnxware/tsdb/wal"
 
-	"github.com/prometheus/prometheus/pkg/timestamp"
+	"github.com/dnxware/dnxware/pkg/timestamp"
 )
 
 const (
@@ -42,36 +42,36 @@ const (
 )
 
 var (
-	watcherRecordsRead = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Namespace: "prometheus",
+	watcherRecordsRead = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
+			Namespace: "dnxware",
 			Subsystem: "wal_watcher",
 			Name:      "records_read_total",
 			Help:      "Number of records read by the WAL watcher from the WAL.",
 		},
 		[]string{queue, "type"},
 	)
-	watcherRecordDecodeFails = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Namespace: "prometheus",
+	watcherRecordDecodeFails = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
+			Namespace: "dnxware",
 			Subsystem: "wal_watcher",
 			Name:      "record_decode_failures_total",
 			Help:      "Number of records read by the WAL watcher that resulted in an error when decoding.",
 		},
 		[]string{queue},
 	)
-	watcherSamplesSentPreTailing = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Namespace: "prometheus",
+	watcherSamplesSentPreTailing = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
+			Namespace: "dnxware",
 			Subsystem: "wal_watcher",
 			Name:      "samples_sent_pre_tailing_total",
 			Help:      "Number of sample records read by the WAL watcher and sent to remote write during replay of existing WAL.",
 		},
 		[]string{queue},
 	)
-	watcherCurrentSegment = prometheus.NewGaugeVec(
-		prometheus.GaugeOpts{
-			Namespace: "prometheus",
+	watcherCurrentSegment = dnxware.NewGaugeVec(
+		dnxware.GaugeOpts{
+			Namespace: "dnxware",
 			Subsystem: "wal_watcher",
 			Name:      "current_segment",
 			Help:      "Current segment the WAL watcher is reading records from.",
@@ -81,10 +81,10 @@ var (
 )
 
 func init() {
-	prometheus.MustRegister(watcherRecordsRead)
-	prometheus.MustRegister(watcherRecordDecodeFails)
-	prometheus.MustRegister(watcherSamplesSentPreTailing)
-	prometheus.MustRegister(watcherCurrentSegment)
+	dnxware.MustRegister(watcherRecordsRead)
+	dnxware.MustRegister(watcherRecordDecodeFails)
+	dnxware.MustRegister(watcherSamplesSentPreTailing)
+	dnxware.MustRegister(watcherCurrentSegment)
 }
 
 type writeTo interface {
@@ -103,10 +103,10 @@ type WALWatcher struct {
 
 	startTime int64
 
-	recordsReadMetric       *prometheus.CounterVec
-	recordDecodeFailsMetric prometheus.Counter
-	samplesSentPreTailing   prometheus.Counter
-	currentSegmentMetric    prometheus.Gauge
+	recordsReadMetric       *dnxware.CounterVec
+	recordDecodeFailsMetric dnxware.Counter
+	samplesSentPreTailing   dnxware.Counter
+	currentSegmentMetric    dnxware.Gauge
 
 	quit chan struct{}
 	done chan struct{}
@@ -136,7 +136,7 @@ func (w *WALWatcher) setMetrics() {
 	// Setup the WAL Watchers metrics. We do this here rather than in the
 	// constructor because of the ordering of creating Queue Managers's,
 	// stopping them, and then starting new ones in storage/remote/storage.go ApplyConfig.
-	w.recordsReadMetric = watcherRecordsRead.MustCurryWith(prometheus.Labels{queue: w.name})
+	w.recordsReadMetric = watcherRecordsRead.MustCurryWith(dnxware.Labels{queue: w.name})
 	w.recordDecodeFailsMetric = watcherRecordDecodeFails.WithLabelValues(w.name)
 	w.samplesSentPreTailing = watcherSamplesSentPreTailing.WithLabelValues(w.name)
 	w.currentSegmentMetric = watcherCurrentSegment.WithLabelValues(w.name)

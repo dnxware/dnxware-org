@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,10 +18,10 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/log"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/timestamp"
-	"github.com/prometheus/prometheus/promql"
-	"github.com/prometheus/prometheus/util/testutil"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/timestamp"
+	"github.com/dnxware/dnxware/promql"
+	"github.com/dnxware/dnxware/util/testutil"
 )
 
 func TestAlertingRuleHTMLSnippet(t *testing.T) {

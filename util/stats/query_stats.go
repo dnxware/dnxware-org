@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -17,7 +17,7 @@ import (
 	"context"
 
 	opentracing "github.com/opentracing/opentracing-go"
-	"github.com/prometheus/client_golang/prometheus"
+	"github.com/dnxware/client_golang/dnxware"
 )
 
 // QueryTiming identifies the code area or functionality in which time is spent
@@ -118,12 +118,12 @@ func NewQueryStats(tg *QueryTimers) *QueryStats {
 // SpanTimer unifies tracing and timing, to reduce repetition.
 type SpanTimer struct {
 	timer     *Timer
-	observers []prometheus.Observer
+	observers []dnxware.Observer
 
 	span opentracing.Span
 }
 
-func NewSpanTimer(ctx context.Context, operation string, timer *Timer, observers ...prometheus.Observer) (*SpanTimer, context.Context) {
+func NewSpanTimer(ctx context.Context, operation string, timer *Timer, observers ...dnxware.Observer) (*SpanTimer, context.Context) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, operation)
 	timer.Start()
 
@@ -152,6 +152,6 @@ func NewQueryTimers() *QueryTimers {
 	return &QueryTimers{NewTimerGroup()}
 }
 
-func (qs *QueryTimers) GetSpanTimer(ctx context.Context, qt QueryTiming, observers ...prometheus.Observer) (*SpanTimer, context.Context) {
+func (qs *QueryTimers) GetSpanTimer(ctx context.Context, qt QueryTiming, observers ...dnxware.Observer) (*SpanTimer, context.Context) {
 	return NewSpanTimer(ctx, qt.SpanOperation(), qs.TimerGroup.GetTimer(qt), observers...)
 }

@@ -1,5 +1,5 @@
 /*
- * Functions to make it easier to write prometheus consoles, such
+ * Functions to make it easier to write dnxware consoles, such
  * as graphs.
  *
  */

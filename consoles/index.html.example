@@ -5,7 +5,7 @@
 
 {{ template "prom_content_head" . }}
 <h1>Overview</h1>
-<p>These are example consoles for Prometheus.</p>
+<p>These are example consoles for dnxware.</p>
 
 <p>These consoles expect exporters to have the following job labels:</p>
 <table class="table table-sm table-striped table-bordered" style="width: 0%">
@@ -18,8 +18,8 @@
   <td><code>node</code></td>
 </tr>
 <tr>
-  <td>Prometheus</td>
-  <td><code>prometheus</code></td>
+  <td>dnxware</td>
+  <td><code>dnxware</code></td>
 </tr>
 </table>
 

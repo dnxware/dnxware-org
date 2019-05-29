@@ -30,7 +30,7 @@ name match a certain pattern, in this case, all jobs that end with `server`:
 
     http_requests_total{job=~".*server"}
 
-All regular expressions in Prometheus use [RE2
+All regular expressions in dnxware use [RE2
 syntax](https://github.com/google/re2/wiki/Syntax).
 
 To select all HTTP status codes except 4xx ones, you could run:

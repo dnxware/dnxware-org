@@ -4,12 +4,12 @@ nav_title: Basics
 sort_rank: 1
 ---
 
-# Querying Prometheus
+# Querying dnxware
 
-Prometheus provides a functional query language called PromQL (Prometheus Query
+dnxware provides a functional query language called PromQL (dnxware Query
 Language) that lets the user select and aggregate time series data in real
 time. The result of an expression can either be shown as a graph, viewed as
-tabular data in Prometheus's expression browser, or consumed by external
+tabular data in dnxware's expression browser, or consumed by external
 systems via the [HTTP API](api.md).
 
 ## Examples
@@ -19,7 +19,7 @@ start with a couple of [examples](examples.md).
 
 ## Expression language data types
 
-In Prometheus's expression language, an expression or sub-expression can
+In dnxware's expression language, an expression or sub-expression can
 evaluate to one of four types:
 
 * **Instant vector** - a set of time series containing a single sample for each time series, all sharing the same timestamp
@@ -45,7 +45,7 @@ backslash begins an escape sequence, which may be followed by `a`, `b`, `f`,
 `n`, `r`, `t`, `v` or `\`. Specific characters can be provided using octal
 (`\nnn`) or hexadecimal (`\xnn`, `\unnnn` and `\Unnnnnnnn`).
 
-No escaping is processed inside backticks. Unlike Go, Prometheus does not discard newlines inside backticks.
+No escaping is processed inside backticks. Unlike Go, dnxware does not discard newlines inside backticks.
 
 Example:
 
@@ -78,10 +78,10 @@ It is possible to filter these time series further by appending a set of labels
 to match in curly braces (`{}`).
 
 This example selects only those time series with the `http_requests_total`
-metric name that also have the `job` label set to `prometheus` and their
+metric name that also have the `job` label set to `dnxware` and their
 `group` label set to `canary`:
 
-    http_requests_total{job="prometheus",group="canary"}
+    http_requests_total{job="dnxware",group="canary"}
 
 It is also possible to negatively match a label value, or to match label values
 against regular expressions. The following label matching operators exist:
@@ -118,7 +118,7 @@ The following expression selects all metrics that have a name starting with `job
 
     {__name__=~"job:.*"}
 
-All regular expressions in Prometheus use [RE2
+All regular expressions in dnxware use [RE2
 syntax](https://github.com/google/re2/wiki/Syntax).
 
 ### Range Vector Selectors
@@ -141,9 +141,9 @@ following units:
 
 In this example, we select all the values we have recorded within the last 5
 minutes for all time series that have the metric name `http_requests_total` and
-a `job` label set to `prometheus`:
+a `job` label set to `dnxware`:
 
-    http_requests_total{job="prometheus"}[5m]
+    http_requests_total{job="dnxware"}[5m]
 
 ### Offset modifier
 
@@ -180,12 +180,12 @@ Syntax: `<instant_query> '[' <range> ':' [<resolution>] ']' [ offset <duration> 
 
 ## Operators
 
-Prometheus supports many binary and aggregation operators. These are described
+dnxware supports many binary and aggregation operators. These are described
 in detail in the [expression language operators](operators.md) page.
 
 ## Functions
 
-Prometheus supports several functions to operate on data. These are described
+dnxware supports several functions to operate on data. These are described
 in detail in the [expression language functions](functions.md) page.
 
 ## Gotchas
@@ -196,7 +196,7 @@ When queries are run, timestamps at which to sample data are selected
 independently of the actual present time series data. This is mainly to support
 cases like aggregation (`sum`, `avg`, and so on), where multiple aggregated
 time series do not exactly align in time. Because of their independence,
-Prometheus needs to assign a value at those timestamps for each relevant time
+dnxware needs to assign a value at those timestamps for each relevant time
 series. It does so by simply taking the newest sample before this timestamp.
 
 If a target scrape or rule evaluation no longer returns a sample for a time
@@ -221,13 +221,13 @@ their scrapes. Only the 5 minute threshold will be applied in that case.
 If a query needs to operate on a very large amount of data, graphing it might
 time out or overload the server or browser. Thus, when constructing queries
 over unknown data, always start building the query in the tabular view of
-Prometheus's expression browser until the result set seems reasonable
+dnxware's expression browser until the result set seems reasonable
 (hundreds, not thousands, of time series at most).  Only when you have filtered
 or aggregated your data sufficiently, switch to graph mode. If the expression
 still takes too long to graph ad-hoc, pre-record it via a [recording
 rule](../configuration/recording_rules.md#recording-rules).
 
-This is especially relevant for Prometheus's query language, where a bare
+This is especially relevant for dnxware's query language, where a bare
 metric name selector like `api_http_requests_total` could expand to thousands
 of time series with different labels. Also keep in mind that expressions which
 aggregate over many time series will generate load on the server even if the

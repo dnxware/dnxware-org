@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -30,19 +30,19 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	dto "github.com/prometheus/client_model/go"
-	"github.com/prometheus/common/model"
+	dto "github.com/dnxware/client_model/go"
+	"github.com/dnxware/common/model"
 	"github.com/stretchr/testify/require"
 
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/relabel"
-	"github.com/prometheus/prometheus/pkg/textparse"
-	"github.com/prometheus/prometheus/pkg/timestamp"
-	"github.com/prometheus/prometheus/pkg/value"
-	"github.com/prometheus/prometheus/storage"
-	"github.com/prometheus/prometheus/util/testutil"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/relabel"
+	"github.com/dnxware/dnxware/pkg/textparse"
+	"github.com/dnxware/dnxware/pkg/timestamp"
+	"github.com/dnxware/dnxware/pkg/value"
+	"github.com/dnxware/dnxware/storage"
+	"github.com/dnxware/dnxware/util/testutil"
 )
 
 func TestNewScrapePool(t *testing.T) {
@@ -1395,7 +1395,7 @@ func TestTargetScraperScrapeOK(t *testing.T) {
 				t.Errorf("Expected Accept header to prefer application/openmetrics-text, got %q", accept)
 			}
 
-			timeout := r.Header.Get("X-Prometheus-Scrape-Timeout-Seconds")
+			timeout := r.Header.Get("X-dnxware-Scrape-Timeout-Seconds")
 			if timeout != expectedTimeout {
 				t.Errorf("Expected scrape timeout header %q, got %q", expectedTimeout, timeout)
 			}

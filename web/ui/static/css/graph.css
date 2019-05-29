@@ -148,26 +148,26 @@ input[name="end_input"], input[name="range_input"] {
   border-radius: 0;
 }
 
-.prometheus_input_group {
+.dnxware_input_group {
   display: inline-block;
   margin: 10px 5px;
   overflow: auto;
 }
 
-.prometheus_input_group.range_input {
+.dnxware_input_group.range_input {
   margin-left: 59px;
 }
 
-.prometheus_input_group .btn {
+.dnxware_input_group .btn {
   font-size: 0.8em;
   border-color: #ccc;
 }
 
-.prometheus_input_group .timepicker-picker .btn {
+.dnxware_input_group .timepicker-picker .btn {
   border-color: transparent;
 }
 
-.prometheus_input_group .input {
+.dnxware_input_group .input {
   width: 100px;
   
   padding: 5px 12px 6px 12px;
@@ -184,7 +184,7 @@ input[name="end_input"], input[name="range_input"] {
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
-.prometheus_input_group .date_input {
+.dnxware_input_group .date_input {
   width: 200px;
 }
 

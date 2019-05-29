@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright 2017 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package promlint provides a linter for Prometheus metrics.
+// Package promlint provides a linter for dnxware metrics.
 package promlint
 
 import (
@@ -20,11 +20,11 @@ import (
 	"sort"
 	"strings"
 
-	dto "github.com/prometheus/client_model/go"
-	"github.com/prometheus/common/expfmt"
+	dto "github.com/dnxware/client_model/go"
+	"github.com/dnxware/common/expfmt"
 )
 
-// A Linter is a Prometheus metrics linter.  It identifies issues with metric
+// A Linter is a dnxware metrics linter.  It identifies issues with metric
 // names, types, and metadata, and reports them to the caller.
 type Linter struct {
 	r io.Reader
@@ -52,7 +52,7 @@ func (p *problems) Add(mf dto.MetricFamily, text string) {
 	})
 }
 
-// New creates a new Linter that reads an input stream of Prometheus metrics.
+// New creates a new Linter that reads an input stream of dnxware metrics.
 // Only the text exposition format is supported.
 func New(r io.Reader) *Linter {
 	return &Linter{

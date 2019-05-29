@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,13 +22,13 @@ import (
 var ErrSyntax = errors.New("invalid syntax")
 
 // Unquote interprets s as a single-quoted, double-quoted, or backquoted
-// Prometheus query language string literal, returning the string value that s
+// dnxware query language string literal, returning the string value that s
 // quotes.
 //
 // NOTE: This function as well as the necessary helper functions below
 // (unquoteChar, contains, unhex) and associated tests have been adapted from
 // the corresponding functions in the "strconv" package of the Go standard
-// library to work for Prometheus-style strings. Go's special-casing for single
+// library to work for dnxware-style strings. Go's special-casing for single
 // quotes was removed and single quoted strings are now treated the same as
 // double quoted ones.
 func Unquote(s string) (t string, err error) {

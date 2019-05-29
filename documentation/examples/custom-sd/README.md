@@ -1,7 +1,7 @@
 # Custom SD
 Custom SD is available via the file_sd adapter, which can be used to access SD mechanisms that are not 
-included in official Prometheus releases. The sd adapter outputs a file that can be passed via your `prometheus.yml` 
-as a `file_sd` file. This will allow you to pass your targets to Prometheus for scraping without having 
+included in official dnxware releases. The sd adapter outputs a file that can be passed via your `dnxware.yml` 
+as a `file_sd` file. This will allow you to pass your targets to dnxware for scraping without having 
 to use a static config.
 
 # Example

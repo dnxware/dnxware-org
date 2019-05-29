@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -20,25 +20,25 @@ import (
 
 	"github.com/go-kit/kit/log/level"
 	"github.com/gogo/protobuf/proto"
-	"github.com/prometheus/client_golang/prometheus"
-	dto "github.com/prometheus/client_model/go"
-	"github.com/prometheus/common/expfmt"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/client_golang/dnxware"
+	dto "github.com/dnxware/client_model/go"
+	"github.com/dnxware/common/expfmt"
+	"github.com/dnxware/common/model"
 
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/timestamp"
-	"github.com/prometheus/prometheus/pkg/value"
-	"github.com/prometheus/prometheus/promql"
-	"github.com/prometheus/prometheus/storage"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/timestamp"
+	"github.com/dnxware/dnxware/pkg/value"
+	"github.com/dnxware/dnxware/promql"
+	"github.com/dnxware/dnxware/storage"
 )
 
 var (
-	federationErrors = prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "prometheus_web_federation_errors_total",
+	federationErrors = dnxware.NewCounter(dnxware.CounterOpts{
+		Name: "dnxware_web_federation_errors_total",
 		Help: "Total number of errors that occurred while sending federation responses.",
 	})
-	federationWarnings = prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "prometheus_web_federation_warnings_total",
+	federationWarnings = dnxware.NewCounter(dnxware.CounterOpts{
+		Name: "dnxware_web_federation_warnings_total",
 		Help: "Total number of warnings that occurred while sending federation responses.",
 	})
 )
@@ -106,7 +106,7 @@ func (h *Handler) federation(w http.ResponseWriter, req *http.Request) {
 		s := set.At()
 
 		// TODO(fabxc): allow fast path for most recent sample either
-		// in the storage itself or caching layer in Prometheus.
+		// in the storage itself or caching layer in dnxware.
 		it.Reset(s.Iterator())
 
 		var t int64

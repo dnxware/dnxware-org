@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright 2017 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -21,9 +21,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/prometheus/common/expfmt"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/prometheus/pkg/labels"
+	"github.com/dnxware/common/expfmt"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/dnxware/pkg/labels"
 	"github.com/stretchr/testify/require"
 )
 
@@ -324,7 +324,7 @@ const (
 
 func BenchmarkParse(b *testing.B) {
 	for parserName, parser := range map[string]func([]byte) Parser{
-		"prometheus":  NewPromParser,
+		"dnxware":  NewPromParser,
 		"openmetrics": NewOpenMetricsParser,
 	} {
 

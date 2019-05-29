@@ -23,7 +23,7 @@ import (
 	"k8s.io/apimachinery/pkg/util/clock"
 )
 
-// This file provides abstractions for setting the provider (e.g., prometheus)
+// This file provides abstractions for setting the provider (e.g., dnxware)
 // of metrics.
 
 type queueMetrics interface {
@@ -139,7 +139,7 @@ func (m *defaultQueueMetrics) done(item t) {
 }
 
 func (m *defaultQueueMetrics) updateUnfinishedWork() {
-	// Note that a summary metric would be better for this, but prometheus
+	// Note that a summary metric would be better for this, but dnxware
 	// doesn't seem to have non-hacky ways to reset the summary metrics.
 	var total float64
 	var oldest float64

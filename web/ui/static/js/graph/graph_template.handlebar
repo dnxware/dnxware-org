@@ -37,7 +37,7 @@
                     <div role="tabpanel" class="tab-pane graph_container reload" id="graph{{id}}">
                       <div class="clearfix">
                         <!-- Extracted to force grouped inputs. -->
-                        <div class="prometheus_input_group range_input pull-left">
+                        <div class="dnxware_input_group range_input pull-left">
                           <button
                             class="btn btn-light pull-left"
                             type="button"
@@ -63,7 +63,7 @@
                         </div>
 
                         <!-- Extracted to force grouped inputs. -->
-                        <div class="prometheus_input_group pull-left">
+                        <div class="dnxware_input_group pull-left">
 
                           <button
                               class="btn btn-light pull-left"
@@ -93,11 +93,11 @@
                           </button>
                         </div>
 
-                        <div class="prometheus_input_group pull-left">
+                        <div class="dnxware_input_group pull-left">
                           <input class="input" title="Resolution in seconds" placeholder="Res. (s)" type="text" name="step_input" id="step_input{{id}}" value="{{step_input}}" size="6">
                         </div>
 
-                        <div class="prometheus_input_group pull-left">
+                        <div class="dnxware_input_group pull-left">
                           <button type="button" class="btn btn-light stacked_btn">
                             <i class="glyphicon"></i> stacked
                           </button>
@@ -111,7 +111,7 @@
                     <div role="tabpanel" class="tab-pane active console reload" id="console{{id}}">
                       <div class="clearfix">
                         <!-- Extracted to force grouped inputs. -->
-                        <div class="prometheus_input_group pull-left">
+                        <div class="dnxware_input_group pull-left">
 
                           <button
                               class="btn btn-light pull-left"

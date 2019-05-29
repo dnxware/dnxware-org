@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -32,28 +32,28 @@ import (
 	"github.com/go-kit/kit/log/level"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/common/route"
-	tsdbLabels "github.com/prometheus/tsdb/labels"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/common/route"
+	tsdbLabels "github.com/dnxware/tsdb/labels"
 
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/pkg/gate"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/textparse"
-	"github.com/prometheus/prometheus/pkg/timestamp"
-	"github.com/prometheus/prometheus/prompb"
-	"github.com/prometheus/prometheus/promql"
-	"github.com/prometheus/prometheus/rules"
-	"github.com/prometheus/prometheus/scrape"
-	"github.com/prometheus/prometheus/storage"
-	"github.com/prometheus/prometheus/storage/remote"
-	"github.com/prometheus/prometheus/util/httputil"
-	"github.com/prometheus/prometheus/util/stats"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/pkg/gate"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/textparse"
+	"github.com/dnxware/dnxware/pkg/timestamp"
+	"github.com/dnxware/dnxware/prompb"
+	"github.com/dnxware/dnxware/promql"
+	"github.com/dnxware/dnxware/rules"
+	"github.com/dnxware/dnxware/scrape"
+	"github.com/dnxware/dnxware/storage"
+	"github.com/dnxware/dnxware/storage/remote"
+	"github.com/dnxware/dnxware/util/httputil"
+	"github.com/dnxware/dnxware/util/stats"
 )
 
 const (
-	namespace = "prometheus"
+	namespace = "dnxware"
 	subsystem = "api"
 )
 
@@ -77,7 +77,7 @@ const (
 	errorNotFound    errorType = "not_found"
 )
 
-var remoteReadQueries = prometheus.NewGauge(prometheus.GaugeOpts{
+var remoteReadQueries = dnxware.NewGauge(dnxware.GaugeOpts{
 	Namespace: namespace,
 	Subsystem: subsystem,
 	Name:      "remote_read_queries",
@@ -157,7 +157,7 @@ type API struct {
 
 func init() {
 	jsoniter.RegisterTypeEncoderFunc("promql.Point", marshalPointJSON, marshalPointJSONIsEmpty)
-	prometheus.MustRegister(remoteReadQueries)
+	dnxware.MustRegister(remoteReadQueries)
 }
 
 // NewAPI returns an initialized API type.
@@ -822,12 +822,12 @@ func (api *API) rules(r *http.Request) apiFuncResult {
 	return apiFuncResult{res, nil, nil, nil}
 }
 
-type prometheusConfig struct {
+type dnxwareConfig struct {
 	YAML string `json:"yaml"`
 }
 
 func (api *API) serveConfig(r *http.Request) apiFuncResult {
-	cfg := &prometheusConfig{
+	cfg := &dnxwareConfig{
 		YAML: api.config().String(),
 	}
 	return apiFuncResult{cfg, nil, nil, nil}

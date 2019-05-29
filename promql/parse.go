@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -24,11 +24,11 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/common/model"
 
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/value"
-	"github.com/prometheus/prometheus/util/strutil"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/value"
+	"github.com/dnxware/dnxware/util/strutil"
 )
 
 type parser struct {

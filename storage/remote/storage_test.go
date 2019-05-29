@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright 2019 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,10 +18,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/util/testutil"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/util/testutil"
 )
 
 func TestStorageLifecycle(t *testing.T) {
@@ -29,7 +29,7 @@ func TestStorageLifecycle(t *testing.T) {
 	testutil.Ok(t, err)
 	defer os.RemoveAll(dir)
 
-	s := NewStorage(nil, prometheus.DefaultRegisterer, nil, dir, defaultFlushDeadline)
+	s := NewStorage(nil, dnxware.DefaultRegisterer, nil, dir, defaultFlushDeadline)
 	conf := &config.Config{
 		GlobalConfig: config.DefaultGlobalConfig,
 		RemoteWriteConfigs: []*config.RemoteWriteConfig{
@@ -56,7 +56,7 @@ func TestUpdateExternalLabels(t *testing.T) {
 	testutil.Ok(t, err)
 	defer os.RemoveAll(dir)
 
-	s := NewStorage(nil, prometheus.DefaultRegisterer, nil, dir, defaultFlushDeadline)
+	s := NewStorage(nil, dnxware.DefaultRegisterer, nil, dir, defaultFlushDeadline)
 
 	externalLabels := labels.FromStrings("external", "true")
 	conf := &config.Config{
@@ -83,7 +83,7 @@ func TestUpdateRemoteReadConfigs(t *testing.T) {
 	testutil.Ok(t, err)
 	defer os.RemoveAll(dir)
 
-	s := NewStorage(nil, prometheus.DefaultRegisterer, nil, dir, defaultFlushDeadline)
+	s := NewStorage(nil, dnxware.DefaultRegisterer, nil, dir, defaultFlushDeadline)
 
 	conf := &config.Config{
 		GlobalConfig: config.GlobalConfig{},
@@ -106,7 +106,7 @@ func TestUpdateRemoteWriteConfigsNoop(t *testing.T) {
 	testutil.Ok(t, err)
 	defer os.RemoveAll(dir)
 
-	s := NewStorage(nil, prometheus.DefaultRegisterer, nil, dir, defaultFlushDeadline)
+	s := NewStorage(nil, dnxware.DefaultRegisterer, nil, dir, defaultFlushDeadline)
 
 	conf := &config.Config{
 		GlobalConfig: config.GlobalConfig{},

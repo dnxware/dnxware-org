@@ -23,7 +23,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/prometheusTSDBCleanTombstonesResponse"
+              "$ref": "#/definitions/dnxwareTSDBCleanTombstonesResponse"
             }
           }
         },
@@ -40,7 +40,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/prometheusSeriesDeleteResponse"
+              "$ref": "#/definitions/dnxwareSeriesDeleteResponse"
             }
           }
         },
@@ -50,7 +50,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/prometheusSeriesDeleteRequest"
+              "$ref": "#/definitions/dnxwareSeriesDeleteRequest"
             }
           }
         ],
@@ -67,7 +67,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/prometheusTSDBSnapshotResponse"
+              "$ref": "#/definitions/dnxwareTSDBSnapshotResponse"
             }
           }
         },
@@ -78,11 +78,11 @@
     }
   },
   "definitions": {
-    "prometheusLabelMatcher": {
+    "dnxwareLabelMatcher": {
       "type": "object",
       "properties": {
         "type": {
-          "$ref": "#/definitions/prometheusLabelMatcherType"
+          "$ref": "#/definitions/dnxwareLabelMatcherType"
         },
         "name": {
           "type": "string"
@@ -93,7 +93,7 @@
       },
       "description": "Matcher specifies a rule, which can match or set of labels or not."
     },
-    "prometheusLabelMatcherType": {
+    "dnxwareLabelMatcherType": {
       "type": "string",
       "enum": [
         "EQ",
@@ -103,7 +103,7 @@
       ],
       "default": "EQ"
     },
-    "prometheusSeriesDeleteRequest": {
+    "dnxwareSeriesDeleteRequest": {
       "type": "object",
       "properties": {
         "min_time": {
@@ -117,18 +117,18 @@
         "matchers": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/prometheusLabelMatcher"
+            "$ref": "#/definitions/dnxwareLabelMatcher"
           }
         }
       }
     },
-    "prometheusSeriesDeleteResponse": {
+    "dnxwareSeriesDeleteResponse": {
       "type": "object"
     },
-    "prometheusTSDBCleanTombstonesResponse": {
+    "dnxwareTSDBCleanTombstonesResponse": {
       "type": "object"
     },
-    "prometheusTSDBSnapshotResponse": {
+    "dnxwareTSDBSnapshotResponse": {
       "type": "object",
       "properties": {
         "name": {

@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -23,15 +23,15 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/common/model"
 
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/relabel"
-	"github.com/prometheus/prometheus/pkg/textparse"
-	"github.com/prometheus/prometheus/pkg/value"
-	"github.com/prometheus/prometheus/storage"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/relabel"
+	"github.com/dnxware/dnxware/pkg/textparse"
+	"github.com/dnxware/dnxware/pkg/value"
+	"github.com/dnxware/dnxware/storage"
 )
 
 // TargetHealth describes the health state of a target.
@@ -127,7 +127,7 @@ func (t *Target) hash() uint64 {
 }
 
 // offset returns the time until the next scrape cycle for the target.
-// It includes the global server jitterSeed for scrapes from multiple Prometheus to try to be at different times.
+// It includes the global server jitterSeed for scrapes from multiple dnxware to try to be at different times.
 func (t *Target) offset(interval time.Duration, jitterSeed uint64) time.Duration {
 	now := time.Now().UnixNano()
 

@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -30,7 +30,7 @@ type ewmaRate struct {
 }
 
 // newEWMARate always allocates a new ewmaRate, as this guarantees the atomically
-// accessed int64 will be aligned on ARM.  See prometheus#2666.
+// accessed int64 will be aligned on ARM.  See dnxware#2666.
 func newEWMARate(alpha float64, interval time.Duration) *ewmaRate {
 	return &ewmaRate{
 		alpha:    alpha,

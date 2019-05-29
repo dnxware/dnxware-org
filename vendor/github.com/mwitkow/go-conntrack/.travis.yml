@@ -5,7 +5,7 @@ go:
 
 install:
   - go get github.com/stretchr/testify
-  - go get github.com/prometheus/client_golang/prometheus
+  - go get github.com/dnxware/client_golang/dnxware
   - go get golang.org/x/net/context
   - go get golang.org/x/net/trace
 

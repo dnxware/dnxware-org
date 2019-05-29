@@ -5,13 +5,13 @@ set -uo pipefail
 
 # GITHUB_TOKEN required scope: repo.repo_public
 
-git_mail="prometheus-team@googlegroups.com"
+git_mail="dnxware-team@googlegroups.com"
 git_user="prombot"
 branch="makefile_common"
 commit_msg="makefile: update Makefile.common with newer version"
-pr_title="Synchronize Makefile.common from prometheus/prometheus"
-pr_msg="Propagating changes from master Makefile.common located in prometheus/prometheus."
-org="prometheus"
+pr_title="Synchronize Makefile.common from dnxware/dnxware"
+pr_msg="Propagating changes from master Makefile.common located in dnxware/dnxware."
+org="dnxware"
 
 GITHUB_TOKEN="${GITHUB_TOKEN:-}"
 if [ -z "${GITHUB_TOKEN}" ]; then
@@ -31,7 +31,7 @@ trap "rm -rf ${tmp_dir}" EXIT
 # Iterate over all repositories in ${org}. The GitHub API can return 100 items
 # at most but it should be enough for us as there are less than 40 repositories
 # currently.
-curl --retry 5 --silent -u "${git_user}:${GITHUB_TOKEN}" https://api.github.com/users/${org}/repos?per_page=100 2>/dev/null | jq -r '.[] | select( .name != "prometheus" ) | .name' | while read -r; do
+curl --retry 5 --silent -u "${git_user}:${GITHUB_TOKEN}" https://api.github.com/users/${org}/repos?per_page=100 2>/dev/null | jq -r '.[] | select( .name != "dnxware" ) | .name' | while read -r; do
 	repo="${REPLY}"
 	echo -e "\e[32mAnalyzing '${repo}'\e[0m"
 
@@ -51,7 +51,7 @@ curl --retry 5 --silent -u "${git_user}:${GITHUB_TOKEN}" https://api.github.com/
 	cd "${tmp_dir}/${repo}"
 	git checkout -b "${branch}"
 
-	# Replace Makefile.common in target repo by one from prometheus/prometheus
+	# Replace Makefile.common in target repo by one from dnxware/dnxware
 	cp -f "${source_makefile}" ./
 	if [ -n "$(git status --porcelain)" ]; then
 		git config user.email "${git_mail}"

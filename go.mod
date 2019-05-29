@@ -1,4 +1,4 @@
-module github.com/prometheus/prometheus
+module github.com/dnxware/dnxware
 
 require (
 	contrib.go.opencensus.io/exporter/ocagent v0.4.12 // indirect
@@ -68,10 +68,10 @@ require (
 	github.com/peterbourgon/g2s v0.0.0-20170223122336-d4e7ad98afea // indirect
 	github.com/petermattis/goid v0.0.0-20170504144140-0ded85884ba5 // indirect
 	github.com/pkg/errors v0.8.1
-	github.com/prometheus/client_golang v0.9.3
-	github.com/prometheus/client_model v0.0.0-20190129233127-fd36f4220a90
-	github.com/prometheus/common v0.4.0
-	github.com/prometheus/tsdb v0.8.0
+	github.com/dnxware/client_golang v0.9.3
+	github.com/dnxware/client_model v0.0.0-20190129233127-fd36f4220a90
+	github.com/dnxware/common v0.4.0
+	github.com/dnxware/tsdb v0.8.0
 	github.com/rlmcpherson/s3gof3r v0.5.0 // indirect
 	github.com/rubyist/circuitbreaker v2.2.1+incompatible // indirect
 	github.com/samuel/go-zookeeper v0.0.0-20161028232340-1d7be4effb13

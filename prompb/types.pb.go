@@ -269,7 +269,7 @@ func (m *Labels) GetLabels() []Label {
 
 // Matcher specifies a rule, which can match or set of labels or not.
 type LabelMatcher struct {
-	Type                 LabelMatcher_Type `protobuf:"varint,1,opt,name=type,proto3,enum=prometheus.LabelMatcher_Type" json:"type,omitempty"`
+	Type                 LabelMatcher_Type `protobuf:"varint,1,opt,name=type,proto3,enum=dnxware.LabelMatcher_Type" json:"type,omitempty"`
 	Name                 string            `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Value                string            `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
@@ -403,13 +403,13 @@ func (m *ReadHints) GetEndMs() int64 {
 }
 
 func init() {
-	proto.RegisterEnum("prometheus.LabelMatcher_Type", LabelMatcher_Type_name, LabelMatcher_Type_value)
-	proto.RegisterType((*Sample)(nil), "prometheus.Sample")
-	proto.RegisterType((*TimeSeries)(nil), "prometheus.TimeSeries")
-	proto.RegisterType((*Label)(nil), "prometheus.Label")
-	proto.RegisterType((*Labels)(nil), "prometheus.Labels")
-	proto.RegisterType((*LabelMatcher)(nil), "prometheus.LabelMatcher")
-	proto.RegisterType((*ReadHints)(nil), "prometheus.ReadHints")
+	proto.RegisterEnum("dnxware.LabelMatcher_Type", LabelMatcher_Type_name, LabelMatcher_Type_value)
+	proto.RegisterType((*Sample)(nil), "dnxware.Sample")
+	proto.RegisterType((*TimeSeries)(nil), "dnxware.TimeSeries")
+	proto.RegisterType((*Label)(nil), "dnxware.Label")
+	proto.RegisterType((*Labels)(nil), "dnxware.Labels")
+	proto.RegisterType((*LabelMatcher)(nil), "dnxware.LabelMatcher")
+	proto.RegisterType((*ReadHints)(nil), "dnxware.ReadHints")
 }
 
 func init() { proto.RegisterFile("types.proto", fileDescriptor_d938547f84707355) }

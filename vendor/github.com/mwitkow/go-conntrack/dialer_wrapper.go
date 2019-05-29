@@ -36,7 +36,7 @@ func DialWithName(name string) dialerOpt {
 	}
 }
 
-// DialWithoutMonitoring turns *off* Prometheus monitoring for this dialer.
+// DialWithoutMonitoring turns *off* dnxware monitoring for this dialer.
 func DialWithoutMonitoring() dialerOpt {
 	return func(opts *dialerOpts) {
 		opts.monitoring = false

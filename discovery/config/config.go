@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,18 +16,18 @@ package config
 import (
 	"github.com/pkg/errors"
 
-	"github.com/prometheus/prometheus/discovery/azure"
-	"github.com/prometheus/prometheus/discovery/consul"
-	"github.com/prometheus/prometheus/discovery/dns"
-	"github.com/prometheus/prometheus/discovery/ec2"
-	"github.com/prometheus/prometheus/discovery/file"
-	"github.com/prometheus/prometheus/discovery/gce"
-	"github.com/prometheus/prometheus/discovery/kubernetes"
-	"github.com/prometheus/prometheus/discovery/marathon"
-	"github.com/prometheus/prometheus/discovery/openstack"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
-	"github.com/prometheus/prometheus/discovery/triton"
-	"github.com/prometheus/prometheus/discovery/zookeeper"
+	"github.com/dnxware/dnxware/discovery/azure"
+	"github.com/dnxware/dnxware/discovery/consul"
+	"github.com/dnxware/dnxware/discovery/dns"
+	"github.com/dnxware/dnxware/discovery/ec2"
+	"github.com/dnxware/dnxware/discovery/file"
+	"github.com/dnxware/dnxware/discovery/gce"
+	"github.com/dnxware/dnxware/discovery/kubernetes"
+	"github.com/dnxware/dnxware/discovery/marathon"
+	"github.com/dnxware/dnxware/discovery/openstack"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
+	"github.com/dnxware/dnxware/discovery/triton"
+	"github.com/dnxware/dnxware/discovery/zookeeper"
 )
 
 // ServiceDiscoveryConfig configures lists of different service discovery mechanisms.

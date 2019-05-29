@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright 2019 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,9 +18,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/prometheus/prometheus/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/labels"
 
-	"github.com/prometheus/prometheus/util/testutil"
+	"github.com/dnxware/dnxware/util/testutil"
 )
 
 func TestLazyLoader_WithSamplesTill(t *testing.T) {
@@ -100,7 +100,7 @@ func TestLazyLoader_WithSamplesTill(t *testing.T) {
 						},
 					},
 				},
-				{ // This tests fix for https://github.com/prometheus/prometheus/issues/5064.
+				{ // This tests fix for https://github.com/dnxware/dnxware/issues/5064.
 					ts:             time.Unix(300, 0),
 					checkOnlyError: true,
 				},

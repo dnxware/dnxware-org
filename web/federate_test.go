@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -20,10 +20,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/promql"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/promql"
 )
 
 var scenarios = map[string]struct {

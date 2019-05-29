@@ -1,4 +1,4 @@
-// Copyright 2014 The Prometheus Authors
+// Copyright 2014 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -20,9 +20,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/promql"
-	"github.com/prometheus/prometheus/util/testutil"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/promql"
+	"github.com/dnxware/dnxware/util/testutil"
 )
 
 func TestTemplateExpansion(t *testing.T) {

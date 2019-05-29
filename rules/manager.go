@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -27,15 +27,15 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	opentracing "github.com/opentracing/opentracing-go"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/common/model"
 
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/rulefmt"
-	"github.com/prometheus/prometheus/pkg/timestamp"
-	"github.com/prometheus/prometheus/pkg/value"
-	"github.com/prometheus/prometheus/promql"
-	"github.com/prometheus/prometheus/storage"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/rulefmt"
+	"github.com/dnxware/dnxware/pkg/timestamp"
+	"github.com/dnxware/dnxware/pkg/value"
+	"github.com/dnxware/dnxware/promql"
+	"github.com/dnxware/dnxware/storage"
 )
 
 // RuleHealth describes the health state of a rule.
@@ -49,11 +49,11 @@ const (
 )
 
 // Constants for instrumentation.
-const namespace = "prometheus"
+const namespace = "dnxware"
 
 var (
-	groupInterval = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, "", "rule_group_interval_seconds"),
+	groupInterval = dnxware.NewDesc(
+		dnxware.BuildFQName(namespace, "", "rule_group_interval_seconds"),
 		"The interval of a rule group.",
 		[]string{"rule_group"},
 		nil,
@@ -62,73 +62,73 @@ var (
 
 // Metrics for rule evaluation.
 type Metrics struct {
-	evalDuration        prometheus.Summary
-	evalFailures        prometheus.Counter
-	evalTotal           prometheus.Counter
-	iterationDuration   prometheus.Summary
-	iterationsMissed    prometheus.Counter
-	iterationsScheduled prometheus.Counter
-	groupLastEvalTime   *prometheus.GaugeVec
-	groupLastDuration   *prometheus.GaugeVec
-	groupRules          *prometheus.GaugeVec
+	evalDuration        dnxware.Summary
+	evalFailures        dnxware.Counter
+	evalTotal           dnxware.Counter
+	iterationDuration   dnxware.Summary
+	iterationsMissed    dnxware.Counter
+	iterationsScheduled dnxware.Counter
+	groupLastEvalTime   *dnxware.GaugeVec
+	groupLastDuration   *dnxware.GaugeVec
+	groupRules          *dnxware.GaugeVec
 }
 
 // NewGroupMetrics makes a new Metrics and registers them with the provided registerer,
 // if not nil.
-func NewGroupMetrics(reg prometheus.Registerer) *Metrics {
+func NewGroupMetrics(reg dnxware.Registerer) *Metrics {
 	m := &Metrics{
-		evalDuration: prometheus.NewSummary(
-			prometheus.SummaryOpts{
+		evalDuration: dnxware.NewSummary(
+			dnxware.SummaryOpts{
 				Namespace: namespace,
 				Name:      "rule_evaluation_duration_seconds",
 				Help:      "The duration for a rule to execute.",
 			}),
-		evalFailures: prometheus.NewCounter(
-			prometheus.CounterOpts{
+		evalFailures: dnxware.NewCounter(
+			dnxware.CounterOpts{
 				Namespace: namespace,
 				Name:      "rule_evaluation_failures_total",
 				Help:      "The total number of rule evaluation failures.",
 			}),
-		evalTotal: prometheus.NewCounter(
-			prometheus.CounterOpts{
+		evalTotal: dnxware.NewCounter(
+			dnxware.CounterOpts{
 				Namespace: namespace,
 				Name:      "rule_evaluations_total",
 				Help:      "The total number of rule evaluations.",
 			}),
-		iterationDuration: prometheus.NewSummary(prometheus.SummaryOpts{
+		iterationDuration: dnxware.NewSummary(dnxware.SummaryOpts{
 			Namespace:  namespace,
 			Name:       "rule_group_duration_seconds",
 			Help:       "The duration of rule group evaluations.",
 			Objectives: map[float64]float64{0.01: 0.001, 0.05: 0.005, 0.5: 0.05, 0.90: 0.01, 0.99: 0.001},
 		}),
-		iterationsMissed: prometheus.NewCounter(prometheus.CounterOpts{
+		iterationsMissed: dnxware.NewCounter(dnxware.CounterOpts{
 			Namespace: namespace,
 			Name:      "rule_group_iterations_missed_total",
 			Help:      "The total number of rule group evaluations missed due to slow rule group evaluation.",
 		}),
-		iterationsScheduled: prometheus.NewCounter(prometheus.CounterOpts{
+		iterationsScheduled: dnxware.NewCounter(dnxware.CounterOpts{
 			Namespace: namespace,
 			Name:      "rule_group_iterations_total",
 			Help:      "The total number of scheduled rule group evaluations, whether executed or missed.",
 		}),
-		groupLastEvalTime: prometheus.NewGaugeVec(
-			prometheus.GaugeOpts{
+		groupLastEvalTime: dnxware.NewGaugeVec(
+			dnxware.GaugeOpts{
 				Namespace: namespace,
 				Name:      "rule_group_last_evaluation_timestamp_seconds",
 				Help:      "The timestamp of the last rule group evaluation in seconds.",
 			},
 			[]string{"rule_group"},
 		),
-		groupLastDuration: prometheus.NewGaugeVec(
-			prometheus.GaugeOpts{
+		groupLastDuration: dnxware.NewGaugeVec(
+			dnxware.GaugeOpts{
 				Namespace: namespace,
 				Name:      "rule_group_last_duration_seconds",
 				Help:      "The duration of the last rule group evaluation.",
 			},
 			[]string{"rule_group"},
 		),
-		groupRules: prometheus.NewGaugeVec(
-			prometheus.GaugeOpts{
+		groupRules: dnxware.NewGaugeVec(
+			dnxware.GaugeOpts{
 				Namespace: namespace,
 				Name:      "rule_group_rules",
 				Help:      "The number of rules.",
@@ -666,7 +666,7 @@ func (g *Group) RestoreForState(ts time.Time) {
 			timeRemainingPending := alertHoldDuration - timeSpentPending
 
 			if timeRemainingPending <= 0 {
-				// It means that alert was firing when prometheus went down.
+				// It means that alert was firing when dnxware went down.
 				// In the next Eval, the state of this alert will be set back to
 				// firing again if it's still firing in that Eval.
 				// Nothing to be done in this case.
@@ -732,7 +732,7 @@ type ManagerOptions struct {
 	Appendable      Appendable
 	TSDB            storage.Storage
 	Logger          log.Logger
-	Registerer      prometheus.Registerer
+	Registerer      dnxware.Registerer
 	OutageTolerance time.Duration
 	ForGracePeriod  time.Duration
 	ResendDelay     time.Duration
@@ -941,16 +941,16 @@ func (m *Manager) AlertingRules() []*AlertingRule {
 	return alerts
 }
 
-// Describe implements prometheus.Collector.
-func (m *Manager) Describe(ch chan<- *prometheus.Desc) {
+// Describe implements dnxware.Collector.
+func (m *Manager) Describe(ch chan<- *dnxware.Desc) {
 	ch <- groupInterval
 }
 
-// Collect implements prometheus.Collector.
-func (m *Manager) Collect(ch chan<- prometheus.Metric) {
+// Collect implements dnxware.Collector.
+func (m *Manager) Collect(ch chan<- dnxware.Metric) {
 	for _, g := range m.RuleGroups() {
-		ch <- prometheus.MustNewConstMetric(groupInterval,
-			prometheus.GaugeValue,
+		ch <- dnxware.MustNewConstMetric(groupInterval,
+			dnxware.GaugeValue,
 			g.interval.Seconds(),
 			groupKey(g.file, g.name))
 	}

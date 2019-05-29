@@ -193,7 +193,7 @@ eval instant at 50m http_requests{group="canary"} / ignoring(group) http_request
 	{instance="1", job="api-server"} 2
 	{instance="1", job="app-server"} 1.3333333333333333
 
-# https://github.com/prometheus/prometheus/issues/1489
+# https://github.com/dnxware/dnxware/issues/1489
 eval instant at 50m http_requests AND ON (dummy) vector(1)
 	http_requests{group="canary", instance="0", job="api-server"} 300
 	http_requests{group="canary", instance="0", job="app-server"} 700
@@ -258,7 +258,7 @@ clear
 
 load 5m
   node_var{instance="abc",job="node"} 2
-  node_role{instance="abc",job="node",role="prometheus"} 1
+  node_role{instance="abc",job="node",role="dnxware"} 1
 
 load 5m
   node_cpu{instance="abc",job="node",mode="idle"} 3
@@ -274,25 +274,25 @@ load 5m
 
 # Copy machine role to node variable.
 eval instant at 5m node_role * on (instance) group_right (role) node_var
-  {instance="abc",job="node",role="prometheus"} 2
+  {instance="abc",job="node",role="dnxware"} 2
 
 eval instant at 5m node_var * on (instance) group_left (role) node_role
-  {instance="abc",job="node",role="prometheus"} 2
+  {instance="abc",job="node",role="dnxware"} 2
 
 eval instant at 5m node_var * ignoring (role) group_left (role) node_role
-  {instance="abc",job="node",role="prometheus"} 2
+  {instance="abc",job="node",role="dnxware"} 2
 
 eval instant at 5m node_role * ignoring (role) group_right (role) node_var
-  {instance="abc",job="node",role="prometheus"} 2
+  {instance="abc",job="node",role="dnxware"} 2
 
 # Copy machine role to node variable with instrumentation labels.
 eval instant at 5m node_cpu * ignoring (role, mode) group_left (role) node_role
-  {instance="abc",job="node",mode="idle",role="prometheus"} 3
-  {instance="abc",job="node",mode="user",role="prometheus"} 1
+  {instance="abc",job="node",mode="idle",role="dnxware"} 3
+  {instance="abc",job="node",mode="user",role="dnxware"} 1
 
 eval instant at 5m node_cpu * on (instance) group_left (role) node_role
-  {instance="abc",job="node",mode="idle",role="prometheus"} 3
-  {instance="abc",job="node",mode="user",role="prometheus"} 1
+  {instance="abc",job="node",mode="idle",role="dnxware"} 3
+  {instance="abc",job="node",mode="user",role="dnxware"} 1
 
 
 # Ratio of total.

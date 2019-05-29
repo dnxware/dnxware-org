@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -26,16 +26,16 @@ import (
 	"testing"
 	"time"
 
-	"github.com/prometheus/prometheus/pkg/relabel"
+	"github.com/dnxware/dnxware/pkg/relabel"
 
 	yaml "gopkg.in/yaml.v2"
 
-	config_util "github.com/prometheus/common/config"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/util/testutil"
+	config_util "github.com/dnxware/common/config"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/util/testutil"
 )
 
 func TestPostPath(t *testing.T) {
@@ -132,7 +132,7 @@ func TestHandlerSendAll(t *testing.T) {
 		user, pass, _ := r.BasicAuth()
 		testutil.Assert(
 			t,
-			user == "prometheus" || pass == "testing_password",
+			user == "dnxware" || pass == "testing_password",
 			"Incorrect auth details for an alertmanager",
 		)
 
@@ -158,7 +158,7 @@ func TestHandlerSendAll(t *testing.T) {
 
 	authClient, _ := config_util.NewClientFromConfig(config_util.HTTPClientConfig{
 		BasicAuth: &config_util.BasicAuth{
-			Username: "prometheus",
+			Username: "dnxware",
 			Password: "testing_password",
 		},
 	}, "auth_alertmanager")

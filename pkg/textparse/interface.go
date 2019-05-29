@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2018 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,11 +16,11 @@ package textparse
 import (
 	"mime"
 
-	"github.com/prometheus/prometheus/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/labels"
 )
 
 // Parser parses samples from a byte slice of samples in the official
-// Prometheus and OpenMetrics text exposition formats.
+// dnxware and OpenMetrics text exposition formats.
 type Parser interface {
 	// Series returns the bytes of the series, the timestamp if set, and the value
 	// of the current sample.

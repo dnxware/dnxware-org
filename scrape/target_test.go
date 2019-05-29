@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -26,10 +26,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/common/model"
 
-	config_util "github.com/prometheus/common/config"
-	"github.com/prometheus/prometheus/pkg/labels"
+	config_util "github.com/dnxware/common/config"
+	"github.com/dnxware/dnxware/pkg/labels"
 )
 
 const (
@@ -295,7 +295,7 @@ func TestNewHTTPWithServerName(t *testing.T) {
 	cfg := config_util.HTTPClientConfig{
 		TLSConfig: config_util.TLSConfig{
 			CAFile:     caCertPath,
-			ServerName: "prometheus.rocks",
+			ServerName: "dnxware.rocks",
 		},
 	}
 	c, err := config_util.NewClientFromConfig(cfg, "test")

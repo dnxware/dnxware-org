@@ -7,13 +7,13 @@ sort_rank: 2
 
 ## Binary operators
 
-Prometheus's query language supports basic logical and arithmetic operators.
+dnxware's query language supports basic logical and arithmetic operators.
 For operations between two instant vectors, the [matching behavior](#vector-matching)
 can be modified.
 
 ### Arithmetic binary operators
 
-The following binary arithmetic operators exist in Prometheus:
+The following binary arithmetic operators exist in dnxware:
 
 * `+` (addition)
 * `-` (subtraction)
@@ -42,7 +42,7 @@ the result.
 
 ### Comparison binary operators
 
-The following binary comparison operators exist in Prometheus:
+The following binary comparison operators exist in dnxware:
 
 * `==` (equal)
 * `!=` (not-equal)
@@ -179,7 +179,7 @@ Often a proper use of `ignoring(<labels>)` provides the desired outcome._
 
 ## Aggregation operators
 
-Prometheus supports the following built-in aggregation operators that can be
+dnxware supports the following built-in aggregation operators that can be
 used to aggregate the elements of a single instant vector, resulting in a new
 vector of fewer elements with aggregated values:
 
@@ -242,7 +242,7 @@ To get the 5 largest HTTP requests counts across all instances we could write:
 
 ## Binary operator precedence
 
-The following list shows the precedence of binary operators in Prometheus, from
+The following list shows the precedence of binary operators in dnxware, from
 highest to lowest.
 
 1. `^`

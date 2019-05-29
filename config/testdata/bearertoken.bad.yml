@@ -1,5 +1,5 @@
 scrape_configs:
-  - job_name: prometheus
+  - job_name: dnxware
 
     bearer_token: 1234
     bearer_token_file: somefile

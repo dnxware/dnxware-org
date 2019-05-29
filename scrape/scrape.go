@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -30,124 +30,124 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	config_util "github.com/prometheus/common/config"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/common/version"
+	"github.com/dnxware/client_golang/dnxware"
+	config_util "github.com/dnxware/common/config"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/common/version"
 
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/pool"
-	"github.com/prometheus/prometheus/pkg/relabel"
-	"github.com/prometheus/prometheus/pkg/textparse"
-	"github.com/prometheus/prometheus/pkg/timestamp"
-	"github.com/prometheus/prometheus/pkg/value"
-	"github.com/prometheus/prometheus/storage"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/pool"
+	"github.com/dnxware/dnxware/pkg/relabel"
+	"github.com/dnxware/dnxware/pkg/textparse"
+	"github.com/dnxware/dnxware/pkg/timestamp"
+	"github.com/dnxware/dnxware/pkg/value"
+	"github.com/dnxware/dnxware/storage"
 )
 
 var (
-	targetIntervalLength = prometheus.NewSummaryVec(
-		prometheus.SummaryOpts{
-			Name:       "prometheus_target_interval_length_seconds",
+	targetIntervalLength = dnxware.NewSummaryVec(
+		dnxware.SummaryOpts{
+			Name:       "dnxware_target_interval_length_seconds",
 			Help:       "Actual intervals between scrapes.",
 			Objectives: map[float64]float64{0.01: 0.001, 0.05: 0.005, 0.5: 0.05, 0.90: 0.01, 0.99: 0.001},
 		},
 		[]string{"interval"},
 	)
-	targetReloadIntervalLength = prometheus.NewSummaryVec(
-		prometheus.SummaryOpts{
-			Name:       "prometheus_target_reload_length_seconds",
+	targetReloadIntervalLength = dnxware.NewSummaryVec(
+		dnxware.SummaryOpts{
+			Name:       "dnxware_target_reload_length_seconds",
 			Help:       "Actual interval to reload the scrape pool with a given configuration.",
 			Objectives: map[float64]float64{0.01: 0.001, 0.05: 0.005, 0.5: 0.05, 0.90: 0.01, 0.99: 0.001},
 		},
 		[]string{"interval"},
 	)
-	targetScrapePools = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "prometheus_target_scrape_pools_total",
+	targetScrapePools = dnxware.NewCounter(
+		dnxware.CounterOpts{
+			Name: "dnxware_target_scrape_pools_total",
 			Help: "Total number of scrape pool creation atttempts.",
 		},
 	)
-	targetScrapePoolsFailed = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "prometheus_target_scrape_pools_failed_total",
+	targetScrapePoolsFailed = dnxware.NewCounter(
+		dnxware.CounterOpts{
+			Name: "dnxware_target_scrape_pools_failed_total",
 			Help: "Total number of scrape pool creations that failed.",
 		},
 	)
-	targetScrapePoolReloads = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "prometheus_target_scrape_pool_reloads_total",
+	targetScrapePoolReloads = dnxware.NewCounter(
+		dnxware.CounterOpts{
+			Name: "dnxware_target_scrape_pool_reloads_total",
 			Help: "Total number of scrape loop reloads.",
 		},
 	)
-	targetScrapePoolReloadsFailed = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "prometheus_target_scrape_pool_reloads_failed_total",
+	targetScrapePoolReloadsFailed = dnxware.NewCounter(
+		dnxware.CounterOpts{
+			Name: "dnxware_target_scrape_pool_reloads_failed_total",
 			Help: "Total number of failed scrape loop reloads.",
 		},
 	)
-	targetSyncIntervalLength = prometheus.NewSummaryVec(
-		prometheus.SummaryOpts{
-			Name:       "prometheus_target_sync_length_seconds",
+	targetSyncIntervalLength = dnxware.NewSummaryVec(
+		dnxware.SummaryOpts{
+			Name:       "dnxware_target_sync_length_seconds",
 			Help:       "Actual interval to sync the scrape pool.",
 			Objectives: map[float64]float64{0.01: 0.001, 0.05: 0.005, 0.5: 0.05, 0.90: 0.01, 0.99: 0.001},
 		},
 		[]string{"scrape_job"},
 	)
-	targetScrapePoolSyncsCounter = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "prometheus_target_scrape_pool_sync_total",
+	targetScrapePoolSyncsCounter = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
+			Name: "dnxware_target_scrape_pool_sync_total",
 			Help: "Total number of syncs that were executed on a scrape pool.",
 		},
 		[]string{"scrape_job"},
 	)
-	targetScrapeSampleLimit = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "prometheus_target_scrapes_exceeded_sample_limit_total",
+	targetScrapeSampleLimit = dnxware.NewCounter(
+		dnxware.CounterOpts{
+			Name: "dnxware_target_scrapes_exceeded_sample_limit_total",
 			Help: "Total number of scrapes that hit the sample limit and were rejected.",
 		},
 	)
-	targetScrapeSampleDuplicate = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "prometheus_target_scrapes_sample_duplicate_timestamp_total",
+	targetScrapeSampleDuplicate = dnxware.NewCounter(
+		dnxware.CounterOpts{
+			Name: "dnxware_target_scrapes_sample_duplicate_timestamp_total",
 			Help: "Total number of samples rejected due to duplicate timestamps but different values",
 		},
 	)
-	targetScrapeSampleOutOfOrder = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "prometheus_target_scrapes_sample_out_of_order_total",
+	targetScrapeSampleOutOfOrder = dnxware.NewCounter(
+		dnxware.CounterOpts{
+			Name: "dnxware_target_scrapes_sample_out_of_order_total",
 			Help: "Total number of samples rejected due to not being out of the expected order",
 		},
 	)
-	targetScrapeSampleOutOfBounds = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "prometheus_target_scrapes_sample_out_of_bounds_total",
+	targetScrapeSampleOutOfBounds = dnxware.NewCounter(
+		dnxware.CounterOpts{
+			Name: "dnxware_target_scrapes_sample_out_of_bounds_total",
 			Help: "Total number of samples rejected due to timestamp falling outside of the time bounds",
 		},
 	)
-	targetScrapeCacheFlushForced = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "prometheus_target_scrapes_cache_flush_forced_total",
+	targetScrapeCacheFlushForced = dnxware.NewCounter(
+		dnxware.CounterOpts{
+			Name: "dnxware_target_scrapes_cache_flush_forced_total",
 			Help: "How many times a scrape cache was flushed due to getting big while scrapes are failing.",
 		},
 	)
 )
 
 func init() {
-	prometheus.MustRegister(targetIntervalLength)
-	prometheus.MustRegister(targetReloadIntervalLength)
-	prometheus.MustRegister(targetScrapePools)
-	prometheus.MustRegister(targetScrapePoolsFailed)
-	prometheus.MustRegister(targetScrapePoolReloads)
-	prometheus.MustRegister(targetScrapePoolReloadsFailed)
-	prometheus.MustRegister(targetSyncIntervalLength)
-	prometheus.MustRegister(targetScrapePoolSyncsCounter)
-	prometheus.MustRegister(targetScrapeSampleLimit)
-	prometheus.MustRegister(targetScrapeSampleDuplicate)
-	prometheus.MustRegister(targetScrapeSampleOutOfOrder)
-	prometheus.MustRegister(targetScrapeSampleOutOfBounds)
-	prometheus.MustRegister(targetScrapeCacheFlushForced)
+	dnxware.MustRegister(targetIntervalLength)
+	dnxware.MustRegister(targetReloadIntervalLength)
+	dnxware.MustRegister(targetScrapePools)
+	dnxware.MustRegister(targetScrapePoolsFailed)
+	dnxware.MustRegister(targetScrapePoolReloads)
+	dnxware.MustRegister(targetScrapePoolReloadsFailed)
+	dnxware.MustRegister(targetSyncIntervalLength)
+	dnxware.MustRegister(targetScrapePoolSyncsCounter)
+	dnxware.MustRegister(targetScrapeSampleLimit)
+	dnxware.MustRegister(targetScrapeSampleDuplicate)
+	dnxware.MustRegister(targetScrapeSampleOutOfOrder)
+	dnxware.MustRegister(targetScrapeSampleOutOfBounds)
+	dnxware.MustRegister(targetScrapeCacheFlushForced)
 }
 
 // scrapePool manages scrapes for sets of targets.
@@ -524,7 +524,7 @@ type targetScraper struct {
 
 const acceptHeader = `application/openmetrics-text; version=0.0.1,text/plain;version=0.0.4;q=0.5,*/*;q=0.1`
 
-var userAgentHeader = fmt.Sprintf("Prometheus/%s", version.Version)
+var userAgentHeader = fmt.Sprintf("dnxware/%s", version.Version)
 
 func (s *targetScraper) scrape(ctx context.Context, w io.Writer) (string, error) {
 	if s.req == nil {
@@ -535,7 +535,7 @@ func (s *targetScraper) scrape(ctx context.Context, w io.Writer) (string, error)
 		req.Header.Add("Accept", acceptHeader)
 		req.Header.Add("Accept-Encoding", "gzip")
 		req.Header.Set("User-Agent", userAgentHeader)
-		req.Header.Set("X-Prometheus-Scrape-Timeout-Seconds", fmt.Sprintf("%f", s.timeout.Seconds()))
+		req.Header.Set("X-dnxware-Scrape-Timeout-Seconds", fmt.Sprintf("%f", s.timeout.Seconds()))
 
 		s.req = req
 	}

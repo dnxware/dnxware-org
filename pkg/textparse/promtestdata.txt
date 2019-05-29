@@ -131,11 +131,11 @@ http_request_duration_microseconds{handler="options",quantile="0.9"} NaN
 http_request_duration_microseconds{handler="options",quantile="0.99"} NaN
 http_request_duration_microseconds_sum{handler="options"} 0
 http_request_duration_microseconds_count{handler="options"} 0
-http_request_duration_microseconds{handler="prometheus",quantile="0.5"} 1351.859
-http_request_duration_microseconds{handler="prometheus",quantile="0.9"} 1714.035
-http_request_duration_microseconds{handler="prometheus",quantile="0.99"} 2833.523
-http_request_duration_microseconds_sum{handler="prometheus"} 661851.54
-http_request_duration_microseconds_count{handler="prometheus"} 462
+http_request_duration_microseconds{handler="dnxware",quantile="0.5"} 1351.859
+http_request_duration_microseconds{handler="dnxware",quantile="0.9"} 1714.035
+http_request_duration_microseconds{handler="dnxware",quantile="0.99"} 2833.523
+http_request_duration_microseconds_sum{handler="dnxware"} 661851.54
+http_request_duration_microseconds_count{handler="dnxware"} 462
 http_request_duration_microseconds{handler="query",quantile="0.5"} 3885.448
 http_request_duration_microseconds{handler="query",quantile="0.9"} 4390.558
 http_request_duration_microseconds{handler="query",quantile="0.99"} 4390.558
@@ -228,11 +228,11 @@ http_request_size_bytes{handler="options",quantile="0.9"} NaN
 http_request_size_bytes{handler="options",quantile="0.99"} NaN
 http_request_size_bytes_sum{handler="options"} 0
 http_request_size_bytes_count{handler="options"} 0
-http_request_size_bytes{handler="prometheus",quantile="0.5"} 238
-http_request_size_bytes{handler="prometheus",quantile="0.9"} 238
-http_request_size_bytes{handler="prometheus",quantile="0.99"} 238
-http_request_size_bytes_sum{handler="prometheus"} 109956
-http_request_size_bytes_count{handler="prometheus"} 462
+http_request_size_bytes{handler="dnxware",quantile="0.5"} 238
+http_request_size_bytes{handler="dnxware",quantile="0.9"} 238
+http_request_size_bytes{handler="dnxware",quantile="0.99"} 238
+http_request_size_bytes_sum{handler="dnxware"} 109956
+http_request_size_bytes_count{handler="dnxware"} 462
 http_request_size_bytes{handler="query",quantile="0.5"} 531
 http_request_size_bytes{handler="query",quantile="0.9"} 531
 http_request_size_bytes{handler="query",quantile="0.99"} 531
@@ -277,7 +277,7 @@ http_request_size_bytes_count{handler="version"} 0
 # TYPE http_requests_total counter
 http_requests_total{code="200",handler="graph",method="get"} 3
 http_requests_total{code="200",handler="label_values",method="get"} 3
-http_requests_total{code="200",handler="prometheus",method="get"} 462
+http_requests_total{code="200",handler="dnxware",method="get"} 462
 http_requests_total{code="200",handler="query",method="get"} 6
 http_requests_total{code="200",handler="static",method="get"} 3
 # HELP http_response_size_bytes The HTTP response sizes in bytes.
@@ -332,11 +332,11 @@ http_response_size_bytes{handler="options",quantile="0.9"} NaN
 http_response_size_bytes{handler="options",quantile="0.99"} NaN
 http_response_size_bytes_sum{handler="options"} 0
 http_response_size_bytes_count{handler="options"} 0
-http_response_size_bytes{handler="prometheus",quantile="0.5"} 3033
-http_response_size_bytes{handler="prometheus",quantile="0.9"} 3123
-http_response_size_bytes{handler="prometheus",quantile="0.99"} 3128
-http_response_size_bytes_sum{handler="prometheus"} 1.374097e+06
-http_response_size_bytes_count{handler="prometheus"} 462
+http_response_size_bytes{handler="dnxware",quantile="0.5"} 3033
+http_response_size_bytes{handler="dnxware",quantile="0.9"} 3123
+http_response_size_bytes{handler="dnxware",quantile="0.99"} 3128
+http_response_size_bytes_sum{handler="dnxware"} 1.374097e+06
+http_response_size_bytes_count{handler="dnxware"} 462
 http_response_size_bytes{handler="query",quantile="0.5"} 776
 http_response_size_bytes{handler="query",quantile="0.9"} 781
 http_response_size_bytes{handler="query",quantile="0.99"} 781
@@ -377,153 +377,153 @@ http_response_size_bytes{handler="version",quantile="0.9"} NaN
 http_response_size_bytes{handler="version",quantile="0.99"} NaN
 http_response_size_bytes_sum{handler="version"} 0
 http_response_size_bytes_count{handler="version"} 0
-# HELP prometheus_build_info A metric with a constant '1' value labeled by version, revision, branch, and goversion from which prometheus was built.
-# TYPE prometheus_build_info gauge
-prometheus_build_info{branch="",goversion="go1.7.3",revision="",version=""} 1
-# HELP prometheus_config_last_reload_success_timestamp_seconds Timestamp of the last successful configuration reload.
-# TYPE prometheus_config_last_reload_success_timestamp_seconds gauge
-prometheus_config_last_reload_success_timestamp_seconds 1.484395547e+09
-# HELP prometheus_config_last_reload_successful Whether the last configuration reload attempt was successful.
-# TYPE prometheus_config_last_reload_successful gauge
-prometheus_config_last_reload_successful 1
-# HELP prometheus_evaluator_duration_seconds The duration of rule group evaluations.
-# TYPE prometheus_evaluator_duration_seconds summary
-prometheus_evaluator_duration_seconds{quantile="0.01"} 1.7890000000000002e-06
-prometheus_evaluator_duration_seconds{quantile="0.05"} 1.7890000000000002e-06
-prometheus_evaluator_duration_seconds{quantile="0.5"} 1.7890000000000002e-06
-prometheus_evaluator_duration_seconds{quantile="0.9"} 1.7890000000000002e-06
-prometheus_evaluator_duration_seconds{quantile="0.99"} 1.7890000000000002e-06
-prometheus_evaluator_duration_seconds_sum 1.7890000000000002e-06
-prometheus_evaluator_duration_seconds_count 1
-# HELP prometheus_evaluator_iterations_skipped_total The total number of rule group evaluations skipped due to throttled metric storage.
-# TYPE prometheus_evaluator_iterations_skipped_total counter
-prometheus_evaluator_iterations_skipped_total 0
-# HELP prometheus_notifications_dropped_total Total number of alerts dropped due to alert manager missing in configuration.
-# TYPE prometheus_notifications_dropped_total counter
-prometheus_notifications_dropped_total 0
-# HELP prometheus_notifications_queue_capacity The capacity of the alert notifications queue.
-# TYPE prometheus_notifications_queue_capacity gauge
-prometheus_notifications_queue_capacity 10000
-# HELP prometheus_notifications_queue_length The number of alert notifications in the queue.
-# TYPE prometheus_notifications_queue_length gauge
-prometheus_notifications_queue_length 0
-# HELP prometheus_rule_evaluation_failures_total The total number of rule evaluation failures.
-# TYPE prometheus_rule_evaluation_failures_total counter
-prometheus_rule_evaluation_failures_total{rule_type="alerting"} 0
-prometheus_rule_evaluation_failures_total{rule_type="recording"} 0
-# HELP prometheus_sd_azure_refresh_duration_seconds The duration of a Azure-SD refresh in seconds.
-# TYPE prometheus_sd_azure_refresh_duration_seconds summary
-prometheus_sd_azure_refresh_duration_seconds{quantile="0.5"} NaN
-prometheus_sd_azure_refresh_duration_seconds{quantile="0.9"} NaN
-prometheus_sd_azure_refresh_duration_seconds{quantile="0.99"} NaN
-prometheus_sd_azure_refresh_duration_seconds_sum 0
-prometheus_sd_azure_refresh_duration_seconds_count 0
-# HELP prometheus_sd_azure_refresh_failures_total Number of Azure-SD refresh failures.
-# TYPE prometheus_sd_azure_refresh_failures_total counter
-prometheus_sd_azure_refresh_failures_total 0
-# HELP prometheus_sd_consul_rpc_duration_seconds The duration of a Consul RPC call in seconds.
-# TYPE prometheus_sd_consul_rpc_duration_seconds summary
-prometheus_sd_consul_rpc_duration_seconds{call="service",endpoint="catalog",quantile="0.5"} NaN
-prometheus_sd_consul_rpc_duration_seconds{call="service",endpoint="catalog",quantile="0.9"} NaN
-prometheus_sd_consul_rpc_duration_seconds{call="service",endpoint="catalog",quantile="0.99"} NaN
-prometheus_sd_consul_rpc_duration_seconds_sum{call="service",endpoint="catalog"} 0
-prometheus_sd_consul_rpc_duration_seconds_count{call="service",endpoint="catalog"} 0
-prometheus_sd_consul_rpc_duration_seconds{call="services",endpoint="catalog",quantile="0.5"} NaN
-prometheus_sd_consul_rpc_duration_seconds{call="services",endpoint="catalog",quantile="0.9"} NaN
-prometheus_sd_consul_rpc_duration_seconds{call="services",endpoint="catalog",quantile="0.99"} NaN
-prometheus_sd_consul_rpc_duration_seconds_sum{call="services",endpoint="catalog"} 0
-prometheus_sd_consul_rpc_duration_seconds_count{call="services",endpoint="catalog"} 0
-# HELP prometheus_sd_consul_rpc_failures_total The number of Consul RPC call failures.
-# TYPE prometheus_sd_consul_rpc_failures_total counter
-prometheus_sd_consul_rpc_failures_total 0
-# HELP prometheus_sd_dns_lookup_failures_total The number of DNS-SD lookup failures.
-# TYPE prometheus_sd_dns_lookup_failures_total counter
-prometheus_sd_dns_lookup_failures_total 0
-# HELP prometheus_sd_dns_lookups_total The number of DNS-SD lookups.
-# TYPE prometheus_sd_dns_lookups_total counter
-prometheus_sd_dns_lookups_total 0
-# HELP prometheus_sd_ec2_refresh_duration_seconds The duration of a EC2-SD refresh in seconds.
-# TYPE prometheus_sd_ec2_refresh_duration_seconds summary
-prometheus_sd_ec2_refresh_duration_seconds{quantile="0.5"} NaN
-prometheus_sd_ec2_refresh_duration_seconds{quantile="0.9"} NaN
-prometheus_sd_ec2_refresh_duration_seconds{quantile="0.99"} NaN
-prometheus_sd_ec2_refresh_duration_seconds_sum 0
-prometheus_sd_ec2_refresh_duration_seconds_count 0
-# HELP prometheus_sd_ec2_refresh_failures_total The number of EC2-SD scrape failures.
-# TYPE prometheus_sd_ec2_refresh_failures_total counter
-prometheus_sd_ec2_refresh_failures_total 0
-# HELP prometheus_sd_file_read_errors_total The number of File-SD read errors.
-# TYPE prometheus_sd_file_read_errors_total counter
-prometheus_sd_file_read_errors_total 0
-# HELP prometheus_sd_file_scan_duration_seconds The duration of the File-SD scan in seconds.
-# TYPE prometheus_sd_file_scan_duration_seconds summary
-prometheus_sd_file_scan_duration_seconds{quantile="0.5"} NaN
-prometheus_sd_file_scan_duration_seconds{quantile="0.9"} NaN
-prometheus_sd_file_scan_duration_seconds{quantile="0.99"} NaN
-prometheus_sd_file_scan_duration_seconds_sum 0
-prometheus_sd_file_scan_duration_seconds_count 0
-# HELP prometheus_sd_gce_refresh_duration The duration of a GCE-SD refresh in seconds.
-# TYPE prometheus_sd_gce_refresh_duration summary
-prometheus_sd_gce_refresh_duration{quantile="0.5"} NaN
-prometheus_sd_gce_refresh_duration{quantile="0.9"} NaN
-prometheus_sd_gce_refresh_duration{quantile="0.99"} NaN
-prometheus_sd_gce_refresh_duration_sum 0
-prometheus_sd_gce_refresh_duration_count 0
-# HELP prometheus_sd_gce_refresh_failures_total The number of GCE-SD refresh failures.
-# TYPE prometheus_sd_gce_refresh_failures_total counter
-prometheus_sd_gce_refresh_failures_total 0
-# HELP prometheus_sd_kubernetes_events_total The number of Kubernetes events handled.
-# TYPE prometheus_sd_kubernetes_events_total counter
-prometheus_sd_kubernetes_events_total{event="add",role="endpoints"} 0
-prometheus_sd_kubernetes_events_total{event="add",role="node"} 0
-prometheus_sd_kubernetes_events_total{event="add",role="pod"} 0
-prometheus_sd_kubernetes_events_total{event="add",role="service"} 0
-prometheus_sd_kubernetes_events_total{event="delete",role="endpoints"} 0
-prometheus_sd_kubernetes_events_total{event="delete",role="node"} 0
-prometheus_sd_kubernetes_events_total{event="delete",role="pod"} 0
-prometheus_sd_kubernetes_events_total{event="delete",role="service"} 0
-prometheus_sd_kubernetes_events_total{event="update",role="endpoints"} 0
-prometheus_sd_kubernetes_events_total{event="update",role="node"} 0
-prometheus_sd_kubernetes_events_total{event="update",role="pod"} 0
-prometheus_sd_kubernetes_events_total{event="update",role="service"} 0
-# HELP prometheus_sd_marathon_refresh_duration_seconds The duration of a Marathon-SD refresh in seconds.
-# TYPE prometheus_sd_marathon_refresh_duration_seconds summary
-prometheus_sd_marathon_refresh_duration_seconds{quantile="0.5"} NaN
-prometheus_sd_marathon_refresh_duration_seconds{quantile="0.9"} NaN
-prometheus_sd_marathon_refresh_duration_seconds{quantile="0.99"} NaN
-prometheus_sd_marathon_refresh_duration_seconds_sum 0
-prometheus_sd_marathon_refresh_duration_seconds_count 0
-# HELP prometheus_sd_marathon_refresh_failures_total The number of Marathon-SD refresh failures.
-# TYPE prometheus_sd_marathon_refresh_failures_total counter
-prometheus_sd_marathon_refresh_failures_total 0
-# HELP prometheus_target_interval_length_seconds Actual intervals between scrapes.
-# TYPE prometheus_target_interval_length_seconds summary
-prometheus_target_interval_length_seconds{interval="50ms",quantile="0.01"} 0.046182157
-prometheus_target_interval_length_seconds{interval="50ms",quantile="0.05"} 0.047306979000000006
-prometheus_target_interval_length_seconds{interval="50ms",quantile="0.5"} 0.050381782
-prometheus_target_interval_length_seconds{interval="50ms",quantile="0.9"} 0.052614556
-prometheus_target_interval_length_seconds{interval="50ms",quantile="0.99"} 0.054404386000000006
-prometheus_target_interval_length_seconds_sum{interval="50ms"} 34.512091221999995
-prometheus_target_interval_length_seconds_count{interval="50ms"} 685
-# HELP prometheus_target_scrape_pool_sync_total Total number of syncs that were executed on a scrape pool.
-# TYPE prometheus_target_scrape_pool_sync_total counter
-prometheus_target_scrape_pool_sync_total{scrape_job="prometheus"} 1
-# HELP prometheus_target_skipped_scrapes_total Total number of scrapes that were skipped because the metric storage was throttled.
-# TYPE prometheus_target_skipped_scrapes_total counter
-prometheus_target_skipped_scrapes_total 0
-# HELP prometheus_target_sync_length_seconds Actual interval to sync the scrape pool.
-# TYPE prometheus_target_sync_length_seconds summary
-prometheus_target_sync_length_seconds{scrape_job="prometheus",quantile="0.01"} 0.00020043300000000002
-prometheus_target_sync_length_seconds{scrape_job="prometheus",quantile="0.05"} 0.00020043300000000002
-prometheus_target_sync_length_seconds{scrape_job="prometheus",quantile="0.5"} 0.00020043300000000002
-prometheus_target_sync_length_seconds{scrape_job="prometheus",quantile="0.9"} 0.00020043300000000002
-prometheus_target_sync_length_seconds{scrape_job="prometheus",quantile="0.99"} 0.00020043300000000002
-prometheus_target_sync_length_seconds_sum{scrape_job="prometheus"} 0.00020043300000000002
-prometheus_target_sync_length_seconds_count{scrape_job="prometheus"} 1
-# HELP prometheus_treecache_watcher_goroutines The current number of watcher goroutines.
-# TYPE prometheus_treecache_watcher_goroutines gauge
-prometheus_treecache_watcher_goroutines 0
-# HELP prometheus_treecache_zookeeper_failures_total The total number of ZooKeeper failures.
-# TYPE prometheus_treecache_zookeeper_failures_total counter
-prometheus_treecache_zookeeper_failures_total 0
+# HELP dnxware_build_info A metric with a constant '1' value labeled by version, revision, branch, and goversion from which dnxware was built.
+# TYPE dnxware_build_info gauge
+dnxware_build_info{branch="",goversion="go1.7.3",revision="",version=""} 1
+# HELP dnxware_config_last_reload_success_timestamp_seconds Timestamp of the last successful configuration reload.
+# TYPE dnxware_config_last_reload_success_timestamp_seconds gauge
+dnxware_config_last_reload_success_timestamp_seconds 1.484395547e+09
+# HELP dnxware_config_last_reload_successful Whether the last configuration reload attempt was successful.
+# TYPE dnxware_config_last_reload_successful gauge
+dnxware_config_last_reload_successful 1
+# HELP dnxware_evaluator_duration_seconds The duration of rule group evaluations.
+# TYPE dnxware_evaluator_duration_seconds summary
+dnxware_evaluator_duration_seconds{quantile="0.01"} 1.7890000000000002e-06
+dnxware_evaluator_duration_seconds{quantile="0.05"} 1.7890000000000002e-06
+dnxware_evaluator_duration_seconds{quantile="0.5"} 1.7890000000000002e-06
+dnxware_evaluator_duration_seconds{quantile="0.9"} 1.7890000000000002e-06
+dnxware_evaluator_duration_seconds{quantile="0.99"} 1.7890000000000002e-06
+dnxware_evaluator_duration_seconds_sum 1.7890000000000002e-06
+dnxware_evaluator_duration_seconds_count 1
+# HELP dnxware_evaluator_iterations_skipped_total The total number of rule group evaluations skipped due to throttled metric storage.
+# TYPE dnxware_evaluator_iterations_skipped_total counter
+dnxware_evaluator_iterations_skipped_total 0
+# HELP dnxware_notifications_dropped_total Total number of alerts dropped due to alert manager missing in configuration.
+# TYPE dnxware_notifications_dropped_total counter
+dnxware_notifications_dropped_total 0
+# HELP dnxware_notifications_queue_capacity The capacity of the alert notifications queue.
+# TYPE dnxware_notifications_queue_capacity gauge
+dnxware_notifications_queue_capacity 10000
+# HELP dnxware_notifications_queue_length The number of alert notifications in the queue.
+# TYPE dnxware_notifications_queue_length gauge
+dnxware_notifications_queue_length 0
+# HELP dnxware_rule_evaluation_failures_total The total number of rule evaluation failures.
+# TYPE dnxware_rule_evaluation_failures_total counter
+dnxware_rule_evaluation_failures_total{rule_type="alerting"} 0
+dnxware_rule_evaluation_failures_total{rule_type="recording"} 0
+# HELP dnxware_sd_azure_refresh_duration_seconds The duration of a Azure-SD refresh in seconds.
+# TYPE dnxware_sd_azure_refresh_duration_seconds summary
+dnxware_sd_azure_refresh_duration_seconds{quantile="0.5"} NaN
+dnxware_sd_azure_refresh_duration_seconds{quantile="0.9"} NaN
+dnxware_sd_azure_refresh_duration_seconds{quantile="0.99"} NaN
+dnxware_sd_azure_refresh_duration_seconds_sum 0
+dnxware_sd_azure_refresh_duration_seconds_count 0
+# HELP dnxware_sd_azure_refresh_failures_total Number of Azure-SD refresh failures.
+# TYPE dnxware_sd_azure_refresh_failures_total counter
+dnxware_sd_azure_refresh_failures_total 0
+# HELP dnxware_sd_consul_rpc_duration_seconds The duration of a Consul RPC call in seconds.
+# TYPE dnxware_sd_consul_rpc_duration_seconds summary
+dnxware_sd_consul_rpc_duration_seconds{call="service",endpoint="catalog",quantile="0.5"} NaN
+dnxware_sd_consul_rpc_duration_seconds{call="service",endpoint="catalog",quantile="0.9"} NaN
+dnxware_sd_consul_rpc_duration_seconds{call="service",endpoint="catalog",quantile="0.99"} NaN
+dnxware_sd_consul_rpc_duration_seconds_sum{call="service",endpoint="catalog"} 0
+dnxware_sd_consul_rpc_duration_seconds_count{call="service",endpoint="catalog"} 0
+dnxware_sd_consul_rpc_duration_seconds{call="services",endpoint="catalog",quantile="0.5"} NaN
+dnxware_sd_consul_rpc_duration_seconds{call="services",endpoint="catalog",quantile="0.9"} NaN
+dnxware_sd_consul_rpc_duration_seconds{call="services",endpoint="catalog",quantile="0.99"} NaN
+dnxware_sd_consul_rpc_duration_seconds_sum{call="services",endpoint="catalog"} 0
+dnxware_sd_consul_rpc_duration_seconds_count{call="services",endpoint="catalog"} 0
+# HELP dnxware_sd_consul_rpc_failures_total The number of Consul RPC call failures.
+# TYPE dnxware_sd_consul_rpc_failures_total counter
+dnxware_sd_consul_rpc_failures_total 0
+# HELP dnxware_sd_dns_lookup_failures_total The number of DNS-SD lookup failures.
+# TYPE dnxware_sd_dns_lookup_failures_total counter
+dnxware_sd_dns_lookup_failures_total 0
+# HELP dnxware_sd_dns_lookups_total The number of DNS-SD lookups.
+# TYPE dnxware_sd_dns_lookups_total counter
+dnxware_sd_dns_lookups_total 0
+# HELP dnxware_sd_ec2_refresh_duration_seconds The duration of a EC2-SD refresh in seconds.
+# TYPE dnxware_sd_ec2_refresh_duration_seconds summary
+dnxware_sd_ec2_refresh_duration_seconds{quantile="0.5"} NaN
+dnxware_sd_ec2_refresh_duration_seconds{quantile="0.9"} NaN
+dnxware_sd_ec2_refresh_duration_seconds{quantile="0.99"} NaN
+dnxware_sd_ec2_refresh_duration_seconds_sum 0
+dnxware_sd_ec2_refresh_duration_seconds_count 0
+# HELP dnxware_sd_ec2_refresh_failures_total The number of EC2-SD scrape failures.
+# TYPE dnxware_sd_ec2_refresh_failures_total counter
+dnxware_sd_ec2_refresh_failures_total 0
+# HELP dnxware_sd_file_read_errors_total The number of File-SD read errors.
+# TYPE dnxware_sd_file_read_errors_total counter
+dnxware_sd_file_read_errors_total 0
+# HELP dnxware_sd_file_scan_duration_seconds The duration of the File-SD scan in seconds.
+# TYPE dnxware_sd_file_scan_duration_seconds summary
+dnxware_sd_file_scan_duration_seconds{quantile="0.5"} NaN
+dnxware_sd_file_scan_duration_seconds{quantile="0.9"} NaN
+dnxware_sd_file_scan_duration_seconds{quantile="0.99"} NaN
+dnxware_sd_file_scan_duration_seconds_sum 0
+dnxware_sd_file_scan_duration_seconds_count 0
+# HELP dnxware_sd_gce_refresh_duration The duration of a GCE-SD refresh in seconds.
+# TYPE dnxware_sd_gce_refresh_duration summary
+dnxware_sd_gce_refresh_duration{quantile="0.5"} NaN
+dnxware_sd_gce_refresh_duration{quantile="0.9"} NaN
+dnxware_sd_gce_refresh_duration{quantile="0.99"} NaN
+dnxware_sd_gce_refresh_duration_sum 0
+dnxware_sd_gce_refresh_duration_count 0
+# HELP dnxware_sd_gce_refresh_failures_total The number of GCE-SD refresh failures.
+# TYPE dnxware_sd_gce_refresh_failures_total counter
+dnxware_sd_gce_refresh_failures_total 0
+# HELP dnxware_sd_kubernetes_events_total The number of Kubernetes events handled.
+# TYPE dnxware_sd_kubernetes_events_total counter
+dnxware_sd_kubernetes_events_total{event="add",role="endpoints"} 0
+dnxware_sd_kubernetes_events_total{event="add",role="node"} 0
+dnxware_sd_kubernetes_events_total{event="add",role="pod"} 0
+dnxware_sd_kubernetes_events_total{event="add",role="service"} 0
+dnxware_sd_kubernetes_events_total{event="delete",role="endpoints"} 0
+dnxware_sd_kubernetes_events_total{event="delete",role="node"} 0
+dnxware_sd_kubernetes_events_total{event="delete",role="pod"} 0
+dnxware_sd_kubernetes_events_total{event="delete",role="service"} 0
+dnxware_sd_kubernetes_events_total{event="update",role="endpoints"} 0
+dnxware_sd_kubernetes_events_total{event="update",role="node"} 0
+dnxware_sd_kubernetes_events_total{event="update",role="pod"} 0
+dnxware_sd_kubernetes_events_total{event="update",role="service"} 0
+# HELP dnxware_sd_marathon_refresh_duration_seconds The duration of a Marathon-SD refresh in seconds.
+# TYPE dnxware_sd_marathon_refresh_duration_seconds summary
+dnxware_sd_marathon_refresh_duration_seconds{quantile="0.5"} NaN
+dnxware_sd_marathon_refresh_duration_seconds{quantile="0.9"} NaN
+dnxware_sd_marathon_refresh_duration_seconds{quantile="0.99"} NaN
+dnxware_sd_marathon_refresh_duration_seconds_sum 0
+dnxware_sd_marathon_refresh_duration_seconds_count 0
+# HELP dnxware_sd_marathon_refresh_failures_total The number of Marathon-SD refresh failures.
+# TYPE dnxware_sd_marathon_refresh_failures_total counter
+dnxware_sd_marathon_refresh_failures_total 0
+# HELP dnxware_target_interval_length_seconds Actual intervals between scrapes.
+# TYPE dnxware_target_interval_length_seconds summary
+dnxware_target_interval_length_seconds{interval="50ms",quantile="0.01"} 0.046182157
+dnxware_target_interval_length_seconds{interval="50ms",quantile="0.05"} 0.047306979000000006
+dnxware_target_interval_length_seconds{interval="50ms",quantile="0.5"} 0.050381782
+dnxware_target_interval_length_seconds{interval="50ms",quantile="0.9"} 0.052614556
+dnxware_target_interval_length_seconds{interval="50ms",quantile="0.99"} 0.054404386000000006
+dnxware_target_interval_length_seconds_sum{interval="50ms"} 34.512091221999995
+dnxware_target_interval_length_seconds_count{interval="50ms"} 685
+# HELP dnxware_target_scrape_pool_sync_total Total number of syncs that were executed on a scrape pool.
+# TYPE dnxware_target_scrape_pool_sync_total counter
+dnxware_target_scrape_pool_sync_total{scrape_job="dnxware"} 1
+# HELP dnxware_target_skipped_scrapes_total Total number of scrapes that were skipped because the metric storage was throttled.
+# TYPE dnxware_target_skipped_scrapes_total counter
+dnxware_target_skipped_scrapes_total 0
+# HELP dnxware_target_sync_length_seconds Actual interval to sync the scrape pool.
+# TYPE dnxware_target_sync_length_seconds summary
+dnxware_target_sync_length_seconds{scrape_job="dnxware",quantile="0.01"} 0.00020043300000000002
+dnxware_target_sync_length_seconds{scrape_job="dnxware",quantile="0.05"} 0.00020043300000000002
+dnxware_target_sync_length_seconds{scrape_job="dnxware",quantile="0.5"} 0.00020043300000000002
+dnxware_target_sync_length_seconds{scrape_job="dnxware",quantile="0.9"} 0.00020043300000000002
+dnxware_target_sync_length_seconds{scrape_job="dnxware",quantile="0.99"} 0.00020043300000000002
+dnxware_target_sync_length_seconds_sum{scrape_job="dnxware"} 0.00020043300000000002
+dnxware_target_sync_length_seconds_count{scrape_job="dnxware"} 1
+# HELP dnxware_treecache_watcher_goroutines The current number of watcher goroutines.
+# TYPE dnxware_treecache_watcher_goroutines gauge
+dnxware_treecache_watcher_goroutines 0
+# HELP dnxware_treecache_zookeeper_failures_total The total number of ZooKeeper failures.
+# TYPE dnxware_treecache_zookeeper_failures_total counter
+dnxware_treecache_zookeeper_failures_total 0
 # EOF

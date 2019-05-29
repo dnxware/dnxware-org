@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -33,15 +33,15 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	config_util "github.com/prometheus/common/config"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/common/version"
+	"github.com/dnxware/client_golang/dnxware"
+	config_util "github.com/dnxware/common/config"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/common/version"
 
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/relabel"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/relabel"
 )
 
 const (
@@ -51,14 +51,14 @@ const (
 
 // String constants for instrumentation.
 const (
-	namespace         = "prometheus"
+	namespace         = "dnxware"
 	subsystem         = "notifications"
 	alertmanagerLabel = "alertmanager"
 )
 
-var userAgent = fmt.Sprintf("Prometheus/%s", version.Version)
+var userAgent = fmt.Sprintf("dnxware/%s", version.Version)
 
-// Alert is a generic representation of an alert in the Prometheus eco-system.
+// Alert is a generic representation of an alert in the dnxware eco-system.
 type Alert struct {
 	// Label value pairs for purpose of aggregation, matching, and disposition
 	// dispatching. This must minimally include an "alertname" label.
@@ -130,22 +130,22 @@ type Options struct {
 	// Used for sending HTTP requests to the Alertmanager.
 	Do func(ctx context.Context, client *http.Client, req *http.Request) (*http.Response, error)
 
-	Registerer prometheus.Registerer
+	Registerer dnxware.Registerer
 }
 
 type alertMetrics struct {
-	latency                 *prometheus.SummaryVec
-	errors                  *prometheus.CounterVec
-	sent                    *prometheus.CounterVec
-	dropped                 prometheus.Counter
-	queueLength             prometheus.GaugeFunc
-	queueCapacity           prometheus.Gauge
-	alertmanagersDiscovered prometheus.GaugeFunc
+	latency                 *dnxware.SummaryVec
+	errors                  *dnxware.CounterVec
+	sent                    *dnxware.CounterVec
+	dropped                 dnxware.Counter
+	queueLength             dnxware.GaugeFunc
+	queueCapacity           dnxware.Gauge
+	alertmanagersDiscovered dnxware.GaugeFunc
 }
 
-func newAlertMetrics(r prometheus.Registerer, queueCap int, queueLen, alertmanagersDiscovered func() float64) *alertMetrics {
+func newAlertMetrics(r dnxware.Registerer, queueCap int, queueLen, alertmanagersDiscovered func() float64) *alertMetrics {
 	m := &alertMetrics{
-		latency: prometheus.NewSummaryVec(prometheus.SummaryOpts{
+		latency: dnxware.NewSummaryVec(dnxware.SummaryOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "latency_seconds",
@@ -153,7 +153,7 @@ func newAlertMetrics(r prometheus.Registerer, queueCap int, queueLen, alertmanag
 		},
 			[]string{alertmanagerLabel},
 		),
-		errors: prometheus.NewCounterVec(prometheus.CounterOpts{
+		errors: dnxware.NewCounterVec(dnxware.CounterOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "errors_total",
@@ -161,7 +161,7 @@ func newAlertMetrics(r prometheus.Registerer, queueCap int, queueLen, alertmanag
 		},
 			[]string{alertmanagerLabel},
 		),
-		sent: prometheus.NewCounterVec(prometheus.CounterOpts{
+		sent: dnxware.NewCounterVec(dnxware.CounterOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "sent_total",
@@ -169,26 +169,26 @@ func newAlertMetrics(r prometheus.Registerer, queueCap int, queueLen, alertmanag
 		},
 			[]string{alertmanagerLabel},
 		),
-		dropped: prometheus.NewCounter(prometheus.CounterOpts{
+		dropped: dnxware.NewCounter(dnxware.CounterOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "dropped_total",
 			Help:      "Total number of alerts dropped due to errors when sending to Alertmanager.",
 		}),
-		queueLength: prometheus.NewGaugeFunc(prometheus.GaugeOpts{
+		queueLength: dnxware.NewGaugeFunc(dnxware.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "queue_length",
 			Help:      "The number of alert notifications in the queue.",
 		}, queueLen),
-		queueCapacity: prometheus.NewGauge(prometheus.GaugeOpts{
+		queueCapacity: dnxware.NewGauge(dnxware.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "queue_capacity",
 			Help:      "The capacity of the alert notifications queue.",
 		}),
-		alertmanagersDiscovered: prometheus.NewGaugeFunc(prometheus.GaugeOpts{
-			Name: "prometheus_notifications_alertmanagers_discovered",
+		alertmanagersDiscovered: dnxware.NewGaugeFunc(dnxware.GaugeOpts{
+			Name: "dnxware_notifications_alertmanagers_discovered",
 			Help: "The number of alertmanagers discovered and active.",
 		}, alertmanagersDiscovered),
 	}

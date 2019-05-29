@@ -1,12 +1,12 @@
 # Remote storage adapter
 
-This is a write adapter that receives samples via Prometheus's remote write
+This is a write adapter that receives samples via dnxware's remote write
 protocol and stores them in Graphite, InfluxDB, or OpenTSDB. It is meant as a
 replacement for the built-in specific remote storage implementations that have
-been removed from Prometheus.
+been removed from dnxware.
 
 For InfluxDB, this binary is also a read adapter that supports reading back
-data through Prometheus via Prometheus's remote read protocol.
+data through dnxware via dnxware's remote read protocol.
 
 ## Building
 
@@ -31,7 +31,7 @@ OpenTSDB example:
 InfluxDB example:
 
 ```
-./remote_storage_adapter -influxdb-url=http://localhost:8086/ -influxdb.database=prometheus -influxdb.retention-policy=autogen
+./remote_storage_adapter -influxdb-url=http://localhost:8086/ -influxdb.database=dnxware -influxdb.retention-policy=autogen
 ```
 
 To show all flags:
@@ -40,9 +40,9 @@ To show all flags:
 ./remote_storage_adapter -h
 ```
 
-## Configuring Prometheus
+## Configuring dnxware
 
-To configure Prometheus to send samples to this binary, add the following to your `prometheus.yml`:
+To configure dnxware to send samples to this binary, add the following to your `dnxware.yml`:
 
 ```yaml
 # Remote write configuration (for Graphite, OpenTSDB, or InfluxDB).

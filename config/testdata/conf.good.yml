@@ -35,7 +35,7 @@ remote_read:
       key_file: valid_key_file
 
 scrape_configs:
-- job_name: prometheus
+- job_name: dnxware
 
   honor_labels: true
   # scrape_interval is defined by the configured global (15s).

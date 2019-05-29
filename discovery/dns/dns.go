@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -25,11 +25,11 @@ import (
 	"github.com/go-kit/kit/log/level"
 	"github.com/miekg/dns"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/common/model"
 
-	"github.com/prometheus/prometheus/discovery/refresh"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
+	"github.com/dnxware/dnxware/discovery/refresh"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
 )
 
 const (
@@ -38,18 +38,18 @@ const (
 	dnsNameLabel = model.MetaLabelPrefix + "dns_name"
 
 	// Constants for instrumentation.
-	namespace = "prometheus"
+	namespace = "dnxware"
 )
 
 var (
-	dnsSDLookupsCount = prometheus.NewCounter(
-		prometheus.CounterOpts{
+	dnsSDLookupsCount = dnxware.NewCounter(
+		dnxware.CounterOpts{
 			Namespace: namespace,
 			Name:      "sd_dns_lookups_total",
 			Help:      "The number of DNS-SD lookups.",
 		})
-	dnsSDLookupFailuresCount = prometheus.NewCounter(
-		prometheus.CounterOpts{
+	dnsSDLookupFailuresCount = dnxware.NewCounter(
+		dnxware.CounterOpts{
 			Namespace: namespace,
 			Name:      "sd_dns_lookup_failures_total",
 			Help:      "The number of DNS-SD lookup failures.",
@@ -94,8 +94,8 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 func init() {
-	prometheus.MustRegister(dnsSDLookupFailuresCount)
-	prometheus.MustRegister(dnsSDLookupsCount)
+	dnxware.MustRegister(dnsSDLookupFailuresCount)
+	dnxware.MustRegister(dnsSDLookupsCount)
 }
 
 // Discovery periodically performs DNS-SD requests. It implements

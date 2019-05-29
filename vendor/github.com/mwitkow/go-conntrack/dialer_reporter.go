@@ -9,7 +9,7 @@ import (
 	"os"
 	"syscall"
 
-	prom "github.com/prometheus/client_golang/prometheus"
+	prom "github.com/dnxware/client_golang/dnxware"
 )
 
 type failureReason string
@@ -62,7 +62,7 @@ func init() {
 	prom.MustRegister(dialerConnClosedTotal)
 }
 
-// preRegisterDialerMetrics pre-populates Prometheus labels for the given dialer name, to avoid Prometheus missing labels issue.
+// preRegisterDialerMetrics pre-populates dnxware labels for the given dialer name, to avoid dnxware missing labels issue.
 func PreRegisterDialerMetrics(dialerName string) {
 	dialerAttemptedTotal.WithLabelValues(dialerName)
 	dialerConnEstablishedTotal.WithLabelValues(dialerName)

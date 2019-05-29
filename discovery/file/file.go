@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -28,12 +28,12 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/common/model"
 	fsnotify "gopkg.in/fsnotify/fsnotify.v1"
 	yaml "gopkg.in/yaml.v2"
 
-	"github.com/prometheus/prometheus/discovery/targetgroup"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
 )
 
 var (
@@ -74,18 +74,18 @@ const fileSDFilepathLabel = model.MetaLabelPrefix + "filepath"
 
 // TimestampCollector is a Custom Collector for Timestamps of the files.
 type TimestampCollector struct {
-	Description *prometheus.Desc
+	Description *dnxware.Desc
 	discoverers map[*Discovery]struct{}
 	lock        sync.RWMutex
 }
 
 // Describe method sends the description to the channel.
-func (t *TimestampCollector) Describe(ch chan<- *prometheus.Desc) {
+func (t *TimestampCollector) Describe(ch chan<- *dnxware.Desc) {
 	ch <- t.Description
 }
 
 // Collect creates constant metrics for each file with last modified time of the file.
-func (t *TimestampCollector) Collect(ch chan<- prometheus.Metric) {
+func (t *TimestampCollector) Collect(ch chan<- dnxware.Metric) {
 	// New map to dedup filenames.
 	uniqueFiles := make(map[string]float64)
 	t.lock.RLock()
@@ -98,9 +98,9 @@ func (t *TimestampCollector) Collect(ch chan<- prometheus.Metric) {
 	}
 	t.lock.RUnlock()
 	for filename, timestamp := range uniqueFiles {
-		ch <- prometheus.MustNewConstMetric(
+		ch <- dnxware.MustNewConstMetric(
 			t.Description,
-			prometheus.GaugeValue,
+			dnxware.GaugeValue,
 			timestamp,
 			filename,
 		)
@@ -122,8 +122,8 @@ func (t *TimestampCollector) removeDiscoverer(disc *Discovery) {
 // NewTimestampCollector creates a TimestampCollector.
 func NewTimestampCollector() *TimestampCollector {
 	return &TimestampCollector{
-		Description: prometheus.NewDesc(
-			"prometheus_sd_file_mtime_seconds",
+		Description: dnxware.NewDesc(
+			"dnxware_sd_file_mtime_seconds",
 			"Timestamp (mtime) of files read by FileSD. Timestamp is set at read time.",
 			[]string{"filename"},
 			nil,
@@ -133,23 +133,23 @@ func NewTimestampCollector() *TimestampCollector {
 }
 
 var (
-	fileSDScanDuration = prometheus.NewSummary(
-		prometheus.SummaryOpts{
-			Name: "prometheus_sd_file_scan_duration_seconds",
+	fileSDScanDuration = dnxware.NewSummary(
+		dnxware.SummaryOpts{
+			Name: "dnxware_sd_file_scan_duration_seconds",
 			Help: "The duration of the File-SD scan in seconds.",
 		})
-	fileSDReadErrorsCount = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "prometheus_sd_file_read_errors_total",
+	fileSDReadErrorsCount = dnxware.NewCounter(
+		dnxware.CounterOpts{
+			Name: "dnxware_sd_file_read_errors_total",
 			Help: "The number of File-SD read errors.",
 		})
 	fileSDTimeStamp = NewTimestampCollector()
 )
 
 func init() {
-	prometheus.MustRegister(fileSDScanDuration)
-	prometheus.MustRegister(fileSDReadErrorsCount)
-	prometheus.MustRegister(fileSDTimeStamp)
+	dnxware.MustRegister(fileSDScanDuration)
+	dnxware.MustRegister(fileSDReadErrorsCount)
+	dnxware.MustRegister(fileSDTimeStamp)
 }
 
 // Discovery provides service discovery functionality based

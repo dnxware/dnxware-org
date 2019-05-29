@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -27,12 +27,12 @@ import (
 	consul "github.com/hashicorp/consul/api"
 	conntrack "github.com/mwitkow/go-conntrack"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	config_util "github.com/prometheus/common/config"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/client_golang/dnxware"
+	config_util "github.com/dnxware/common/config"
+	"github.com/dnxware/common/model"
 
-	"github.com/prometheus/prometheus/discovery/targetgroup"
-	"github.com/prometheus/prometheus/util/strutil"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
+	"github.com/dnxware/dnxware/util/strutil"
 )
 
 const (
@@ -63,18 +63,18 @@ const (
 	serviceIDLabel = model.MetaLabelPrefix + "consul_service_id"
 
 	// Constants for instrumentation.
-	namespace = "prometheus"
+	namespace = "dnxware"
 )
 
 var (
-	rpcFailuresCount = prometheus.NewCounter(
-		prometheus.CounterOpts{
+	rpcFailuresCount = dnxware.NewCounter(
+		dnxware.CounterOpts{
 			Namespace: namespace,
 			Name:      "sd_consul_rpc_failures_total",
 			Help:      "The number of Consul RPC call failures.",
 		})
-	rpcDuration = prometheus.NewSummaryVec(
-		prometheus.SummaryOpts{
+	rpcDuration = dnxware.NewSummaryVec(
+		dnxware.SummaryOpts{
 			Namespace: namespace,
 			Name:      "sd_consul_rpc_duration_seconds",
 			Help:      "The duration of a Consul RPC call in seconds.",
@@ -138,8 +138,8 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 func init() {
-	prometheus.MustRegister(rpcFailuresCount)
-	prometheus.MustRegister(rpcDuration)
+	dnxware.MustRegister(rpcFailuresCount)
+	dnxware.MustRegister(rpcDuration)
 
 	// Initialize metric vectors.
 	rpcDuration.WithLabelValues("catalog", "service")
@@ -236,7 +236,7 @@ func (d *Discovery) shouldWatchFromName(name string) bool {
 
 // shouldWatch returns whether the service of the given name should be watched based on its tags.
 // This gets called when the user doesn't specify a list of services in order to avoid watching
-// *all* services. Details in https://github.com/prometheus/prometheus/pull/3814
+// *all* services. Details in https://github.com/dnxware/dnxware/pull/3814
 func (d *Discovery) shouldWatchFromTags(tags []string) bool {
 	// If there's no fixed set of watched tags, we watch everything.
 	if len(d.watchedTags) == 0 {

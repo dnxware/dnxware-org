@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright 2017 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -15,8 +15,8 @@ package stats
 
 import (
 	"encoding/json"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/prometheus/util/testutil"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/dnxware/util/testutil"
 	"regexp"
 	"testing"
 	"time"
@@ -65,7 +65,7 @@ func TestQueryStatsWithTimers(t *testing.T) {
 func TestQueryStatsWithSpanTimers(t *testing.T) {
 	qt := NewQueryTimers()
 	ctx := &testutil.MockContext{DoneCh: make(chan struct{})}
-	qst, _ := qt.GetSpanTimer(ctx, ExecQueueTime, prometheus.NewSummary(prometheus.SummaryOpts{}))
+	qst, _ := qt.GetSpanTimer(ctx, ExecQueueTime, dnxware.NewSummary(dnxware.SummaryOpts{}))
 	time.Sleep(5 * time.Millisecond)
 	qst.Finish()
 	qs := NewQueryStats(qt)

@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright 2017 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,21 +14,21 @@
 package remote
 
 import (
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/storage"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/client_golang/dnxware/promauto"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/storage"
 )
 
 var (
-	samplesIn = promauto.NewCounter(prometheus.CounterOpts{
+	samplesIn = promauto.NewCounter(dnxware.CounterOpts{
 		Namespace: namespace,
 		Subsystem: subsystem,
 		Name:      "samples_in_total",
 		Help:      "Samples in to remote storage, compare to samples out for queue managers.",
 	})
 	highestTimestamp = maxGauge{
-		Gauge: promauto.NewGauge(prometheus.GaugeOpts{
+		Gauge: promauto.NewGauge(dnxware.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "highest_timestamp_in_seconds",

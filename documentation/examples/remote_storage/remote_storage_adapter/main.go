@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright 2017 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// The main package for the Prometheus server executable.
+// The main package for the dnxware server executable.
 package main
 
 import (
@@ -30,20 +30,20 @@ import (
 	"github.com/gogo/protobuf/proto"
 	"github.com/golang/snappy"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/client_golang/dnxware/promhttp"
+	"github.com/dnxware/common/model"
 	"gopkg.in/alecthomas/kingpin.v2"
 
 	influx "github.com/influxdata/influxdb/client/v2"
 
-	"github.com/prometheus/common/promlog"
-	"github.com/prometheus/common/promlog/flag"
+	"github.com/dnxware/common/promlog"
+	"github.com/dnxware/common/promlog/flag"
 
-	"github.com/prometheus/prometheus/documentation/examples/remote_storage/remote_storage_adapter/graphite"
-	"github.com/prometheus/prometheus/documentation/examples/remote_storage/remote_storage_adapter/influxdb"
-	"github.com/prometheus/prometheus/documentation/examples/remote_storage/remote_storage_adapter/opentsdb"
-	"github.com/prometheus/prometheus/prompb"
+	"github.com/dnxware/dnxware/documentation/examples/remote_storage/remote_storage_adapter/graphite"
+	"github.com/dnxware/dnxware/documentation/examples/remote_storage/remote_storage_adapter/influxdb"
+	"github.com/dnxware/dnxware/documentation/examples/remote_storage/remote_storage_adapter/opentsdb"
+	"github.com/dnxware/dnxware/prompb"
 )
 
 type config struct {
@@ -63,41 +63,41 @@ type config struct {
 }
 
 var (
-	receivedSamples = prometheus.NewCounter(
-		prometheus.CounterOpts{
+	receivedSamples = dnxware.NewCounter(
+		dnxware.CounterOpts{
 			Name: "received_samples_total",
 			Help: "Total number of received samples.",
 		},
 	)
-	sentSamples = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
+	sentSamples = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
 			Name: "sent_samples_total",
 			Help: "Total number of processed samples sent to remote storage.",
 		},
 		[]string{"remote"},
 	)
-	failedSamples = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
+	failedSamples = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
 			Name: "failed_samples_total",
 			Help: "Total number of processed samples which failed on send to remote storage.",
 		},
 		[]string{"remote"},
 	)
-	sentBatchDuration = prometheus.NewHistogramVec(
-		prometheus.HistogramOpts{
+	sentBatchDuration = dnxware.NewHistogramVec(
+		dnxware.HistogramOpts{
 			Name:    "sent_batch_duration_seconds",
 			Help:    "Duration of sample batch send calls to the remote storage.",
-			Buckets: prometheus.DefBuckets,
+			Buckets: dnxware.DefBuckets,
 		},
 		[]string{"remote"},
 	)
 )
 
 func init() {
-	prometheus.MustRegister(receivedSamples)
-	prometheus.MustRegister(sentSamples)
-	prometheus.MustRegister(failedSamples)
-	prometheus.MustRegister(sentBatchDuration)
+	dnxware.MustRegister(receivedSamples)
+	dnxware.MustRegister(sentSamples)
+	dnxware.MustRegister(failedSamples)
+	dnxware.MustRegister(sentBatchDuration)
 }
 
 func main() {
@@ -137,7 +137,7 @@ func parseFlags() *config {
 	a.Flag("influxdb.username", "The username to use when sending samples to InfluxDB. The corresponding password must be provided via the INFLUXDB_PW environment variable.").
 		Default("").StringVar(&cfg.influxdbUsername)
 	a.Flag("influxdb.database", "The name of the database to use for storing samples in InfluxDB.").
-		Default("prometheus").StringVar(&cfg.influxdbDatabase)
+		Default("dnxware").StringVar(&cfg.influxdbDatabase)
 	a.Flag("send-timeout", "The timeout to use when sending samples to the remote storage.").
 		Default("30s").DurationVar(&cfg.remoteTimeout)
 	a.Flag("web.listen-address", "Address to listen on for web endpoints.").
@@ -203,7 +203,7 @@ func buildClients(logger log.Logger, cfg *config) ([]writer, []reader) {
 			cfg.influxdbDatabase,
 			cfg.influxdbRetentionPolicy,
 		)
-		prometheus.MustRegister(c)
+		dnxware.MustRegister(c)
 		writers = append(writers, c)
 		readers = append(readers, c)
 	}

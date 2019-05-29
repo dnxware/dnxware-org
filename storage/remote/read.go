@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright 2017 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,13 +16,13 @@ package remote
 import (
 	"context"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/storage"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/storage"
 )
 
-var remoteReadQueries = prometheus.NewGaugeVec(
-	prometheus.GaugeOpts{
+var remoteReadQueries = dnxware.NewGaugeVec(
+	dnxware.GaugeOpts{
 		Namespace: namespace,
 		Subsystem: subsystem,
 		Name:      "remote_read_queries",
@@ -32,7 +32,7 @@ var remoteReadQueries = prometheus.NewGaugeVec(
 )
 
 func init() {
-	prometheus.MustRegister(remoteReadQueries)
+	dnxware.MustRegister(remoteReadQueries)
 }
 
 // QueryableClient returns a storage.Queryable which queries the given

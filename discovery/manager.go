@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,56 +22,56 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/prometheus/client_golang/prometheus"
+	"github.com/dnxware/client_golang/dnxware"
 
-	sd_config "github.com/prometheus/prometheus/discovery/config"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
+	sd_config "github.com/dnxware/dnxware/discovery/config"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
 
-	"github.com/prometheus/prometheus/discovery/azure"
-	"github.com/prometheus/prometheus/discovery/consul"
-	"github.com/prometheus/prometheus/discovery/dns"
-	"github.com/prometheus/prometheus/discovery/ec2"
-	"github.com/prometheus/prometheus/discovery/file"
-	"github.com/prometheus/prometheus/discovery/gce"
-	"github.com/prometheus/prometheus/discovery/kubernetes"
-	"github.com/prometheus/prometheus/discovery/marathon"
-	"github.com/prometheus/prometheus/discovery/openstack"
-	"github.com/prometheus/prometheus/discovery/triton"
-	"github.com/prometheus/prometheus/discovery/zookeeper"
+	"github.com/dnxware/dnxware/discovery/azure"
+	"github.com/dnxware/dnxware/discovery/consul"
+	"github.com/dnxware/dnxware/discovery/dns"
+	"github.com/dnxware/dnxware/discovery/ec2"
+	"github.com/dnxware/dnxware/discovery/file"
+	"github.com/dnxware/dnxware/discovery/gce"
+	"github.com/dnxware/dnxware/discovery/kubernetes"
+	"github.com/dnxware/dnxware/discovery/marathon"
+	"github.com/dnxware/dnxware/discovery/openstack"
+	"github.com/dnxware/dnxware/discovery/triton"
+	"github.com/dnxware/dnxware/discovery/zookeeper"
 )
 
 var (
-	failedConfigs = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "prometheus_sd_configs_failed_total",
+	failedConfigs = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
+			Name: "dnxware_sd_configs_failed_total",
 			Help: "Total number of service discovery configurations that failed to load.",
 		},
 		[]string{"name"},
 	)
-	discoveredTargets = prometheus.NewGaugeVec(
-		prometheus.GaugeOpts{
-			Name: "prometheus_sd_discovered_targets",
+	discoveredTargets = dnxware.NewGaugeVec(
+		dnxware.GaugeOpts{
+			Name: "dnxware_sd_discovered_targets",
 			Help: "Current number of discovered targets.",
 		},
 		[]string{"name", "config"},
 	)
-	receivedUpdates = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "prometheus_sd_received_updates_total",
+	receivedUpdates = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
+			Name: "dnxware_sd_received_updates_total",
 			Help: "Total number of update events received from the SD providers.",
 		},
 		[]string{"name"},
 	)
-	delayedUpdates = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "prometheus_sd_updates_delayed_total",
+	delayedUpdates = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
+			Name: "dnxware_sd_updates_delayed_total",
 			Help: "Total number of update events that couldn't be sent immediately.",
 		},
 		[]string{"name"},
 	)
-	sentUpdates = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "prometheus_sd_updates_total",
+	sentUpdates = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
+			Name: "dnxware_sd_updates_total",
 			Help: "Total number of update events sent to the SD consumers.",
 		},
 		[]string{"name"},
@@ -79,7 +79,7 @@ var (
 )
 
 func init() {
-	prometheus.MustRegister(failedConfigs, discoveredTargets, receivedUpdates, delayedUpdates, sentUpdates)
+	dnxware.MustRegister(failedConfigs, discoveredTargets, receivedUpdates, delayedUpdates, sentUpdates)
 }
 
 // Discoverer provides information about target groups. It maintains a set

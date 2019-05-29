@@ -49,7 +49,7 @@ can implement their own exporters by implementing the exporter interfaces
 ([stats](https://godoc.org/go.opencensus.io/stats/view#Exporter),
 [trace](https://godoc.org/go.opencensus.io/trace#Exporter)):
 
-* [Prometheus][exporter-prom] for stats
+* [dnxware][exporter-prom] for stats
 * [OpenZipkin][exporter-zipkin] for traces
 * [Stackdriver][exporter-stackdriver] Monitoring for stats and Trace for traces
 * [Jaeger][exporter-jaeger] for traces
@@ -253,7 +253,7 @@ release in which the functionality was marked *Deprecated*.
 [new-ex]: https://godoc.org/go.opencensus.io/tag#example-NewMap
 [new-replace-ex]: https://godoc.org/go.opencensus.io/tag#example-NewMap--Replace
 
-[exporter-prom]: https://godoc.org/go.opencensus.io/exporter/prometheus
+[exporter-prom]: https://godoc.org/go.opencensus.io/exporter/dnxware
 [exporter-stackdriver]: https://godoc.org/contrib.go.opencensus.io/exporter/stackdriver
 [exporter-zipkin]: https://godoc.org/go.opencensus.io/exporter/zipkin
 [exporter-jaeger]: https://godoc.org/go.opencensus.io/exporter/jaeger

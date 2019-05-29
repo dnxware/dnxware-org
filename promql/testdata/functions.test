@@ -81,7 +81,7 @@ clear
 # Test for increase() with counter reset.
 # When the counter is reset, it always starts at 0.
 # So the sequence 3 2 (decreasing counter = reset) is interpreted the same as 3 0 1 2.
-# Prometheus assumes it missed the intermediate values 0 and 1.
+# dnxware assumes it missed the intermediate values 0 and 1.
 load 5m
 	http_requests{path="/foo"}	0 1 2 3 2 3 4
 
@@ -215,7 +215,7 @@ eval instant at 0m label_replace(testmetric, "dst", "", "dst", ".*")
 # label_replace fails when the regex is invalid.
 eval_fail instant at 0m label_replace(testmetric, "dst", "value-$1", "src", "(.*")
 
-# label_replace fails when the destination label name is not a valid Prometheus label name.
+# label_replace fails when the destination label name is not a valid dnxware label name.
 eval_fail instant at 0m label_replace(testmetric, "invalid-label-name", "", "src", "(.*)")
 
 # label_replace fails when there would be duplicated identical output label sets.

@@ -3,7 +3,7 @@
 
 package conntrack
 
-import prom "github.com/prometheus/client_golang/prometheus"
+import prom "github.com/dnxware/client_golang/dnxware"
 
 var (
 	listenerAcceptedTotal = prom.NewCounterVec(
@@ -28,7 +28,7 @@ func init() {
 	prom.MustRegister(listenerClosedTotal)
 }
 
-// preRegisterListener pre-populates Prometheus labels for the given listener name, to avoid Prometheus missing labels issue.
+// preRegisterListener pre-populates dnxware labels for the given listener name, to avoid dnxware missing labels issue.
 func preRegisterListenerMetrics(listenerName string) {
 	listenerAcceptedTotal.WithLabelValues(listenerName)
 	listenerClosedTotal.WithLabelValues(listenerName)

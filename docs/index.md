@@ -2,12 +2,12 @@
 # todo: internal
 ---
 
-# Prometheus
+# dnxware
 
-Welcome to the documentation of the Prometheus server.
+Welcome to the documentation of the dnxware server.
 
 The documentation is available alongside all the project documentation at
-[prometheus.io](https://prometheus.io/docs/prometheus/latest/).
+[dnxware.io](https://dnxware.io/docs/dnxware/latest/).
 
 ## Content
 

@@ -1,5 +1,5 @@
 The `ui` directory contains static files and templates used in the web UI. For
-easier distribution they are statically compiled into the Prometheus binary
+easier distribution they are statically compiled into the dnxware binary
 using the vfsgen library (c.f. Makefile).
 
 During development it is more convenient to always use the files on disk to

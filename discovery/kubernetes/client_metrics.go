@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2018 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -17,7 +17,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/prometheus/client_golang/prometheus"
+	"github.com/dnxware/client_golang/dnxware"
 
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/metrics"
@@ -31,16 +31,16 @@ const (
 
 var (
 	// Metrics for client-go's HTTP requests.
-	clientGoRequestResultMetricVec = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
+	clientGoRequestResultMetricVec = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
 			Namespace: metricsNamespace,
 			Name:      "http_request_total",
 			Help:      "Total number of HTTP requests to the Kubernetes API by status code.",
 		},
 		[]string{"status_code"},
 	)
-	clientGoRequestLatencyMetricVec = prometheus.NewSummaryVec(
-		prometheus.SummaryOpts{
+	clientGoRequestLatencyMetricVec = dnxware.NewSummaryVec(
+		dnxware.SummaryOpts{
 			Namespace:  metricsNamespace,
 			Name:       "http_request_duration_seconds",
 			Help:       "Summary of latencies for HTTP requests to the Kubernetes API by endpoint.",
@@ -50,61 +50,61 @@ var (
 	)
 
 	// Definition of metrics for client-go cache metrics provider.
-	clientGoCacheListTotalMetric = prometheus.NewCounter(
-		prometheus.CounterOpts{
+	clientGoCacheListTotalMetric = dnxware.NewCounter(
+		dnxware.CounterOpts{
 			Namespace: cacheMetricsNamespace,
 			Name:      "list_total",
 			Help:      "Total number of list operations.",
 		},
 	)
-	clientGoCacheListDurationMetric = prometheus.NewSummary(
-		prometheus.SummaryOpts{
+	clientGoCacheListDurationMetric = dnxware.NewSummary(
+		dnxware.SummaryOpts{
 			Namespace:  cacheMetricsNamespace,
 			Name:       "list_duration_seconds",
 			Help:       "Duration of a Kubernetes API call in seconds.",
 			Objectives: map[float64]float64{},
 		},
 	)
-	clientGoCacheItemsInListCountMetric = prometheus.NewSummary(
-		prometheus.SummaryOpts{
+	clientGoCacheItemsInListCountMetric = dnxware.NewSummary(
+		dnxware.SummaryOpts{
 			Namespace:  cacheMetricsNamespace,
 			Name:       "list_items",
 			Help:       "Count of items in a list from the Kubernetes API.",
 			Objectives: map[float64]float64{},
 		},
 	)
-	clientGoCacheWatchesCountMetric = prometheus.NewCounter(
-		prometheus.CounterOpts{
+	clientGoCacheWatchesCountMetric = dnxware.NewCounter(
+		dnxware.CounterOpts{
 			Namespace: cacheMetricsNamespace,
 			Name:      "watches_total",
 			Help:      "Total number of watch operations.",
 		},
 	)
-	clientGoCacheShortWatchesCountMetric = prometheus.NewCounter(
-		prometheus.CounterOpts{
+	clientGoCacheShortWatchesCountMetric = dnxware.NewCounter(
+		dnxware.CounterOpts{
 			Namespace: cacheMetricsNamespace,
 			Name:      "short_watches_total",
 			Help:      "Total number of short watch operations.",
 		},
 	)
-	clientGoCacheWatchesDurationMetric = prometheus.NewSummary(
-		prometheus.SummaryOpts{
+	clientGoCacheWatchesDurationMetric = dnxware.NewSummary(
+		dnxware.SummaryOpts{
 			Namespace:  cacheMetricsNamespace,
 			Name:       "watch_duration_seconds",
 			Help:       "Duration of watches on the Kubernetes API.",
 			Objectives: map[float64]float64{},
 		},
 	)
-	clientGoCacheItemsInWatchesCountMetric = prometheus.NewSummary(
-		prometheus.SummaryOpts{
+	clientGoCacheItemsInWatchesCountMetric = dnxware.NewSummary(
+		dnxware.SummaryOpts{
 			Namespace:  cacheMetricsNamespace,
 			Name:       "watch_events",
 			Help:       "Number of items in watches on the Kubernetes API.",
 			Objectives: map[float64]float64{},
 		},
 	)
-	clientGoCacheLastResourceVersionMetric = prometheus.NewGauge(
-		prometheus.GaugeOpts{
+	clientGoCacheLastResourceVersionMetric = dnxware.NewGauge(
+		dnxware.GaugeOpts{
 			Namespace: cacheMetricsNamespace,
 			Name:      "last_resource_version",
 			Help:      "Last resource version from the Kubernetes API.",
@@ -112,24 +112,24 @@ var (
 	)
 
 	// Definition of metrics for client-go workflow metrics provider
-	clientGoWorkqueueDepthMetricVec = prometheus.NewGaugeVec(
-		prometheus.GaugeOpts{
+	clientGoWorkqueueDepthMetricVec = dnxware.NewGaugeVec(
+		dnxware.GaugeOpts{
 			Namespace: workqueueMetricsNamespace,
 			Name:      "depth",
 			Help:      "Current depth of the work queue.",
 		},
 		[]string{"queue_name"},
 	)
-	clientGoWorkqueueAddsMetricVec = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
+	clientGoWorkqueueAddsMetricVec = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
 			Namespace: workqueueMetricsNamespace,
 			Name:      "items_total",
 			Help:      "Total number of items added to the work queue.",
 		},
 		[]string{"queue_name"},
 	)
-	clientGoWorkqueueLatencyMetricVec = prometheus.NewSummaryVec(
-		prometheus.SummaryOpts{
+	clientGoWorkqueueLatencyMetricVec = dnxware.NewSummaryVec(
+		dnxware.SummaryOpts{
 			Namespace:  workqueueMetricsNamespace,
 			Name:       "latency_seconds",
 			Help:       "How long an item stays in the work queue.",
@@ -137,24 +137,24 @@ var (
 		},
 		[]string{"queue_name"},
 	)
-	clientGoWorkqueueUnfinishedWorkSecondsMetricVec = prometheus.NewGaugeVec(
-		prometheus.GaugeOpts{
+	clientGoWorkqueueUnfinishedWorkSecondsMetricVec = dnxware.NewGaugeVec(
+		dnxware.GaugeOpts{
 			Namespace: workqueueMetricsNamespace,
 			Name:      "unfinished_work_seconds",
 			Help:      "How long an item has remained unfinished in the work queue.",
 		},
 		[]string{"queue_name"},
 	)
-	clientGoWorkqueueLongestRunningProcessorMetricVec = prometheus.NewGaugeVec(
-		prometheus.GaugeOpts{
+	clientGoWorkqueueLongestRunningProcessorMetricVec = dnxware.NewGaugeVec(
+		dnxware.GaugeOpts{
 			Namespace: workqueueMetricsNamespace,
 			Name:      "longest_running_processor_seconds",
 			Help:      "Duration of the longest running processor in the work queue.",
 		},
 		[]string{"queue_name"},
 	)
-	clientGoWorkqueueWorkDurationMetricVec = prometheus.NewSummaryVec(
-		prometheus.SummaryOpts{
+	clientGoWorkqueueWorkDurationMetricVec = dnxware.NewSummaryVec(
+		dnxware.SummaryOpts{
 			Namespace:  workqueueMetricsNamespace,
 			Name:       "work_duration_seconds",
 			Help:       "How long processing an item from the work queue takes.",
@@ -175,7 +175,7 @@ func (noopMetric) Set(float64)     {}
 // Definition of client-go metrics adapters for HTTP requests observation
 type clientGoRequestMetricAdapter struct{}
 
-func (f *clientGoRequestMetricAdapter) Register(registerer prometheus.Registerer) {
+func (f *clientGoRequestMetricAdapter) Register(registerer dnxware.Registerer) {
 	metrics.Register(f, f)
 	registerer.MustRegister(clientGoRequestResultMetricVec)
 	registerer.MustRegister(clientGoRequestLatencyMetricVec)
@@ -190,7 +190,7 @@ func (clientGoRequestMetricAdapter) Observe(verb string, u url.URL, latency time
 // Definition of client-go cache metrics provider definition
 type clientGoCacheMetricsProvider struct{}
 
-func (f *clientGoCacheMetricsProvider) Register(registerer prometheus.Registerer) {
+func (f *clientGoCacheMetricsProvider) Register(registerer dnxware.Registerer) {
 	cache.SetReflectorMetricsProvider(f)
 	registerer.MustRegister(clientGoCacheWatchesDurationMetric)
 	registerer.MustRegister(clientGoCacheWatchesCountMetric)
@@ -230,7 +230,7 @@ func (clientGoCacheMetricsProvider) NewLastResourceVersionMetric(name string) ca
 // Definition of client-go workqueue metrics provider definition
 type clientGoWorkqueueMetricsProvider struct{}
 
-func (f *clientGoWorkqueueMetricsProvider) Register(registerer prometheus.Registerer) {
+func (f *clientGoWorkqueueMetricsProvider) Register(registerer dnxware.Registerer) {
 	workqueue.SetProvider(f)
 	registerer.MustRegister(clientGoWorkqueueDepthMetricVec)
 	registerer.MustRegister(clientGoWorkqueueAddsMetricVec)
@@ -249,14 +249,14 @@ func (f *clientGoWorkqueueMetricsProvider) NewAddsMetric(name string) workqueue.
 func (f *clientGoWorkqueueMetricsProvider) NewLatencyMetric(name string) workqueue.HistogramMetric {
 	metric := clientGoWorkqueueLatencyMetricVec.WithLabelValues(name)
 	// Convert microseconds to seconds for consistency across metrics.
-	return prometheus.ObserverFunc(func(v float64) {
+	return dnxware.ObserverFunc(func(v float64) {
 		metric.Observe(v / 1e6)
 	})
 }
 func (f *clientGoWorkqueueMetricsProvider) NewWorkDurationMetric(name string) workqueue.HistogramMetric {
 	metric := clientGoWorkqueueWorkDurationMetricVec.WithLabelValues(name)
 	// Convert microseconds to seconds for consistency across metrics.
-	return prometheus.ObserverFunc(func(v float64) {
+	return dnxware.ObserverFunc(func(v float64) {
 		metric.Observe(v / 1e6)
 	})
 }

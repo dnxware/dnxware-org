@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -23,26 +23,26 @@ import (
 	"testing"
 	"time"
 
-	config_util "github.com/prometheus/common/config"
-	"github.com/prometheus/common/model"
+	config_util "github.com/dnxware/common/config"
+	"github.com/dnxware/common/model"
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/yaml.v2"
 
-	"github.com/prometheus/prometheus/discovery/azure"
-	sd_config "github.com/prometheus/prometheus/discovery/config"
-	"github.com/prometheus/prometheus/discovery/consul"
-	"github.com/prometheus/prometheus/discovery/dns"
-	"github.com/prometheus/prometheus/discovery/ec2"
-	"github.com/prometheus/prometheus/discovery/file"
-	"github.com/prometheus/prometheus/discovery/kubernetes"
-	"github.com/prometheus/prometheus/discovery/marathon"
-	"github.com/prometheus/prometheus/discovery/openstack"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
-	"github.com/prometheus/prometheus/discovery/triton"
-	"github.com/prometheus/prometheus/discovery/zookeeper"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/relabel"
-	"github.com/prometheus/prometheus/util/testutil"
+	"github.com/dnxware/dnxware/discovery/azure"
+	sd_config "github.com/dnxware/dnxware/discovery/config"
+	"github.com/dnxware/dnxware/discovery/consul"
+	"github.com/dnxware/dnxware/discovery/dns"
+	"github.com/dnxware/dnxware/discovery/ec2"
+	"github.com/dnxware/dnxware/discovery/file"
+	"github.com/dnxware/dnxware/discovery/kubernetes"
+	"github.com/dnxware/dnxware/discovery/marathon"
+	"github.com/dnxware/dnxware/discovery/openstack"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
+	"github.com/dnxware/dnxware/discovery/triton"
+	"github.com/dnxware/dnxware/discovery/zookeeper"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/relabel"
+	"github.com/dnxware/dnxware/util/testutil"
 )
 
 func mustParseURL(u string) *config_util.URL {
@@ -120,7 +120,7 @@ var expectedConf = &Config{
 
 	ScrapeConfigs: []*ScrapeConfig{
 		{
-			JobName: "prometheus",
+			JobName: "dnxware",
 
 			HonorLabels:     true,
 			HonorTimestamps: true,
@@ -704,7 +704,7 @@ var expectedErrors = []struct {
 		errMsg:   `job_name is empty`,
 	}, {
 		filename: "jobname_dup.bad.yml",
-		errMsg:   `found multiple scrape configs with job name "prometheus"`,
+		errMsg:   `found multiple scrape configs with job name "dnxware"`,
 	}, {
 		filename: "scrape_interval.bad.yml",
 		errMsg:   `scrape timeout greater than scrape interval`,

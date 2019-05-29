@@ -7,24 +7,24 @@ sort_rank: 2
 
 ## Configuring rules
 
-Prometheus supports two types of rules which may be configured and then
+dnxware supports two types of rules which may be configured and then
 evaluated at regular intervals: recording rules and [alerting
-rules](alerting_rules.md). To include rules in Prometheus, create a file
-containing the necessary rule statements and have Prometheus load the file via
-the `rule_files` field in the [Prometheus configuration](configuration.md).
+rules](alerting_rules.md). To include rules in dnxware, create a file
+containing the necessary rule statements and have dnxware load the file via
+the `rule_files` field in the [dnxware configuration](configuration.md).
 Rule files use YAML.
 
-The rule files can be reloaded at runtime by sending `SIGHUP` to the Prometheus
+The rule files can be reloaded at runtime by sending `SIGHUP` to the dnxware
 process. The changes are only applied if all rule files are well-formatted.
 
 ## Syntax-checking rules
 
 To quickly check whether a rule file is syntactically correct without starting
-a Prometheus server, install and run Prometheus's `promtool` command-line
+a dnxware server, install and run dnxware's `promtool` command-line
 utility tool:
 
 ```bash
-go get github.com/prometheus/prometheus/cmd/promtool
+go get github.com/dnxware/dnxware/cmd/promtool
 promtool check rules /path/to/example.rules.yml
 ```
 

@@ -270,12 +270,12 @@ func (m *SeriesDeleteResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_SeriesDeleteResponse proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*TSDBSnapshotRequest)(nil), "prometheus.TSDBSnapshotRequest")
-	proto.RegisterType((*TSDBSnapshotResponse)(nil), "prometheus.TSDBSnapshotResponse")
-	proto.RegisterType((*TSDBCleanTombstonesRequest)(nil), "prometheus.TSDBCleanTombstonesRequest")
-	proto.RegisterType((*TSDBCleanTombstonesResponse)(nil), "prometheus.TSDBCleanTombstonesResponse")
-	proto.RegisterType((*SeriesDeleteRequest)(nil), "prometheus.SeriesDeleteRequest")
-	proto.RegisterType((*SeriesDeleteResponse)(nil), "prometheus.SeriesDeleteResponse")
+	proto.RegisterType((*TSDBSnapshotRequest)(nil), "dnxware.TSDBSnapshotRequest")
+	proto.RegisterType((*TSDBSnapshotResponse)(nil), "dnxware.TSDBSnapshotResponse")
+	proto.RegisterType((*TSDBCleanTombstonesRequest)(nil), "dnxware.TSDBCleanTombstonesRequest")
+	proto.RegisterType((*TSDBCleanTombstonesResponse)(nil), "dnxware.TSDBCleanTombstonesResponse")
+	proto.RegisterType((*SeriesDeleteRequest)(nil), "dnxware.SeriesDeleteRequest")
+	proto.RegisterType((*SeriesDeleteResponse)(nil), "dnxware.SeriesDeleteResponse")
 }
 
 func init() { proto.RegisterFile("rpc.proto", fileDescriptor_77a6da22d6a3feb1) }
@@ -344,7 +344,7 @@ func NewAdminClient(cc *grpc.ClientConn) AdminClient {
 
 func (c *adminClient) TSDBSnapshot(ctx context.Context, in *TSDBSnapshotRequest, opts ...grpc.CallOption) (*TSDBSnapshotResponse, error) {
 	out := new(TSDBSnapshotResponse)
-	err := c.cc.Invoke(ctx, "/prometheus.Admin/TSDBSnapshot", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/dnxware.Admin/TSDBSnapshot", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -353,7 +353,7 @@ func (c *adminClient) TSDBSnapshot(ctx context.Context, in *TSDBSnapshotRequest,
 
 func (c *adminClient) TSDBCleanTombstones(ctx context.Context, in *TSDBCleanTombstonesRequest, opts ...grpc.CallOption) (*TSDBCleanTombstonesResponse, error) {
 	out := new(TSDBCleanTombstonesResponse)
-	err := c.cc.Invoke(ctx, "/prometheus.Admin/TSDBCleanTombstones", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/dnxware.Admin/TSDBCleanTombstones", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -362,7 +362,7 @@ func (c *adminClient) TSDBCleanTombstones(ctx context.Context, in *TSDBCleanTomb
 
 func (c *adminClient) DeleteSeries(ctx context.Context, in *SeriesDeleteRequest, opts ...grpc.CallOption) (*SeriesDeleteResponse, error) {
 	out := new(SeriesDeleteResponse)
-	err := c.cc.Invoke(ctx, "/prometheus.Admin/DeleteSeries", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/dnxware.Admin/DeleteSeries", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -393,7 +393,7 @@ func _Admin_TSDBSnapshot_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/prometheus.Admin/TSDBSnapshot",
+		FullMethod: "/dnxware.Admin/TSDBSnapshot",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdminServer).TSDBSnapshot(ctx, req.(*TSDBSnapshotRequest))
@@ -411,7 +411,7 @@ func _Admin_TSDBCleanTombstones_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/prometheus.Admin/TSDBCleanTombstones",
+		FullMethod: "/dnxware.Admin/TSDBCleanTombstones",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdminServer).TSDBCleanTombstones(ctx, req.(*TSDBCleanTombstonesRequest))
@@ -429,7 +429,7 @@ func _Admin_DeleteSeries_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/prometheus.Admin/DeleteSeries",
+		FullMethod: "/dnxware.Admin/DeleteSeries",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdminServer).DeleteSeries(ctx, req.(*SeriesDeleteRequest))
@@ -438,7 +438,7 @@ func _Admin_DeleteSeries_Handler(srv interface{}, ctx context.Context, dec func(
 }
 
 var _Admin_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "prometheus.Admin",
+	ServiceName: "dnxware.Admin",
 	HandlerType: (*AdminServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

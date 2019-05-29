@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -26,19 +26,19 @@ import (
 	"github.com/gogo/protobuf/proto"
 	"github.com/golang/snappy"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/relabel"
-	"github.com/prometheus/prometheus/prompb"
-	"github.com/prometheus/tsdb"
-	tsdbLabels "github.com/prometheus/tsdb/labels"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/client_golang/dnxware/promauto"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/relabel"
+	"github.com/dnxware/dnxware/prompb"
+	"github.com/dnxware/tsdb"
+	tsdbLabels "github.com/dnxware/tsdb/labels"
 )
 
 // String constants for instrumentation.
 const (
-	namespace = "prometheus"
+	namespace = "dnxware"
 	subsystem = "remote_storage"
 	queue     = "queue"
 
@@ -53,7 +53,7 @@ const (
 
 var (
 	succeededSamplesTotal = promauto.NewCounterVec(
-		prometheus.CounterOpts{
+		dnxware.CounterOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "succeeded_samples_total",
@@ -62,7 +62,7 @@ var (
 		[]string{queue},
 	)
 	failedSamplesTotal = promauto.NewCounterVec(
-		prometheus.CounterOpts{
+		dnxware.CounterOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "failed_samples_total",
@@ -71,7 +71,7 @@ var (
 		[]string{queue},
 	)
 	retriedSamplesTotal = promauto.NewCounterVec(
-		prometheus.CounterOpts{
+		dnxware.CounterOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "retried_samples_total",
@@ -80,7 +80,7 @@ var (
 		[]string{queue},
 	)
 	droppedSamplesTotal = promauto.NewCounterVec(
-		prometheus.CounterOpts{
+		dnxware.CounterOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "dropped_samples_total",
@@ -89,7 +89,7 @@ var (
 		[]string{queue},
 	)
 	enqueueRetriesTotal = promauto.NewCounterVec(
-		prometheus.CounterOpts{
+		dnxware.CounterOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "enqueue_retries_total",
@@ -98,17 +98,17 @@ var (
 		[]string{queue},
 	)
 	sentBatchDuration = promauto.NewHistogramVec(
-		prometheus.HistogramOpts{
+		dnxware.HistogramOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "sent_batch_duration_seconds",
 			Help:      "Duration of sample batch send calls to the remote storage.",
-			Buckets:   prometheus.DefBuckets,
+			Buckets:   dnxware.DefBuckets,
 		},
 		[]string{queue},
 	)
 	queueHighestSentTimestamp = promauto.NewGaugeVec(
-		prometheus.GaugeOpts{
+		dnxware.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "queue_highest_sent_timestamp_seconds",
@@ -117,7 +117,7 @@ var (
 		[]string{queue},
 	)
 	queuePendingSamples = promauto.NewGaugeVec(
-		prometheus.GaugeOpts{
+		dnxware.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "pending_samples",
@@ -126,7 +126,7 @@ var (
 		[]string{queue},
 	)
 	shardCapacity = promauto.NewGaugeVec(
-		prometheus.GaugeOpts{
+		dnxware.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "shard_capacity",
@@ -135,7 +135,7 @@ var (
 		[]string{queue},
 	)
 	numShards = promauto.NewGaugeVec(
-		prometheus.GaugeOpts{
+		dnxware.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "shards",
@@ -181,15 +181,15 @@ type QueueManager struct {
 	integralAccumulator                                       float64
 
 	highestSentTimestampMetric *maxGauge
-	pendingSamplesMetric       prometheus.Gauge
-	enqueueRetriesMetric       prometheus.Counter
-	droppedSamplesTotal        prometheus.Counter
-	numShardsMetric            prometheus.Gauge
-	failedSamplesTotal         prometheus.Counter
-	sentBatchDuration          prometheus.Observer
-	succeededSamplesTotal      prometheus.Counter
-	retriedSamplesTotal        prometheus.Counter
-	shardCapacity              prometheus.Gauge
+	pendingSamplesMetric       dnxware.Gauge
+	enqueueRetriesMetric       dnxware.Counter
+	droppedSamplesTotal        dnxware.Counter
+	numShardsMetric            dnxware.Gauge
+	failedSamplesTotal         dnxware.Counter
+	sentBatchDuration          dnxware.Observer
+	succeededSamplesTotal      dnxware.Counter
+	retriedSamplesTotal        dnxware.Counter
+	shardCapacity              dnxware.Gauge
 }
 
 // NewQueueManager builds a new QueueManager.

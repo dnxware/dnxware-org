@@ -10,15 +10,15 @@ go build
 ./example_write_adapter
 ```
 
-...and then add the following to your `prometheus.yml`:
+...and then add the following to your `dnxware.yml`:
 
 ```yaml
 remote_write:
   - url: "http://localhost:1234/receive"
 ```
 
-Then start Prometheus:
+Then start dnxware:
 
 ```
-./prometheus
+./dnxware
 ```

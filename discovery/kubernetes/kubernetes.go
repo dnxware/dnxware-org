@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,9 +22,9 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	config_util "github.com/prometheus/common/config"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/client_golang/dnxware"
+	config_util "github.com/dnxware/common/config"
+	"github.com/dnxware/common/model"
 	apiv1 "k8s.io/api/core/v1"
 	extensionsv1beta1 "k8s.io/api/extensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -34,7 +34,7 @@ import (
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/cache"
 
-	"github.com/prometheus/prometheus/discovery/targetgroup"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
 )
 
 const (
@@ -42,14 +42,14 @@ const (
 	// in this discovery.
 	metaLabelPrefix  = model.MetaLabelPrefix + "kubernetes_"
 	namespaceLabel   = metaLabelPrefix + "namespace"
-	metricsNamespace = "prometheus_sd_kubernetes"
+	metricsNamespace = "dnxware_sd_kubernetes"
 	presentValue     = model.LabelValue("true")
 )
 
 var (
 	// Custom events metric
-	eventCount = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
+	eventCount = dnxware.NewCounterVec(
+		dnxware.CounterOpts{
 			Namespace: metricsNamespace,
 			Name:      "events_total",
 			Help:      "The number of Kubernetes events handled.",
@@ -128,7 +128,7 @@ func (c *NamespaceDiscovery) UnmarshalYAML(unmarshal func(interface{}) error) er
 }
 
 func init() {
-	prometheus.MustRegister(eventCount)
+	dnxware.MustRegister(eventCount)
 
 	// Initialize metric vectors.
 	for _, role := range []string{"endpoints", "node", "pod", "service", "ingress"} {
@@ -143,9 +143,9 @@ func init() {
 		clientGoWorkqueueMetricsProviderInstance = clientGoWorkqueueMetricsProvider{}
 	)
 
-	clientGoRequestMetricAdapterInstance.Register(prometheus.DefaultRegisterer)
-	clientGoCacheMetricsProviderInstance.Register(prometheus.DefaultRegisterer)
-	clientGoWorkqueueMetricsProviderInstance.Register(prometheus.DefaultRegisterer)
+	clientGoRequestMetricAdapterInstance.Register(dnxware.DefaultRegisterer)
+	clientGoCacheMetricsProviderInstance.Register(dnxware.DefaultRegisterer)
+	clientGoWorkqueueMetricsProviderInstance.Register(dnxware.DefaultRegisterer)
 
 }
 
@@ -201,7 +201,7 @@ func New(l log.Logger, conf *SDConfig) (*Discovery, error) {
 		}
 	}
 
-	kcfg.UserAgent = "Prometheus/discovery"
+	kcfg.UserAgent = "dnxware/discovery"
 
 	c, err := kubernetes.NewForConfig(kcfg)
 	if err != nil {

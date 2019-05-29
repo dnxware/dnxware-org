@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -32,14 +32,14 @@ import (
 	"github.com/golang/snappy"
 	"github.com/stretchr/testify/require"
 
-	client_testutil "github.com/prometheus/client_golang/prometheus/testutil"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/prompb"
-	"github.com/prometheus/prometheus/util/testutil"
-	"github.com/prometheus/tsdb"
-	tsdbLabels "github.com/prometheus/tsdb/labels"
+	client_testutil "github.com/dnxware/client_golang/dnxware/testutil"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/prompb"
+	"github.com/dnxware/dnxware/util/testutil"
+	"github.com/dnxware/tsdb"
+	tsdbLabels "github.com/dnxware/tsdb/labels"
 )
 
 const defaultFlushDeadline = 1 * time.Minute

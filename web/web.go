@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -43,29 +43,29 @@ import (
 	"github.com/opentracing-contrib/go-stdlib/nethttp"
 	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-	io_prometheus_client "github.com/prometheus/client_model/go"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/common/route"
-	"github.com/prometheus/common/server"
-	"github.com/prometheus/tsdb"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/client_golang/dnxware/promhttp"
+	io_dnxware_client "github.com/dnxware/client_model/go"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/common/route"
+	"github.com/dnxware/common/server"
+	"github.com/dnxware/tsdb"
 	"github.com/soheilhy/cmux"
 	"golang.org/x/net/netutil"
 	"google.golang.org/grpc"
 
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/notifier"
-	"github.com/prometheus/prometheus/promql"
-	"github.com/prometheus/prometheus/rules"
-	"github.com/prometheus/prometheus/scrape"
-	"github.com/prometheus/prometheus/storage"
-	prometheus_tsdb "github.com/prometheus/prometheus/storage/tsdb"
-	"github.com/prometheus/prometheus/template"
-	"github.com/prometheus/prometheus/util/httputil"
-	api_v1 "github.com/prometheus/prometheus/web/api/v1"
-	api_v2 "github.com/prometheus/prometheus/web/api/v2"
-	"github.com/prometheus/prometheus/web/ui"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/notifier"
+	"github.com/dnxware/dnxware/promql"
+	"github.com/dnxware/dnxware/rules"
+	"github.com/dnxware/dnxware/scrape"
+	"github.com/dnxware/dnxware/storage"
+	dnxware_tsdb "github.com/dnxware/dnxware/storage/tsdb"
+	"github.com/dnxware/dnxware/template"
+	"github.com/dnxware/dnxware/util/httputil"
+	api_v1 "github.com/dnxware/dnxware/web/api/v1"
+	api_v2 "github.com/dnxware/dnxware/web/api/v2"
+	"github.com/dnxware/dnxware/web/ui"
 )
 
 var localhostRepresentations = []string{"127.0.0.1", "localhost"}
@@ -90,29 +90,29 @@ func withStackTracer(h http.Handler, l log.Logger) http.Handler {
 }
 
 var (
-	requestDuration = prometheus.NewHistogramVec(
-		prometheus.HistogramOpts{
-			Name:    "prometheus_http_request_duration_seconds",
+	requestDuration = dnxware.NewHistogramVec(
+		dnxware.HistogramOpts{
+			Name:    "dnxware_http_request_duration_seconds",
 			Help:    "Histogram of latencies for HTTP requests.",
 			Buckets: []float64{.1, .2, .4, 1, 3, 8, 20, 60, 120},
 		},
 		[]string{"handler"},
 	)
-	responseSize = prometheus.NewHistogramVec(
-		prometheus.HistogramOpts{
-			Name:    "prometheus_http_response_size_bytes",
+	responseSize = dnxware.NewHistogramVec(
+		dnxware.HistogramOpts{
+			Name:    "dnxware_http_response_size_bytes",
 			Help:    "Histogram of response size for HTTP requests.",
-			Buckets: prometheus.ExponentialBuckets(100, 10, 8),
+			Buckets: dnxware.ExponentialBuckets(100, 10, 8),
 		},
 		[]string{"handler"},
 	)
 )
 
 func init() {
-	prometheus.MustRegister(requestDuration, responseSize)
+	dnxware.MustRegister(requestDuration, responseSize)
 }
 
-// Handler serves various HTTP endpoints of the Prometheus server
+// Handler serves various HTTP endpoints of the dnxware server
 type Handler struct {
 	logger log.Logger
 
@@ -131,7 +131,7 @@ type Handler struct {
 	reloadCh    chan chan error
 	options     *Options
 	config      *config.Config
-	versionInfo *PrometheusVersion
+	versionInfo *dnxwareVersion
 	birth       time.Time
 	cwd         string
 	flagsMap    map[string]string
@@ -152,8 +152,8 @@ func (h *Handler) ApplyConfig(conf *config.Config) error {
 	return nil
 }
 
-// PrometheusVersion contains build information about Prometheus.
-type PrometheusVersion struct {
+// dnxwareVersion contains build information about dnxware.
+type dnxwareVersion struct {
 	Version   string `json:"version"`
 	Revision  string `json:"revision"`
 	Branch    string `json:"branch"`
@@ -166,13 +166,13 @@ type PrometheusVersion struct {
 type Options struct {
 	Context       context.Context
 	TSDB          func() *tsdb.DB
-	TSDBCfg       prometheus_tsdb.Options
+	TSDBCfg       dnxware_tsdb.Options
 	Storage       storage.Storage
 	QueryEngine   *promql.Engine
 	ScrapeManager *scrape.Manager
 	RuleManager   *rules.Manager
 	Notifier      *notifier.Manager
-	Version       *PrometheusVersion
+	Version       *dnxwareVersion
 	Flags         map[string]string
 
 	ListenAddress              string
@@ -200,9 +200,9 @@ func instrumentHandlerWithPrefix(prefix string) func(handlerName string, handler
 
 func instrumentHandler(handlerName string, handler http.HandlerFunc) http.HandlerFunc {
 	return promhttp.InstrumentHandlerDuration(
-		requestDuration.MustCurryWith(prometheus.Labels{"handler": handlerName}),
+		requestDuration.MustCurryWith(dnxware.Labels{"handler": handlerName}),
 		promhttp.InstrumentHandlerResponseSize(
-			responseSize.MustCurryWith(prometheus.Labels{"handler": handlerName}),
+			responseSize.MustCurryWith(dnxware.Labels{"handler": handlerName}),
 			handler,
 		),
 	)
@@ -334,11 +334,11 @@ func New(logger log.Logger, o *Options) *Handler {
 
 	router.Get("/-/healthy", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "Prometheus is Healthy.\n")
+		fmt.Fprintf(w, "dnxware is Healthy.\n")
 	})
 	router.Get("/-/ready", readyf(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "Prometheus is Ready.\n")
+		fmt.Fprintf(w, "dnxware is Ready.\n")
 	}))
 
 	return h
@@ -606,7 +606,7 @@ func (h *Handler) status(w http.ResponseWriter, r *http.Request) {
 	status := struct {
 		Birth               time.Time
 		CWD                 string
-		Version             *PrometheusVersion
+		Version             *dnxwareVersion
 		Alertmanagers       []*url.URL
 		GoroutineCount      int
 		GOMAXPROCS          int
@@ -639,29 +639,29 @@ func (h *Handler) status(w http.ResponseWriter, r *http.Request) {
 		status.StorageRetention = status.StorageRetention + h.options.TSDBCfg.MaxBytes.String()
 	}
 
-	metrics, err := prometheus.DefaultGatherer.Gather()
+	metrics, err := dnxware.DefaultGatherer.Gather()
 	if err != nil {
 		http.Error(w, fmt.Sprintf("error gathering runtime status: %s", err), http.StatusInternalServerError)
 		return
 	}
 	for _, mF := range metrics {
 		switch *mF.Name {
-		case "prometheus_tsdb_head_chunks":
+		case "dnxware_tsdb_head_chunks":
 			status.ChunkCount = int64(toFloat64(mF))
-		case "prometheus_tsdb_head_series":
+		case "dnxware_tsdb_head_series":
 			status.TimeSeriesCount = int64(toFloat64(mF))
-		case "prometheus_tsdb_wal_corruptions_total":
+		case "dnxware_tsdb_wal_corruptions_total":
 			status.CorruptionCount = int64(toFloat64(mF))
-		case "prometheus_config_last_reload_successful":
+		case "dnxware_config_last_reload_successful":
 			status.ReloadConfigSuccess = toFloat64(mF) != 0
-		case "prometheus_config_last_reload_success_timestamp_seconds":
+		case "dnxware_config_last_reload_success_timestamp_seconds":
 			status.LastConfigTime = time.Unix(int64(toFloat64(mF)), 0)
 		}
 	}
 	h.executeTemplate(w, "status.html", status)
 }
 
-func toFloat64(f *io_prometheus_client.MetricFamily) float64 {
+func toFloat64(f *io_dnxware_client.MetricFamily) float64 {
 	m := *f.Metric[0]
 	if m.Gauge != nil {
 		return m.Gauge.GetValue()

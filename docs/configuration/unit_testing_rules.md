@@ -61,7 +61,7 @@ promql_expr_test:
 # This follows the usual series notation '<metric name>{<label name>=<label value>, ...}'
 # Examples:
 #      series_name{label1="value1", label2="value2"}
-#      go_goroutines{job="prometheus", instance="localhost:9090"}
+#      go_goroutines{job="dnxware", instance="localhost:9090"}
 series: <string>
 
 # This uses expanding notation.
@@ -76,7 +76,7 @@ values: <string>
 
 ### `<alert_test_case>`
 
-Prometheus allows you to have same alertname for different alerting rules. Hence in this unit testing, you have to list the union of all the firing alerts for the alertname under a single `<alert_test_case>`.
+dnxware allows you to have same alertname for different alerting rules. Hence in this unit testing, you have to list the union of all the firing alerts for the alertname under a single `<alert_test_case>`.
 
 ``` yaml
 # It's the time elapsed from time=0s when the alerts have to be checked.
@@ -124,7 +124,7 @@ exp_samples:
 # Labels of the sample in usual series notation '<metric name>{<label name>=<label value>, ...}'
 # Examples:
 #      series_name{label1="value1", label2="value2"}
-#      go_goroutines{job="prometheus", instance="localhost:9090"}
+#      go_goroutines{job="dnxware", instance="localhost:9090"}
 labels: <string>
 
 # The expected value of the promql expression.
@@ -153,11 +153,11 @@ tests:
     - interval: 1m
       # Series data.
       input_series:
-          - series: 'up{job="prometheus", instance="localhost:9090"}'
+          - series: 'up{job="dnxware", instance="localhost:9090"}'
             values: '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'
           - series: 'up{job="node_exporter", instance="localhost:9100"}'
             values: '1+0x6 0 0 0 0 0 0 0 0' # 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0
-          - series: 'go_goroutines{job="prometheus", instance="localhost:9090"}'
+          - series: 'go_goroutines{job="dnxware", instance="localhost:9090"}'
             values: '10+10x2 30+20x5' # 10 20 30 30 50 70 90 110 130
           - series: 'go_goroutines{job="node_exporter", instance="localhost:9100"}'
             values: '10+10x7 10+30x4' # 10 20 30 40 50 60 70 80 10 40 70 100 130
@@ -172,10 +172,10 @@ tests:
                 - exp_labels:
                       severity: page
                       instance: localhost:9090
-                      job: prometheus
+                      job: dnxware
                   exp_annotations:
                       summary: "Instance localhost:9090 down"
-                      description: "localhost:9090 of job prometheus has been down for more than 5 minutes."
+                      description: "localhost:9090 of job dnxware has been down for more than 5 minutes."
       # Unit tests for promql expressions.
       promql_expr_test:
           # Unit test 1.
@@ -183,7 +183,7 @@ tests:
             eval_time: 4m
             exp_samples:
                 # Sample 1.
-                - labels: 'go_goroutines{job="prometheus",instance="localhost:9090"}'
+                - labels: 'go_goroutines{job="dnxware",instance="localhost:9090"}'
                   value: 50
                 # Sample 2.
                 - labels: 'go_goroutines{job="node_exporter",instance="localhost:9100"}'

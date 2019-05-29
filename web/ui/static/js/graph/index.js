@@ -1,4 +1,4 @@
-var Prometheus = Prometheus || {};
+var dnxware = dnxware || {};
 var graphTemplate;
 
 var INPUT_DEBOUNCE_WAIT = 500; // ms
@@ -7,7 +7,7 @@ var SECOND = 1000;
 /**
  * Graph
 */
-Prometheus.Graph = function(element, options, handleChange, handleRemove) {
+dnxware.Graph = function(element, options, handleChange, handleRemove) {
   this.el = element;
   this.graphHTML = null;
   this.options = options;
@@ -21,7 +21,7 @@ Prometheus.Graph = function(element, options, handleChange, handleRemove) {
   this.initialize();
 };
 
-Prometheus.Graph.timeFactors = {
+dnxware.Graph.timeFactors = {
   "y": 60 * 60 * 24 * 365,
   "w": 60 * 60 * 24 * 7,
   "d": 60 * 60 * 24,
@@ -30,16 +30,16 @@ Prometheus.Graph.timeFactors = {
   "s": 1
 };
 
-Prometheus.Graph.stepValues = [
+dnxware.Graph.stepValues = [
   "1s", "10s", "1m", "5m", "15m", "30m", "1h", "2h", "6h", "12h", "1d", "2d",
   "1w", "2w", "4w", "8w", "1y", "2y"
 ];
 
-Prometheus.Graph.numGraphs = 0;
+dnxware.Graph.numGraphs = 0;
 
-Prometheus.Graph.prototype.initialize = function() {
+dnxware.Graph.prototype.initialize = function() {
   var self = this;
-  self.id = Prometheus.Graph.numGraphs++;
+  self.id = dnxware.Graph.numGraphs++;
 
   // Set default options.
   self.options.id = self.id;
@@ -230,7 +230,7 @@ Prometheus.Graph.prototype.initialize = function() {
   }
 };
 
-Prometheus.Graph.prototype.checkTimeDrift = function() {
+dnxware.Graph.prototype.checkTimeDrift = function() {
     var self = this;
     var browserTime = new Date().getTime() / 1000;
     $.ajax({
@@ -249,7 +249,7 @@ Prometheus.Graph.prototype.checkTimeDrift = function() {
               this.showWarning(
                   "<div class=\"alert alert-warning\"><strong>Warning!</strong> Detected " +
                   diff.toFixed(2) +
-                  " seconds time difference between your browser and the server. Prometheus relies on accurate time and time drift might cause unexpected query results.</div>"
+                  " seconds time difference between your browser and the server. dnxware relies on accurate time and time drift might cause unexpected query results.</div>"
               );
             }
         },
@@ -259,7 +259,7 @@ Prometheus.Graph.prototype.checkTimeDrift = function() {
     });
 };
 
-Prometheus.Graph.prototype.populateInsertableMetrics = function() {
+dnxware.Graph.prototype.populateInsertableMetrics = function() {
   var self = this;
   $.ajax({
       method: "GET",
@@ -290,7 +290,7 @@ Prometheus.Graph.prototype.populateInsertableMetrics = function() {
   });
 };
 
-Prometheus.Graph.prototype.initTypeahead = function(self) {
+dnxware.Graph.prototype.initTypeahead = function(self) {
   const source = queryHistory.isEnabled() ? pageConfig.queryHistMetrics.concat(pageConfig.allMetrics) : pageConfig.allMetrics;
   self.expr.typeahead({
     autoSelect: false,
@@ -327,7 +327,7 @@ Prometheus.Graph.prototype.initTypeahead = function(self) {
   queryHistory.bindHistoryEvents(self);
 }
 
-Prometheus.Graph.prototype.getOptions = function() {
+dnxware.Graph.prototype.getOptions = function() {
   var self = this;
   var options = {};
 
@@ -352,7 +352,7 @@ Prometheus.Graph.prototype.getOptions = function() {
   return options;
 };
 
-Prometheus.Graph.prototype.parseDuration = function(rangeText) {
+dnxware.Graph.prototype.parseDuration = function(rangeText) {
   var rangeRE = new RegExp("^([0-9]+)([ywdhms]+)$");
   var matches = rangeText.match(rangeRE);
   if (!matches) { return; }
@@ -361,15 +361,15 @@ Prometheus.Graph.prototype.parseDuration = function(rangeText) {
   }
   var value = parseInt(matches[1]);
   var unit = matches[2];
-  return value * Prometheus.Graph.timeFactors[unit];
+  return value * dnxware.Graph.timeFactors[unit];
 };
 
-Prometheus.Graph.prototype.increaseRange = function() {
+dnxware.Graph.prototype.increaseRange = function() {
   var self = this;
   var rangeSeconds = self.parseDuration(self.rangeInput.val());
-  for (var i = 0; i < Prometheus.Graph.stepValues.length; i++) {
-    if (rangeSeconds < self.parseDuration(Prometheus.Graph.stepValues[i])) {
-      self.rangeInput.val(Prometheus.Graph.stepValues[i]);
+  for (var i = 0; i < dnxware.Graph.stepValues.length; i++) {
+    if (rangeSeconds < self.parseDuration(dnxware.Graph.stepValues[i])) {
+      self.rangeInput.val(dnxware.Graph.stepValues[i]);
       if (self.expr.val()) {
         self.submitQuery();
       }
@@ -378,12 +378,12 @@ Prometheus.Graph.prototype.increaseRange = function() {
   }
 };
 
-Prometheus.Graph.prototype.decreaseRange = function() {
+dnxware.Graph.prototype.decreaseRange = function() {
   var self = this;
   var rangeSeconds = self.parseDuration(self.rangeInput.val());
-  for (var i = Prometheus.Graph.stepValues.length - 1; i >= 0; i--) {
-    if (rangeSeconds > self.parseDuration(Prometheus.Graph.stepValues[i])) {
-      self.rangeInput.val(Prometheus.Graph.stepValues[i]);
+  for (var i = dnxware.Graph.stepValues.length - 1; i >= 0; i--) {
+    if (rangeSeconds > self.parseDuration(dnxware.Graph.stepValues[i])) {
+      self.rangeInput.val(dnxware.Graph.stepValues[i]);
       if (self.expr.val()) {
         self.submitQuery();
       }
@@ -392,7 +392,7 @@ Prometheus.Graph.prototype.decreaseRange = function() {
   }
 };
 
-Prometheus.Graph.prototype.getEndDate = function() {
+dnxware.Graph.prototype.getEndDate = function() {
   var self = this;
   if (!self.endDate || !self.endDate.val()) {
     return moment();
@@ -400,19 +400,19 @@ Prometheus.Graph.prototype.getEndDate = function() {
   return self.endDate.data('DateTimePicker').date();
 };
 
-Prometheus.Graph.prototype.getOrSetEndDate = function() {
+dnxware.Graph.prototype.getOrSetEndDate = function() {
   var self = this;
   var date = self.getEndDate();
   self.setEndDate(date);
   return date;
 };
 
-Prometheus.Graph.prototype.setEndDate = function(date) {
+dnxware.Graph.prototype.setEndDate = function(date) {
   var self = this;
   self.endDate.data('DateTimePicker').date(date);
 };
 
-Prometheus.Graph.prototype.increaseEnd = function() {
+dnxware.Graph.prototype.increaseEnd = function() {
   var self = this;
   var newDate = moment(self.getOrSetEndDate());
   newDate.add(self.parseDuration(self.rangeInput.val()) / 2, 'seconds');
@@ -420,7 +420,7 @@ Prometheus.Graph.prototype.increaseEnd = function() {
   self.submitQuery();
 };
 
-Prometheus.Graph.prototype.decreaseEnd = function() {
+dnxware.Graph.prototype.decreaseEnd = function() {
   var self = this;
   var newDate = moment(self.getOrSetEndDate());
   newDate.subtract(self.parseDuration(self.rangeInput.val()) / 2, 'seconds');
@@ -428,7 +428,7 @@ Prometheus.Graph.prototype.decreaseEnd = function() {
   self.submitQuery();
 };
 
-Prometheus.Graph.prototype.getMoment = function() {
+dnxware.Graph.prototype.getMoment = function() {
   var self = this;
   if (!self.moment || !self.moment.val()) {
     return moment();
@@ -436,19 +436,19 @@ Prometheus.Graph.prototype.getMoment = function() {
   return self.moment.data('DateTimePicker').date();
 };
 
-Prometheus.Graph.prototype.getOrSetMoment = function() {
+dnxware.Graph.prototype.getOrSetMoment = function() {
   var self = this;
   var date = self.getMoment();
   self.setMoment(date);
   return date;
 };
 
-Prometheus.Graph.prototype.setMoment = function(date) {
+dnxware.Graph.prototype.setMoment = function(date) {
   var self = this;
   self.moment.data('DateTimePicker').date(date);
 };
 
-Prometheus.Graph.prototype.increaseMoment = function() {
+dnxware.Graph.prototype.increaseMoment = function() {
   var self = this;
   var newDate = moment(self.getOrSetMoment());
   newDate.add(10, 'seconds');
@@ -456,7 +456,7 @@ Prometheus.Graph.prototype.increaseMoment = function() {
   self.submitQuery();
 };
 
-Prometheus.Graph.prototype.decreaseMoment = function() {
+dnxware.Graph.prototype.decreaseMoment = function() {
   var self = this;
   var newDate = moment(self.getOrSetMoment());
   newDate.subtract(10, 'seconds');
@@ -464,7 +464,7 @@ Prometheus.Graph.prototype.decreaseMoment = function() {
   self.submitQuery();
 };
 
-Prometheus.Graph.prototype.submitQuery = function() {
+dnxware.Graph.prototype.submitQuery = function() {
   var self = this;
   self.clearError();
   self.clearWarning();
@@ -546,31 +546,31 @@ Prometheus.Graph.prototype.submitQuery = function() {
   });
 };
 
-Prometheus.Graph.prototype.showError = function(msg) {
+dnxware.Graph.prototype.showError = function(msg) {
   var self = this;
   self.error.text(msg);
   self.error.show();
 };
 
-Prometheus.Graph.prototype.clearError = function() {
+dnxware.Graph.prototype.clearError = function() {
   var self = this;
   self.error.text('');
   self.error.hide();
 };
 
-Prometheus.Graph.prototype.showWarning = function(msg) {
+dnxware.Graph.prototype.showWarning = function(msg) {
   var self = this;
   self.warning.html(msg);
   self.warning.show();
 };
 
-Prometheus.Graph.prototype.clearWarning = function() {
+dnxware.Graph.prototype.clearWarning = function() {
   var self = this;
   self.warning.html('');
   self.warning.hide();
 };
 
-Prometheus.Graph.prototype.updateRefresh = function() {
+dnxware.Graph.prototype.updateRefresh = function() {
   var self = this;
 
   if (self.timeoutID) {
@@ -586,7 +586,7 @@ Prometheus.Graph.prototype.updateRefresh = function() {
   }, interval * SECOND);
 };
 
-Prometheus.Graph.prototype.renderLabels = function(labels) {
+dnxware.Graph.prototype.renderLabels = function(labels) {
   var labelStrings = [];
   for (var label in labels) {
     if (label != "__name__") {
@@ -596,7 +596,7 @@ Prometheus.Graph.prototype.renderLabels = function(labels) {
   return labels = "<div class=\"labels\">" + labelStrings.join("<br>") + "</div>";
 };
 
-Prometheus.Graph.prototype.metricToTsName = function(labels) {
+dnxware.Graph.prototype.metricToTsName = function(labels) {
   var tsName = (labels.__name__ || '') + "{";
   var labelStrings = [];
    for (var label in labels) {
@@ -608,7 +608,7 @@ Prometheus.Graph.prototype.metricToTsName = function(labels) {
   return tsName;
 };
 
-Prometheus.Graph.prototype.parseValue = function(value) {
+dnxware.Graph.prototype.parseValue = function(value) {
   var val = parseFloat(value);
   if (isNaN(val)) {
     // "+Inf", "-Inf", "+Inf" will be parsed into NaN by parseFloat(). The
@@ -618,7 +618,7 @@ Prometheus.Graph.prototype.parseValue = function(value) {
   return val;
 };
 
-Prometheus.Graph.prototype.transformData = function(json) {
+dnxware.Graph.prototype.transformData = function(json) {
   var self = this;
   var palette = new Rickshaw.Color.Palette();
   if (json.resultType != "matrix") {
@@ -665,7 +665,7 @@ Prometheus.Graph.prototype.transformData = function(json) {
   return data;
 };
 
-Prometheus.Graph.prototype.updateGraph = function() {
+dnxware.Graph.prototype.updateGraph = function() {
   var self = this;
   if (self.data.length === 0) { return; }
 
@@ -782,7 +782,7 @@ Prometheus.Graph.prototype.updateGraph = function() {
   self.handleChange();
 };
 
-Prometheus.Graph.prototype.resizeGraph = function() {
+dnxware.Graph.prototype.resizeGraph = function() {
   var self = this;
   if (self.rickshawGraph !== null) {
     self.rickshawGraph.configure({
@@ -792,7 +792,7 @@ Prometheus.Graph.prototype.resizeGraph = function() {
   }
 };
 
-Prometheus.Graph.prototype.handleGraphResponse = function(json, textStatus) {
+dnxware.Graph.prototype.handleGraphResponse = function(json, textStatus) {
   var self = this;
   // Rickshaw mutates passed series data for stacked graphs, so we need to save
   // the original AJAX response in order to re-transform it into series data
@@ -807,7 +807,7 @@ Prometheus.Graph.prototype.handleGraphResponse = function(json, textStatus) {
   self.updateGraph();
 };
 
-Prometheus.Graph.prototype.handleConsoleResponse = function(data, textStatus) {
+dnxware.Graph.prototype.handleConsoleResponse = function(data, textStatus) {
   var self = this;
   self.consoleTab.removeClass("reload");
   self.graphJSON = null;
@@ -857,14 +857,14 @@ Prometheus.Graph.prototype.handleConsoleResponse = function(data, textStatus) {
   self.handleChange();
 };
 
-Prometheus.Graph.prototype.remove = function() {
+dnxware.Graph.prototype.remove = function() {
   var self = this;
   $(self.graphHTML).remove();
   self.handleRemove();
   self.handleChange();
 };
 
-Prometheus.Graph.prototype.formatKMBT = function(y) {
+dnxware.Graph.prototype.formatKMBT = function(y) {
   var abs_y = Math.abs(y);
   if (abs_y >= 1e24) {
     return (y / 1e24).toString() + "Y";
@@ -907,7 +907,7 @@ Prometheus.Graph.prototype.formatKMBT = function(y) {
   }
 }
 
-Prometheus.Graph.prototype.limitSeries = function(result) {
+dnxware.Graph.prototype.limitSeries = function(result) {
   var self = this;
   var MAX_SERIES_NUM = 10000;
   var message = "<strong>Warning!</strong> Fetched " +
@@ -930,9 +930,9 @@ const pageConfig = {
   queryHistMetrics: JSON.parse(localStorage.getItem('history')) || [],
 };
 
-Prometheus.Page = function() {};
+dnxware.Page = function() {};
 
-Prometheus.Page.prototype.init = function() {
+dnxware.Page.prototype.init = function() {
   var graphOptions = this.parseURL();
   if (graphOptions.length === 0) {
     graphOptions.push({});
@@ -942,18 +942,18 @@ Prometheus.Page.prototype.init = function() {
   $("#add_graph").click(this.addGraph.bind(this, {}));
 };
 
-Prometheus.Page.prototype.parseURL = function() {
+dnxware.Page.prototype.parseURL = function() {
   if (window.location.search == "") {
     return [];
   }
 
   var queryParams = window.location.search.substring(1).split('&');
-  var queryParamHelper = new Prometheus.Page.QueryParamHelper();
+  var queryParamHelper = new dnxware.Page.QueryParamHelper();
   return queryParamHelper.parseQueryParams(queryParams);
 };
 
-Prometheus.Page.prototype.addGraph = function(options) {
-  var graph = new Prometheus.Graph(
+dnxware.Page.prototype.addGraph = function(options) {
+  var graph = new dnxware.Graph(
     $("#graph_container"),
     options,
     this.updateURL.bind(this),
@@ -968,10 +968,10 @@ Prometheus.Page.prototype.addGraph = function(options) {
 };
 
 // NOTE: This needs to be kept in sync with /util/strutil/strconv.go:GraphLinkForExpression
-Prometheus.Page.prototype.updateURL = function() {
+dnxware.Page.prototype.updateURL = function() {
   var queryString = pageConfig.graphs.map(function(graph, index) {
     var graphOptions = graph.getOptions();
-    var queryParamHelper = new Prometheus.Page.QueryParamHelper();
+    var queryParamHelper = new dnxware.Page.QueryParamHelper();
     var queryObject = queryParamHelper.generateQueryObject(graphOptions, index);
     return $.param(queryObject);
   }, this).join("&");
@@ -979,26 +979,26 @@ Prometheus.Page.prototype.updateURL = function() {
   history.pushState({}, "", "graph?" + queryString);
 };
 
-Prometheus.Page.prototype.removeGraph = function(graph) {
+dnxware.Page.prototype.removeGraph = function(graph) {
   pageConfig.graphs = pageConfig.graphs.filter(function(g) {return g !== graph});
 };
 
-Prometheus.Page.QueryParamHelper = function() {};
+dnxware.Page.QueryParamHelper = function() {};
 
-Prometheus.Page.QueryParamHelper.prototype.parseQueryParams = function(queryParams) {
+dnxware.Page.QueryParamHelper.prototype.parseQueryParams = function(queryParams) {
   var orderedQueryParams = this.filterInvalidParams(queryParams).sort();
   return this.fetchOptionsFromOrderedParams(orderedQueryParams, 0);
 };
 
-Prometheus.Page.QueryParamHelper.queryParamFormat = /^g\d+\..+=.+$/;
+dnxware.Page.QueryParamHelper.queryParamFormat = /^g\d+\..+=.+$/;
 
-Prometheus.Page.QueryParamHelper.prototype.filterInvalidParams = function(paramTuples) {
+dnxware.Page.QueryParamHelper.prototype.filterInvalidParams = function(paramTuples) {
   return paramTuples.filter(function(paramTuple) {
-    return Prometheus.Page.QueryParamHelper.queryParamFormat.test(paramTuple);
+    return dnxware.Page.QueryParamHelper.queryParamFormat.test(paramTuple);
   });
 };
 
-Prometheus.Page.QueryParamHelper.prototype.fetchOptionsFromOrderedParams = function(queryParams, graphIndex) {
+dnxware.Page.QueryParamHelper.prototype.fetchOptionsFromOrderedParams = function(queryParams, graphIndex) {
   if (queryParams.length == 0) {
     return [];
   }
@@ -1025,7 +1025,7 @@ Prometheus.Page.QueryParamHelper.prototype.fetchOptionsFromOrderedParams = funct
   return optionAccumulator;
 };
 
-Prometheus.Page.QueryParamHelper.prototype.parseQueryParamsOfOneGraph = function(queryParams) {
+dnxware.Page.QueryParamHelper.prototype.parseQueryParamsOfOneGraph = function(queryParams) {
   var options = {};
   queryParams.forEach(function(tuple) {
     var optionNameAndValue = tuple.split('=');
@@ -1043,11 +1043,11 @@ Prometheus.Page.QueryParamHelper.prototype.parseQueryParamsOfOneGraph = function
   return options;
 };
 
-Prometheus.Page.QueryParamHelper.prototype.queryParamPrefix = function(index) {
+dnxware.Page.QueryParamHelper.prototype.queryParamPrefix = function(index) {
   return "g" + index + ".";
 };
 
-Prometheus.Page.QueryParamHelper.prototype.generateQueryObject = function(graphOptions, index) {
+dnxware.Page.QueryParamHelper.prototype.generateQueryObject = function(graphOptions, index) {
   var prefix = this.queryParamPrefix(index);
   var queryObject = {};
   Object.keys(graphOptions).forEach(function(key) {
@@ -1205,7 +1205,7 @@ function init() {
       if (isDeprecatedGraphURL()) {
         redirectToMigratedURL();
       } else {
-        var Page = new Prometheus.Page();
+        var Page = new dnxware.Page();
         Page.init();
       }
     }

@@ -5,10 +5,10 @@ sort_rank: 4
 
 # Template examples
 
-Prometheus supports templating in the annotations and labels of alerts,
+dnxware supports templating in the annotations and labels of alerts,
 as well as in served console pages. Templates have the ability to run
 queries against the local database, iterate over data, use conditionals,
-format data, etc. The Prometheus templating language is based on the [Go
+format data, etc. The dnxware templating language is based on the [Go
 templating](https://golang.org/pkg/text/template/) system.
 
 ## Simple alert field templates
@@ -54,7 +54,7 @@ samples were returned to avoid an execution error. For example this could
 happen if a scrape or rule evaluation has not run yet, or a host was down.
 
 The included `prom_query_drilldown` template handles this, allows for
-formatting of results, and linking to the [expression browser](https://prometheus.io/docs/visualization/browser/).
+formatting of results, and linking to the [expression browser](https://dnxware.io/docs/visualization/browser/).
 
 ## Using console URL parameters
 
@@ -90,7 +90,7 @@ available inside the loop as `.` is now the loop variable.
 
 ## Defining reusable templates
 
-Prometheus supports defining templates that can be reused. This is particularly
+dnxware supports defining templates that can be reused. This is particularly
 powerful when combined with
 [console library](template_reference.md#console-templates) support, allowing
 sharing of templates across consoles.

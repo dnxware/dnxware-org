@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -29,26 +29,26 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/prometheus/promql"
-	"github.com/prometheus/prometheus/util/strutil"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/dnxware/promql"
+	"github.com/dnxware/dnxware/util/strutil"
 )
 
 var (
-	templateTextExpansionFailures = prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "prometheus_template_text_expansion_failures_total",
+	templateTextExpansionFailures = dnxware.NewCounter(dnxware.CounterOpts{
+		Name: "dnxware_template_text_expansion_failures_total",
 		Help: "The total number of template text expansion failures.",
 	})
-	templateTextExpansionTotal = prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "prometheus_template_text_expansions_total",
+	templateTextExpansionTotal = dnxware.NewCounter(dnxware.CounterOpts{
+		Name: "dnxware_template_text_expansions_total",
 		Help: "The total number of template text expansions.",
 	})
 )
 
 func init() {
-	prometheus.MustRegister(templateTextExpansionFailures)
-	prometheus.MustRegister(templateTextExpansionTotal)
+	dnxware.MustRegister(templateTextExpansionFailures)
+	dnxware.MustRegister(templateTextExpansionTotal)
 }
 
 // A version of vector that's easier to use from templates.
@@ -98,7 +98,7 @@ func query(ctx context.Context, q string, ts time.Time, queryFn QueryFunc) (quer
 	return result, nil
 }
 
-// Expander executes templates in text or HTML mode with a common set of Prometheus template functions.
+// Expander executes templates in text or HTML mode with a common set of dnxware template functions.
 type Expander struct {
 	text    string
 	name    string

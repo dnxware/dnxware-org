@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -28,20 +28,20 @@ import (
 
 	"github.com/google/pprof/profile"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/api"
-	v1 "github.com/prometheus/client_golang/api/prometheus/v1"
-	config_util "github.com/prometheus/common/config"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/common/version"
+	"github.com/dnxware/client_golang/api"
+	v1 "github.com/dnxware/client_golang/api/dnxware/v1"
+	config_util "github.com/dnxware/common/config"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/common/version"
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/pkg/rulefmt"
-	"github.com/prometheus/prometheus/util/promlint"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/pkg/rulefmt"
+	"github.com/dnxware/dnxware/util/promlint"
 )
 
 func main() {
-	app := kingpin.New(filepath.Base(os.Args[0]), "Tooling for the Prometheus monitoring system.")
+	app := kingpin.New(filepath.Base(os.Args[0]), "Tooling for the dnxware monitoring system.")
 	app.Version(version.Print("promtool"))
 	app.HelpFlag.Short('h')
 
@@ -61,35 +61,35 @@ func main() {
 
 	checkMetricsCmd := checkCmd.Command("metrics", checkMetricsUsage)
 
-	queryCmd := app.Command("query", "Run query against a Prometheus server.")
+	queryCmd := app.Command("query", "Run query against a dnxware server.")
 	queryCmdFmt := queryCmd.Flag("format", "Output format of the query.").Short('o').Default("promql").Enum("promql", "json")
 	queryInstantCmd := queryCmd.Command("instant", "Run instant query.")
-	queryServer := queryInstantCmd.Arg("server", "Prometheus server to query.").Required().String()
+	queryServer := queryInstantCmd.Arg("server", "dnxware server to query.").Required().String()
 	queryExpr := queryInstantCmd.Arg("expr", "PromQL query expression.").Required().String()
 
 	queryRangeCmd := queryCmd.Command("range", "Run range query.")
-	queryRangeServer := queryRangeCmd.Arg("server", "Prometheus server to query.").Required().String()
+	queryRangeServer := queryRangeCmd.Arg("server", "dnxware server to query.").Required().String()
 	queryRangeExpr := queryRangeCmd.Arg("expr", "PromQL query expression.").Required().String()
 	queryRangeBegin := queryRangeCmd.Flag("start", "Query range start time (RFC3339 or Unix timestamp).").String()
 	queryRangeEnd := queryRangeCmd.Flag("end", "Query range end time (RFC3339 or Unix timestamp).").String()
 	queryRangeStep := queryRangeCmd.Flag("step", "Query step size (duration).").Duration()
 
 	querySeriesCmd := queryCmd.Command("series", "Run series query.")
-	querySeriesServer := querySeriesCmd.Arg("server", "Prometheus server to query.").Required().URL()
+	querySeriesServer := querySeriesCmd.Arg("server", "dnxware server to query.").Required().URL()
 	querySeriesMatch := querySeriesCmd.Flag("match", "Series selector. Can be specified multiple times.").Required().Strings()
 	querySeriesBegin := querySeriesCmd.Flag("start", "Start time (RFC3339 or Unix timestamp).").String()
 	querySeriesEnd := querySeriesCmd.Flag("end", "End time (RFC3339 or Unix timestamp).").String()
 
 	debugCmd := app.Command("debug", "Fetch debug information.")
 	debugPprofCmd := debugCmd.Command("pprof", "Fetch profiling debug information.")
-	debugPprofServer := debugPprofCmd.Arg("server", "Prometheus server to get pprof files from.").Required().String()
+	debugPprofServer := debugPprofCmd.Arg("server", "dnxware server to get pprof files from.").Required().String()
 	debugMetricsCmd := debugCmd.Command("metrics", "Fetch metrics debug information.")
-	debugMetricsServer := debugMetricsCmd.Arg("server", "Prometheus server to get metrics from.").Required().String()
+	debugMetricsServer := debugMetricsCmd.Arg("server", "dnxware server to get metrics from.").Required().String()
 	debugAllCmd := debugCmd.Command("all", "Fetch all debug information.")
-	debugAllServer := debugAllCmd.Arg("server", "Prometheus server to get all debug information from.").Required().String()
+	debugAllServer := debugAllCmd.Arg("server", "dnxware server to get all debug information from.").Required().String()
 
 	queryLabelsCmd := queryCmd.Command("labels", "Run labels query.")
-	queryLabelsServer := queryLabelsCmd.Arg("server", "Prometheus server to query.").Required().URL()
+	queryLabelsServer := queryLabelsCmd.Arg("server", "dnxware server to query.").Required().URL()
 	queryLabelsName := queryLabelsCmd.Arg("name", "Label name to provide label values for.").Required().String()
 
 	testCmd := app.Command("test", "Unit testing.")
@@ -302,7 +302,7 @@ func checkRules(filename string) (int, []error) {
 }
 
 var checkMetricsUsage = strings.TrimSpace(`
-Pass Prometheus metrics over stdin to lint them for consistency and correctness.
+Pass dnxware metrics over stdin to lint them for consistency and correctness.
 
 examples:
 
@@ -331,7 +331,7 @@ func CheckMetrics() int {
 	return 0
 }
 
-// QueryInstant performs an instant query against a Prometheus server.
+// QueryInstant performs an instant query against a dnxware server.
 func QueryInstant(url, query string, p printer) int {
 	config := api.Config{
 		Address: url,
@@ -360,7 +360,7 @@ func QueryInstant(url, query string, p printer) int {
 	return 0
 }
 
-// QueryRange performs a range query against a Prometheus server.
+// QueryRange performs a range query against a dnxware server.
 func QueryRange(url, query, start, end string, step time.Duration, p printer) int {
 	config := api.Config{
 		Address: url,
@@ -420,7 +420,7 @@ func QueryRange(url, query, start, end string, step time.Duration, p printer) in
 	return 0
 }
 
-// QuerySeries queries for a series against a Prometheus server.
+// QuerySeries queries for a series against a dnxware server.
 func QuerySeries(url *url.URL, matchers []string, start, end string, p printer) int {
 	config := api.Config{
 		Address: url.String(),
@@ -474,7 +474,7 @@ func QuerySeries(url *url.URL, matchers []string, start, end string, p printer) 
 	return 0
 }
 
-// QueryLabels queries for label values against a Prometheus server.
+// QueryLabels queries for label values against a dnxware server.
 func QueryLabels(url *url.URL, name string, p printer) int {
 	config := api.Config{
 		Address: url.String(),

@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,19 +22,19 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
+	"github.com/dnxware/client_golang/dnxware"
 	"github.com/samuel/go-zookeeper/zk"
 )
 
 var (
-	failureCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "prometheus",
+	failureCounter = dnxware.NewCounter(dnxware.CounterOpts{
+		Namespace: "dnxware",
 		Subsystem: "treecache",
 		Name:      "zookeeper_failures_total",
 		Help:      "The total number of ZooKeeper failures.",
 	})
-	numWatchers = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "prometheus",
+	numWatchers = dnxware.NewGauge(dnxware.GaugeOpts{
+		Namespace: "dnxware",
 		Subsystem: "treecache",
 		Name:      "watcher_goroutines",
 		Help:      "The current number of watcher goroutines.",
@@ -42,8 +42,8 @@ var (
 )
 
 func init() {
-	prometheus.MustRegister(failureCounter)
-	prometheus.MustRegister(numWatchers)
+	dnxware.MustRegister(failureCounter)
+	dnxware.MustRegister(numWatchers)
 }
 
 // ZookeeperLogger wraps a log.Logger into a zk.Logger.

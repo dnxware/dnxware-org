@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -135,7 +135,7 @@ var tests = []struct {
 				expected: []item{{ItemString, 0, "`test\\.expression`"}},
 			},
 			{
-				// See https://github.com/prometheus/prometheus/issues/939.
+				// See https://github.com/dnxware/dnxware/issues/939.
 				input: ".٩",
 				fail:  true,
 			},

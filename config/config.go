@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -23,13 +23,13 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	config_util "github.com/prometheus/common/config"
-	"github.com/prometheus/common/model"
+	config_util "github.com/dnxware/common/config"
+	"github.com/dnxware/common/model"
 	yaml "gopkg.in/yaml.v2"
 
-	sd_config "github.com/prometheus/prometheus/discovery/config"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/relabel"
+	sd_config "github.com/dnxware/dnxware/discovery/config"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/relabel"
 )
 
 var (
@@ -128,7 +128,7 @@ var (
 	}
 )
 
-// Config is the top-level configuration for Prometheus's config files.
+// Config is the top-level configuration for dnxware's config files.
 type Config struct {
 	GlobalConfig   GlobalConfig    `yaml:"global"`
 	AlertingConfig AlertingConfig  `yaml:"alerting,omitempty"`
@@ -287,7 +287,7 @@ type GlobalConfig struct {
 	ScrapeTimeout model.Duration `yaml:"scrape_timeout,omitempty"`
 	// How frequently to evaluate rules by default.
 	EvaluationInterval model.Duration `yaml:"evaluation_interval,omitempty"`
-	// The labels to add to any timeseries that this Prometheus instance scrapes.
+	// The labels to add to any timeseries that this dnxware instance scrapes.
 	ExternalLabels labels.Labels `yaml:"external_labels,omitempty"`
 }
 
@@ -340,7 +340,7 @@ func (c *GlobalConfig) isZero() bool {
 		c.EvaluationInterval == 0
 }
 
-// ScrapeConfig configures a scraping unit for Prometheus.
+// ScrapeConfig configures a scraping unit for dnxware.
 type ScrapeConfig struct {
 	// The job name to which the job label is set by default.
 	JobName string `yaml:"job_name"`

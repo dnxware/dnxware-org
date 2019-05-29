@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -23,10 +23,10 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/common/model"
 )
 
-// Client allows sending batches of Prometheus samples to Graphite.
+// Client allows sending batches of dnxware samples to Graphite.
 type Client struct {
 	logger log.Logger
 
@@ -72,7 +72,7 @@ func pathFromMetric(m model.Metric, prefix string) string {
 		}
 		// Since we use '.' instead of '=' to separate label and values
 		// it means that we can't have an '.' in the metric name. Fortunately
-		// this is prohibited in prometheus metrics.
+		// this is prohibited in dnxware metrics.
 		buffer.WriteString(fmt.Sprintf(
 			".%s.%s", string(l), escape(v)))
 	}

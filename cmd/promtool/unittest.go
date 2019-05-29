@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2018 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -29,10 +29,10 @@ import (
 	"github.com/pkg/errors"
 	yaml "gopkg.in/yaml.v2"
 
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/promql"
-	"github.com/prometheus/prometheus/rules"
-	"github.com/prometheus/prometheus/storage"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/promql"
+	"github.com/dnxware/dnxware/rules"
+	"github.com/dnxware/dnxware/storage"
 )
 
 // RulesUnitTest does unit testing of rules based on the unit testing files provided.
@@ -272,7 +272,7 @@ func (tg *testGroup) test(mint, maxt time.Time, evalInterval time.Duration, grou
 				var expAlerts labelsAndAnnotations
 				for _, a := range testcase.ExpAlerts {
 					// User gives only the labels from alerting rule, which doesn't
-					// include this label (added by Prometheus during Eval).
+					// include this label (added by dnxware during Eval).
 					a.ExpLabels[labels.AlertName] = testcase.Alertname
 
 					expAlerts = append(expAlerts, labelAndAnnotation{

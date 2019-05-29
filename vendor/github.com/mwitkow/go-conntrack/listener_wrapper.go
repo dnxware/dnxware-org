@@ -33,7 +33,7 @@ func TrackWithName(name string) listenerOpt {
 	}
 }
 
-// TrackWithoutMonitoring turns *off* Prometheus monitoring for this listener.
+// TrackWithoutMonitoring turns *off* dnxware monitoring for this listener.
 func TrackWithoutMonitoring() listenerOpt {
 	return func(opts *listenerOpts) {
 		opts.monitoring = false

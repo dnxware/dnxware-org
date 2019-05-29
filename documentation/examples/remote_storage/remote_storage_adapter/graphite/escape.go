@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/common/model"
 )
 
 const (
@@ -64,7 +64,7 @@ const (
 //   uppercase ASCII representation of their hexadecimal value.
 //
 // This encoding allows to save arbitrary Go strings in Graphite. That's
-// required because Prometheus label values can contain anything. Using
+// required because dnxware label values can contain anything. Using
 // percent encoding makes it easy to unescape, even in javascript.
 //
 // Examples:

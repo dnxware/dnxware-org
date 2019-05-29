@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -21,12 +21,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
 )
 
 var (
-	marathonValidLabel = map[string]string{"prometheus": "yes"}
+	marathonValidLabel = map[string]string{"dnxware": "yes"}
 	testServers        = []string{"http://localhost:8080"}
 	conf               = SDConfig{Servers: testServers}
 )
@@ -123,7 +123,7 @@ func TestMarathonSDSendGroup(t *testing.T) {
 	if tgt[model.AddressLabel] != "mesos-slave1:31000" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "yes" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "yes" {
 		t.Fatalf("Wrong first portMappings label from the first port: %s", tgt[model.AddressLabel])
 	}
 }
@@ -218,14 +218,14 @@ func TestMarathonSDSendGroupWithMultiplePort(t *testing.T) {
 	if tgt[model.AddressLabel] != "mesos-slave1:31000" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "yes" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "yes" {
 		t.Fatalf("Wrong first portMappings label from the first port: %s", tgt[model.AddressLabel])
 	}
 	tgt = tg.Targets[1]
 	if tgt[model.AddressLabel] != "mesos-slave1:32000" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong portMappings label from the second port: %s", tgt[model.AddressLabel])
 	}
 }
@@ -354,20 +354,20 @@ func TestMarathonSDSendGroupWithPortDefinitions(t *testing.T) {
 	if tgt[model.AddressLabel] != "mesos-slave1:1234" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong first portMappings label from the first port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong first portDefinitions label from the first port: %s", tgt[model.AddressLabel])
 	}
 	tgt = tg.Targets[1]
 	if tgt[model.AddressLabel] != "mesos-slave1:5678" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong portMappings label from the second port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "yes" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "yes" {
 		t.Fatalf("Wrong portDefinitions label from the second port: %s", tgt[model.AddressLabel])
 	}
 }
@@ -426,20 +426,20 @@ func TestMarathonSDSendGroupWithPortDefinitionsRequirePorts(t *testing.T) {
 	if tgt[model.AddressLabel] != "mesos-slave1:31000" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong first portMappings label from the first port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong first portDefinitions label from the first port: %s", tgt[model.AddressLabel])
 	}
 	tgt = tg.Targets[1]
 	if tgt[model.AddressLabel] != "mesos-slave1:32000" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong portMappings label from the second port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "yes" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "yes" {
 		t.Fatalf("Wrong portDefinitions label from the second port: %s", tgt[model.AddressLabel])
 	}
 }
@@ -493,20 +493,20 @@ func TestMarathonSDSendGroupWithPorts(t *testing.T) {
 	if tgt[model.AddressLabel] != "mesos-slave1:31000" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong first portMappings label from the first port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong first portDefinitions label from the first port: %s", tgt[model.AddressLabel])
 	}
 	tgt = tg.Targets[1]
 	if tgt[model.AddressLabel] != "mesos-slave1:32000" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong portMappings label from the second port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong portDefinitions label from the second port: %s", tgt[model.AddressLabel])
 	}
 }
@@ -569,20 +569,20 @@ func TestMarathonSDSendGroupWithContainerPortMappings(t *testing.T) {
 	if tgt[model.AddressLabel] != "mesos-slave1:12345" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "yes" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "yes" {
 		t.Fatalf("Wrong first portMappings label from the first port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong first portDefinitions label from the first port: %s", tgt[model.AddressLabel])
 	}
 	tgt = tg.Targets[1]
 	if tgt[model.AddressLabel] != "mesos-slave1:32000" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong portMappings label from the second port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong portDefinitions label from the second port: %s", tgt[model.AddressLabel])
 	}
 }
@@ -645,20 +645,20 @@ func TestMarathonSDSendGroupWithDockerContainerPortMappings(t *testing.T) {
 	if tgt[model.AddressLabel] != "mesos-slave1:31000" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "yes" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "yes" {
 		t.Fatalf("Wrong first portMappings label from the first port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong first portDefinitions label from the first port: %s", tgt[model.AddressLabel])
 	}
 	tgt = tg.Targets[1]
 	if tgt[model.AddressLabel] != "mesos-slave1:12345" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong portMappings label from the second port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong portDefinitions label from the second port: %s", tgt[model.AddressLabel])
 	}
 }
@@ -725,20 +725,20 @@ func TestMarathonSDSendGroupWithContainerNetworkAndPortMapping(t *testing.T) {
 	if tgt[model.AddressLabel] != "1.2.3.4:8080" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "yes" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "yes" {
 		t.Fatalf("Wrong first portMappings label from the first port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong first portDefinitions label from the first port: %s", tgt[model.AddressLabel])
 	}
 	tgt = tg.Targets[1]
 	if tgt[model.AddressLabel] != "1.2.3.4:1234" {
 		t.Fatalf("Wrong target address: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portMappingLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portMappingLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong portMappings label from the second port: %s", tgt[model.AddressLabel])
 	}
-	if tgt[model.LabelName(portDefinitionLabelPrefix+"prometheus")] != "" {
+	if tgt[model.LabelName(portDefinitionLabelPrefix+"dnxware")] != "" {
 		t.Fatalf("Wrong portDefinitions label from the second port: %s", tgt[model.AddressLabel])
 	}
 }

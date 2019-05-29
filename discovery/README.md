@@ -1,14 +1,14 @@
 # Service Discovery
 
-This directory contains the service discovery (SD) component of Prometheus.
+This directory contains the service discovery (SD) component of dnxware.
 
 There is currently a moratorium on new service discovery mechanisms being added
-to Prometheus due to a lack of developer capacity. In the meantime `file_sd` 
+to dnxware due to a lack of developer capacity. In the meantime `file_sd` 
 remains available.
 
-## Design of a Prometheus SD
+## Design of a dnxware SD
 
-There are many requests to add new SDs to Prometheus, this section looks at
+There are many requests to add new SDs to dnxware, this section looks at
 what makes a good SD and covers some of the common implementation issues.
 
 ### Does this make sense as an SD?
@@ -17,10 +17,10 @@ The first question to be asked is does it make sense to add this particular
 SD? An SD mechanism should be reasonably well established, and at a minimum in
 use across multiple organizations. It should allow discovering of machines
 and/or services running somewhere. When exactly an SD is popular enough to
-justify being added to Prometheus natively is an open question.
+justify being added to dnxware natively is an open question.
 
 It should not be a brand new SD mechanism, or a variant of an established
-mechanism. We want to integrate Prometheus with the SD that's already there in
+mechanism. We want to integrate dnxware with the SD that's already there in
 your infrastructure, not invent yet more ways to do service discovery. We also
 do not add mechanisms to work around users lacking service discovery and/or
 configuration management infrastructure.
@@ -32,7 +32,7 @@ that a machine is going to be a Kafka server, likely a machine database or
 configuration management system.
 
 If something is particularly custom or unusual, `file_sd` is the generic
-mechanism provided for users to hook in. Generally with Prometheus we offer a
+mechanism provided for users to hook in. Generally with dnxware we offer a
 single generic mechanism for things with infinite variations, rather than
 trying to support everything natively (see also, alertmanager webhook, remote
 read, remote write, node exporter textfile collector). For example anything
@@ -45,12 +45,12 @@ the idiomatic approach is to use Chef's templating facilities to write out a
 file for use with `file_sd`.
 
 
-### Mapping from SD to Prometheus
+### Mapping from SD to dnxware
 
 The general principle with SD is to extract all the potentially useful
 information we can out of the SD, and let the user choose what they need of it
 using
-[relabelling](https://prometheus.io/docs/operating/configuration/#<relabel_config>).
+[relabelling](https://dnxware.io/docs/operating/configuration/#<relabel_config>).
 This information is generally termed metadata.
 
 Metadata is exposed as a set of key/value pairs (labels) per target. The keys
@@ -100,7 +100,7 @@ filtering using relabelling alone. As with SD generally, we do not invent new
 ways to filter targets (that is what relabelling is for), merely offer up
 whatever functionality the SD itself offers.
 
-It is a general rule with Prometheus that all configuration comes from the
+It is a general rule with dnxware that all configuration comes from the
 configuration file. While the libraries you use to talk to the SD may also
 offer other mechanisms for providing configuration/authentication under the
 covers (EC2's use of environment variables being a prime example), using your SD
@@ -124,14 +124,14 @@ or incorrect metadata.
 
 The information obtained from service discovery is not considered sensitive
 security wise. Do not return secrets in metadata, anyone with access to
-the Prometheus server will be able to see them.
+the dnxware server will be able to see them.
 
 
 ## Writing an SD mechanism
 
 ### The SD interface
 
-A Service Discovery (SD) mechanism has to discover targets and provide them to Prometheus. We expect similar targets to be grouped together, in the form of a [target group](https://godoc.org/github.com/prometheus/prometheus/discovery/targetgroup#Group). The SD mechanism sends the targets down to prometheus as list of target groups.
+A Service Discovery (SD) mechanism has to discover targets and provide them to dnxware. We expect similar targets to be grouped together, in the form of a [target group](https://godoc.org/github.com/dnxware/dnxware/discovery/targetgroup#Group). The SD mechanism sends the targets down to dnxware as list of target groups.
 
 An SD mechanism has to implement the `Discoverer` Interface:
 ```go
@@ -140,7 +140,7 @@ type Discoverer interface {
 }
 ```
 
-Prometheus will call the `Run()` method on a provider to initialize the discovery mechanism. The mechanism will then send *all* the target groups into the channel. 
+dnxware will call the `Run()` method on a provider to initialize the discovery mechanism. The mechanism will then send *all* the target groups into the channel. 
 Now the mechanism will watch for changes. For each update it can send all target groups, or only changed and new target groups, down the channel. `Manager` will handle 
 both cases.
 

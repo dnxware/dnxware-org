@@ -5,10 +5,10 @@ sort_rank: 5
 
 # Template reference
 
-Prometheus supports templating in the annotations and labels of alerts,
+dnxware supports templating in the annotations and labels of alerts,
 as well as in served console pages. Templates have the ability to run
 queries against the local database, iterate over data, use conditionals,
-format data, etc. The Prometheus templating language is based on the [Go
+format data, etc. The dnxware templating language is based on the [Go
 templating](https://golang.org/pkg/text/template/) system.
 
 ## Data Structures
@@ -32,7 +32,7 @@ The metric name of the sample is encoded in a special `__name__` label in the `L
 
 In addition to the [default
 functions](https://golang.org/pkg/text/template/#hdr-Functions) provided by Go
-templating, Prometheus provides functions for easier processing of query
+templating, dnxware provides functions for easier processing of query
 results in templates.
 
 If functions are used in a pipeline, the pipeline value is passed as the last argument.
@@ -59,7 +59,7 @@ If functions are used in a pipeline, the pipeline value is passed as the last ar
 | humanizeTimestamp | number    | string  | Converts a Unix timestamp in seconds to a more readable format. |
 
 Humanizing functions are intended to produce reasonable output for consumption
-by humans, and are not guaranteed to return the same results between Prometheus
+by humans, and are not guaranteed to return the same results between dnxware
 versions.
 
 ### Strings
@@ -71,8 +71,8 @@ versions.
 | toLower       | string        | string  | [strings.ToLower](https://golang.org/pkg/strings/#ToLower), converts all characters to lower case.|
 | match         | pattern, text | boolean | [regexp.MatchString](https://golang.org/pkg/regexp/#MatchString) Tests for a unanchored regexp match. |
 | reReplaceAll  | pattern, replacement, text | string | [Regexp.ReplaceAllString](https://golang.org/pkg/regexp/#Regexp.ReplaceAllString) Regexp substitution, unanchored. |
-| graphLink  | expr | string | Returns path to graph view in the [expression browser](https://prometheus.io/docs/visualization/browser/) for the expression. |
-| tableLink  | expr | string | Returns path to tabular ("Console") view in the [expression browser](https://prometheus.io/docs/visualization/browser/) for the expression. |
+| graphLink  | expr | string | Returns path to graph view in the [expression browser](https://dnxware.io/docs/visualization/browser/) for the expression. |
+| tableLink  | expr | string | Returns path to tabular ("Console") view in the [expression browser](https://dnxware.io/docs/visualization/browser/) for the expression. |
 
 ### Others
 
@@ -114,5 +114,5 @@ Consoles also have access to all the templates defined with `{{define
 "templateName"}}...{{end}}` found in `*.lib` files in the directory pointed to
 by the `-web.console.libraries` flag. As this is a shared namespace, take care
 to avoid clashes with other users. Template names beginning with `prom`,
-`_prom`, and `__` are reserved for use by Prometheus, as are the functions
+`_prom`, and `__` are reserved for use by dnxware, as are the functions
 listed above.

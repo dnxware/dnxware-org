@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -21,14 +21,14 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/log"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/common/model"
 
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/timestamp"
-	"github.com/prometheus/prometheus/pkg/value"
-	"github.com/prometheus/prometheus/promql"
-	"github.com/prometheus/prometheus/storage"
-	"github.com/prometheus/prometheus/util/testutil"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/timestamp"
+	"github.com/dnxware/dnxware/pkg/value"
+	"github.com/dnxware/dnxware/promql"
+	"github.com/dnxware/dnxware/storage"
+	"github.com/dnxware/dnxware/util/testutil"
 )
 
 func TestAlertingRule(t *testing.T) {
@@ -360,7 +360,7 @@ func TestForStateRestore(t *testing.T) {
 	}
 
 	alertForDuration := 25 * time.Minute
-	// Initial run before prometheus goes down.
+	// Initial run before dnxware goes down.
 	rule := NewAlertingRule(
 		"HTTPRequestRateLow",
 		expr,
@@ -389,7 +389,7 @@ func TestForStateRestore(t *testing.T) {
 		return labels.Compare(exp[i].Labels, exp[j].Labels) < 0
 	})
 
-	// Prometheus goes down here. We create new rules and groups.
+	// dnxware goes down here. We create new rules and groups.
 	type testInput struct {
 		restoreDuration time.Duration
 		alerts          []*Alert

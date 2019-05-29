@@ -16,7 +16,7 @@
   version = ">=0.1.0"
 
 [[constraint]]
-  name = "github.com/prometheus/client_golang"
+  name = "github.com/dnxware/client_golang"
   version = ">=0.8.0"
 
 [[constraint]]

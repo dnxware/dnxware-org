@@ -285,11 +285,11 @@ func (m *QueryResult) GetTimeseries() []*TimeSeries {
 }
 
 func init() {
-	proto.RegisterType((*WriteRequest)(nil), "prometheus.WriteRequest")
-	proto.RegisterType((*ReadRequest)(nil), "prometheus.ReadRequest")
-	proto.RegisterType((*ReadResponse)(nil), "prometheus.ReadResponse")
-	proto.RegisterType((*Query)(nil), "prometheus.Query")
-	proto.RegisterType((*QueryResult)(nil), "prometheus.QueryResult")
+	proto.RegisterType((*WriteRequest)(nil), "dnxware.WriteRequest")
+	proto.RegisterType((*ReadRequest)(nil), "dnxware.ReadRequest")
+	proto.RegisterType((*ReadResponse)(nil), "dnxware.ReadResponse")
+	proto.RegisterType((*Query)(nil), "dnxware.Query")
+	proto.RegisterType((*QueryResult)(nil), "dnxware.QueryResult")
 }
 
 func init() { proto.RegisterFile("remote.proto", fileDescriptor_eefc82927d57d89b) }

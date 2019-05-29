@@ -5,7 +5,7 @@ sort_rank: 7
 
 # HTTP API
 
-The current stable HTTP API is reachable under `/api/v1` on a Prometheus
+The current stable HTTP API is reachable under `/api/v1` on a dnxware
 server. Any non-breaking additions will be added under that endpoint.
 
 ## Format overview
@@ -53,11 +53,11 @@ timestamps are always represented as Unix timestamps in seconds.
 
 Names of query parameters that may be repeated end with `[]`.
 
-`<series_selector>` placeholders refer to Prometheus [time series
+`<series_selector>` placeholders refer to dnxware [time series
 selectors](basics.md#time-series-selectors) like `http_requests_total` or
 `http_requests_total{method=~"(GET|POST)"}` and need to be URL-encoded.
 
-`<duration>` placeholders refer to Prometheus duration strings of the form
+`<duration>` placeholders refer to dnxware duration strings of the form
 `[0-9]+[smhdwy]`. For example, `5m` refers to a duration of 5 minutes.
 
 `<bool>` placeholders refer to boolean values (strings `true` and `false`).
@@ -79,7 +79,7 @@ POST /api/v1/query
 
 URL query parameters:
 
-- `query=<string>`: Prometheus expression query string.
+- `query=<string>`: dnxware expression query string.
 - `time=<rfc3339 | unix_timestamp>`: Evaluation timestamp. Optional.
 - `timeout=<duration>`: Evaluation timeout. Optional. Defaults to and
    is capped by the value of the `-query.timeout` flag.
@@ -116,7 +116,7 @@ $ curl 'http://localhost:9090/api/v1/query?query=up&time=2015-07-01T20:10:51.781
          {
             "metric" : {
                "__name__" : "up",
-               "job" : "prometheus",
+               "job" : "dnxware",
                "instance" : "localhost:9090"
             },
             "value": [ 1435781451.781, "1" ]
@@ -145,7 +145,7 @@ POST /api/v1/query_range
 
 URL query parameters:
 
-- `query=<string>`: Prometheus expression query string.
+- `query=<string>`: dnxware expression query string.
 - `start=<rfc3339 | unix_timestamp>`: Start timestamp.
 - `end=<rfc3339 | unix_timestamp>`: End timestamp.
 - `step=<duration | float>`: Query resolution step width in `duration` format or float number of seconds.
@@ -181,7 +181,7 @@ $ curl 'http://localhost:9090/api/v1/query_range?query=up&start=2015-07-01T20:10
          {
             "metric" : {
                "__name__" : "up",
-               "job" : "prometheus",
+               "job" : "dnxware",
                "instance" : "localhost:9090"
             },
             "values" : [
@@ -233,16 +233,16 @@ The `data` section of the query result consists of a list of objects that
 contain the label name/value pairs which identify each series.
 
 The following example returns all series that match either of the selectors
-`up` or `process_start_time_seconds{job="prometheus"}`:
+`up` or `process_start_time_seconds{job="dnxware"}`:
 
 ```json
-$ curl -g 'http://localhost:9090/api/v1/series?' --data-urlencode='match[]=up' --data-urlencode='match[]=process_start_time_seconds{job="prometheus"}'
+$ curl -g 'http://localhost:9090/api/v1/series?' --data-urlencode='match[]=up' --data-urlencode='match[]=process_start_time_seconds{job="dnxware"}'
 {
    "status" : "success",
    "data" : [
       {
          "__name__" : "up",
-         "job" : "prometheus",
+         "job" : "dnxware",
          "instance" : "localhost:9090"
       },
       {
@@ -252,7 +252,7 @@ $ curl -g 'http://localhost:9090/api/v1/series?' --data-urlencode='match[]=up' -
       },
       {
          "__name__" : "process_start_time_seconds",
-         "job" : "prometheus",
+         "job" : "dnxware",
          "instance" : "localhost:9090"
       }
    ]
@@ -320,7 +320,7 @@ $ curl http://localhost:9090/api/v1/label/job/values
    "status" : "success",
    "data" : [
       "node",
-      "prometheus"
+      "dnxware"
    ]
 }
 ```
@@ -384,7 +384,7 @@ String results are returned as result type `string`. The corresponding
 ## Targets
 
 The following endpoint returns an overview of the current state of the
-Prometheus target discovery:
+dnxware target discovery:
 
 ```
 GET /api/v1/targets
@@ -405,11 +405,11 @@ $ curl http://localhost:9090/api/v1/targets
           "__address__": "127.0.0.1:9090",
           "__metrics_path__": "/metrics",
           "__scheme__": "http",
-          "job": "prometheus"
+          "job": "dnxware"
         },
         "labels": {
           "instance": "127.0.0.1:9090",
-          "job": "prometheus"
+          "job": "dnxware"
         },
         "scrapeUrl": "http://127.0.0.1:9090/metrics",
         "lastError": "",
@@ -436,7 +436,7 @@ $ curl http://localhost:9090/api/v1/targets
 
 The `/rules` API endpoint returns a list of alerting and recording rules that
 are currently loaded. In addition it returns the currently active alerts fired
-by the Prometheus instance of each alerting rule.
+by the dnxware instance of each alerting rule.
 
 As the `/rules` endpoint is fairly new, it does not have the same stability
 guarantees as the overarching API v1.
@@ -549,12 +549,12 @@ The `data` section of the query result consists of a list of objects that
 contain metric metadata and the target label set.
 
 The following example returns all metadata entries for the `go_goroutines` metric
-from the first two targets with label `job="prometheus"`.
+from the first two targets with label `job="dnxware"`.
 
 ```json
 curl -G http://localhost:9091/api/v1/targets/metadata \
     --data-urlencode 'metric=go_goroutines' \
-    --data-urlencode 'match_target={job="prometheus"}' \
+    --data-urlencode 'match_target={job="dnxware"}' \
     --data-urlencode 'limit=2'
 {
   "status": "success",
@@ -562,7 +562,7 @@ curl -G http://localhost:9091/api/v1/targets/metadata \
     {
       "target": {
         "instance": "127.0.0.1:9090",
-        "job": "prometheus"
+        "job": "dnxware"
       },
       "type": "gauge",
       "help": "Number of goroutines that currently exist.",
@@ -571,7 +571,7 @@ curl -G http://localhost:9091/api/v1/targets/metadata \
     {
       "target": {
         "instance": "127.0.0.1:9091",
-        "job": "prometheus"
+        "job": "dnxware"
       },
       "type": "gauge",
       "help": "Number of goroutines that currently exist.",
@@ -594,9 +594,9 @@ curl -G http://localhost:9091/api/v1/targets/metadata \
     {
       "target": {
         "instance": "127.0.0.1:9090",
-        "job": "prometheus"
+        "job": "dnxware"
       },
-      "metric": "prometheus_treecache_zookeeper_failures_total",
+      "metric": "dnxware_treecache_zookeeper_failures_total",
       "type": "counter",
       "help": "The total number of ZooKeeper failures.",
       "unit": ""
@@ -604,9 +604,9 @@ curl -G http://localhost:9091/api/v1/targets/metadata \
     {
       "target": {
         "instance": "127.0.0.1:9090",
-        "job": "prometheus"
+        "job": "dnxware"
       },
-      "metric": "prometheus_tsdb_reloads_total",
+      "metric": "dnxware_tsdb_reloads_total",
       "type": "counter",
       "help": "Number of times the database reloaded block data from disk.",
       "unit": ""
@@ -619,7 +619,7 @@ curl -G http://localhost:9091/api/v1/targets/metadata \
 ## Alertmanagers
 
 The following endpoint returns an overview of the current state of the
-Prometheus alertmanager discovery:
+dnxware alertmanager discovery:
 
 ```
 GET /api/v1/alertmanagers
@@ -648,7 +648,7 @@ $ curl http://localhost:9090/api/v1/alertmanagers
 
 ## Status
 
-Following status endpoints expose current Prometheus configuration.
+Following status endpoints expose current dnxware configuration.
 
 ### Config
 
@@ -673,7 +673,7 @@ $ curl http://localhost:9090/api/v1/status/config
 
 ### Flags
 
-The following endpoint returns flag values that Prometheus was configured with:
+The following endpoint returns flag values that dnxware was configured with:
 
 ```
 GET /api/v1/status/flags
@@ -701,7 +701,7 @@ $ curl http://localhost:9090/api/v1/status/flags
 ## TSDB Admin APIs
 These are APIs that expose database functionalities for the advanced user. These APIs are not enabled unless the `--web.enable-admin-api` is set.
 
-We also expose a gRPC API whose definition can be found [here](https://github.com/prometheus/prometheus/blob/master/prompb/rpc.proto). This is experimental and might change in the future.
+We also expose a gRPC API whose definition can be found [here](https://github.com/dnxware/dnxware/blob/master/prompb/rpc.proto). This is experimental and might change in the future.
 
 ### Snapshot
 Snapshot creates a snapshot of all current data into `snapshots/<datetime>-<rand>` under the TSDB's data directory and returns the directory as response.
@@ -747,7 +747,7 @@ Example:
 
 ```json
 $ curl -X POST \
-  -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]=up&match[]=process_start_time_seconds{job="prometheus"}'
+  -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]=up&match[]=process_start_time_seconds{job="dnxware"}'
 ```
 *New in v2.1 and supports PUT from v2.9*
 

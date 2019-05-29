@@ -1,26 +1,26 @@
 ARG ARCH="amd64"
 ARG OS="linux"
-FROM quay.io/prometheus/busybox-${OS}-${ARCH}:latest
-LABEL maintainer="The Prometheus Authors <prometheus-developers@googlegroups.com>"
+FROM quay.io/dnxware/busybox-${OS}-${ARCH}:latest
+LABEL maintainer="The dnxware Authors <dnxware-developers@googlegroups.com>"
 
 ARG ARCH="amd64"
 ARG OS="linux"
-COPY .build/${OS}-${ARCH}/prometheus        /bin/prometheus
+COPY .build/${OS}-${ARCH}/dnxware        /bin/dnxware
 COPY .build/${OS}-${ARCH}/promtool          /bin/promtool
-COPY documentation/examples/prometheus.yml  /etc/prometheus/prometheus.yml
-COPY console_libraries/                     /usr/share/prometheus/console_libraries/
-COPY consoles/                              /usr/share/prometheus/consoles/
+COPY documentation/examples/dnxware.yml  /etc/dnxware/dnxware.yml
+COPY console_libraries/                     /usr/share/dnxware/console_libraries/
+COPY consoles/                              /usr/share/dnxware/consoles/
 
-RUN ln -s /usr/share/prometheus/console_libraries /usr/share/prometheus/consoles/ /etc/prometheus/
-RUN mkdir -p /prometheus && \
-    chown -R nobody:nogroup etc/prometheus /prometheus
+RUN ln -s /usr/share/dnxware/console_libraries /usr/share/dnxware/consoles/ /etc/dnxware/
+RUN mkdir -p /dnxware && \
+    chown -R nobody:nogroup etc/dnxware /dnxware
 
 USER       nobody
 EXPOSE     9090
-VOLUME     [ "/prometheus" ]
-WORKDIR    /prometheus
-ENTRYPOINT [ "/bin/prometheus" ]
-CMD        [ "--config.file=/etc/prometheus/prometheus.yml", \
-             "--storage.tsdb.path=/prometheus", \
-             "--web.console.libraries=/usr/share/prometheus/console_libraries", \
-             "--web.console.templates=/usr/share/prometheus/consoles" ]
+VOLUME     [ "/dnxware" ]
+WORKDIR    /dnxware
+ENTRYPOINT [ "/bin/dnxware" ]
+CMD        [ "--config.file=/etc/dnxware/dnxware.yml", \
+             "--storage.tsdb.path=/dnxware", \
+             "--web.console.libraries=/usr/share/dnxware/console_libraries", \
+             "--web.console.templates=/usr/share/dnxware/consoles" ]

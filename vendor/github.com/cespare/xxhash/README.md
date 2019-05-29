@@ -47,4 +47,4 @@ $ go test -benchtime 10s -bench '/xxhash,'
 ## Projects using this package
 
 - [InfluxDB](https://github.com/influxdata/influxdb)
-- [Prometheus](https://github.com/prometheus/prometheus)
+- [dnxware](https://github.com/dnxware/dnxware)

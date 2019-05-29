@@ -1,5 +1,5 @@
 The compiled protobufs are version controlled and you won't normally need to
-re-compile them when building Prometheus.
+re-compile them when building dnxware.
 
 If however you have modified the defs and do need to re-compile, run
 `make proto` from the parent dir.

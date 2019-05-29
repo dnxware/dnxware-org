@@ -108,7 +108,7 @@ func NewNamedReflector(name string, lw ListerWatcher, expectedType interface{}, 
 	return r
 }
 
-func makeValidPrometheusMetricLabel(in string) string {
+func makeValiddnxwareMetricLabel(in string) string {
 	// this isn't perfect, but it removes our common characters
 	return strings.NewReplacer("/", "_", ".", "_", "-", "_", ":", "_").Replace(in)
 }

@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -30,19 +30,19 @@ import (
 	"github.com/go-kit/kit/log/level"
 	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/common/model"
 
-	"github.com/prometheus/prometheus/pkg/gate"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/timestamp"
-	"github.com/prometheus/prometheus/pkg/value"
-	"github.com/prometheus/prometheus/storage"
-	"github.com/prometheus/prometheus/util/stats"
+	"github.com/dnxware/dnxware/pkg/gate"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/timestamp"
+	"github.com/dnxware/dnxware/pkg/value"
+	"github.com/dnxware/dnxware/storage"
+	"github.com/dnxware/dnxware/util/stats"
 )
 
 const (
-	namespace = "prometheus"
+	namespace = "dnxware"
 	subsystem = "engine"
 	queryTag  = "query"
 	env       = "query execution"
@@ -74,12 +74,12 @@ func GetDefaultEvaluationInterval() int64 {
 }
 
 type engineMetrics struct {
-	currentQueries       prometheus.Gauge
-	maxConcurrentQueries prometheus.Gauge
-	queryQueueTime       prometheus.Summary
-	queryPrepareTime     prometheus.Summary
-	queryInnerEval       prometheus.Summary
-	queryResultSort      prometheus.Summary
+	currentQueries       dnxware.Gauge
+	maxConcurrentQueries dnxware.Gauge
+	queryQueueTime       dnxware.Summary
+	queryPrepareTime     dnxware.Summary
+	queryInnerEval       dnxware.Summary
+	queryResultSort      dnxware.Summary
 }
 
 // convertibleToInt64 returns true if v does not over-/underflow an int64.
@@ -202,7 +202,7 @@ func contextErr(err error, env string) error {
 // EngineOpts contains configuration options used when creating a new Engine.
 type EngineOpts struct {
 	Logger        log.Logger
-	Reg           prometheus.Registerer
+	Reg           dnxware.Registerer
 	MaxConcurrent int
 	MaxSamples    int
 	Timeout       time.Duration
@@ -225,45 +225,45 @@ func NewEngine(opts EngineOpts) *Engine {
 	}
 
 	metrics := &engineMetrics{
-		currentQueries: prometheus.NewGauge(prometheus.GaugeOpts{
+		currentQueries: dnxware.NewGauge(dnxware.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "queries",
 			Help:      "The current number of queries being executed or waiting.",
 		}),
-		maxConcurrentQueries: prometheus.NewGauge(prometheus.GaugeOpts{
+		maxConcurrentQueries: dnxware.NewGauge(dnxware.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: subsystem,
 			Name:      "queries_concurrent_max",
 			Help:      "The max number of concurrent queries.",
 		}),
-		queryQueueTime: prometheus.NewSummary(prometheus.SummaryOpts{
+		queryQueueTime: dnxware.NewSummary(dnxware.SummaryOpts{
 			Namespace:   namespace,
 			Subsystem:   subsystem,
 			Name:        "query_duration_seconds",
 			Help:        "Query timings",
-			ConstLabels: prometheus.Labels{"slice": "queue_time"},
+			ConstLabels: dnxware.Labels{"slice": "queue_time"},
 		}),
-		queryPrepareTime: prometheus.NewSummary(prometheus.SummaryOpts{
+		queryPrepareTime: dnxware.NewSummary(dnxware.SummaryOpts{
 			Namespace:   namespace,
 			Subsystem:   subsystem,
 			Name:        "query_duration_seconds",
 			Help:        "Query timings",
-			ConstLabels: prometheus.Labels{"slice": "prepare_time"},
+			ConstLabels: dnxware.Labels{"slice": "prepare_time"},
 		}),
-		queryInnerEval: prometheus.NewSummary(prometheus.SummaryOpts{
+		queryInnerEval: dnxware.NewSummary(dnxware.SummaryOpts{
 			Namespace:   namespace,
 			Subsystem:   subsystem,
 			Name:        "query_duration_seconds",
 			Help:        "Query timings",
-			ConstLabels: prometheus.Labels{"slice": "inner_eval"},
+			ConstLabels: dnxware.Labels{"slice": "inner_eval"},
 		}),
-		queryResultSort: prometheus.NewSummary(prometheus.SummaryOpts{
+		queryResultSort: dnxware.NewSummary(dnxware.SummaryOpts{
 			Namespace:   namespace,
 			Subsystem:   subsystem,
 			Name:        "query_duration_seconds",
 			Help:        "Query timings",
-			ConstLabels: prometheus.Labels{"slice": "result_sort"},
+			ConstLabels: dnxware.Labels{"slice": "result_sort"},
 		}),
 	}
 	metrics.maxConcurrentQueries.Set(float64(opts.MaxConcurrent))

@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -25,13 +25,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/notifier"
-	"github.com/prometheus/prometheus/rules"
-	"github.com/prometheus/prometheus/scrape"
-	"github.com/prometheus/prometheus/storage/tsdb"
-	"github.com/prometheus/prometheus/util/testutil"
-	libtsdb "github.com/prometheus/tsdb"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/notifier"
+	"github.com/dnxware/dnxware/rules"
+	"github.com/dnxware/dnxware/scrape"
+	"github.com/dnxware/dnxware/storage/tsdb"
+	"github.com/dnxware/dnxware/util/testutil"
+	libtsdb "github.com/dnxware/tsdb"
 )
 
 func TestMain(m *testing.M) {
@@ -116,7 +116,7 @@ func TestReadyAndHealthy(t *testing.T) {
 			Host:   "localhost:9090",
 			Path:   "/",
 		},
-		Version: &PrometheusVersion{},
+		Version: &dnxwareVersion{},
 	}
 
 	opts.Flags = map[string]string{}
@@ -298,7 +298,7 @@ func TestRoutePrefix(t *testing.T) {
 		ScrapeManager:  nil,
 		RuleManager:    nil,
 		Notifier:       nil,
-		RoutePrefix:    "/prometheus",
+		RoutePrefix:    "/dnxware",
 		EnableAdminAPI: true,
 		TSDB:           func() *libtsdb.DB { return db },
 	}

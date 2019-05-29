@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright 2017 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,12 +22,12 @@ import (
 	"github.com/alecthomas/units"
 	"github.com/go-kit/kit/log"
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/storage"
-	"github.com/prometheus/tsdb"
-	tsdbLabels "github.com/prometheus/tsdb/labels"
+	"github.com/dnxware/client_golang/dnxware"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/storage"
+	"github.com/dnxware/tsdb"
+	tsdbLabels "github.com/dnxware/tsdb/labels"
 )
 
 // ErrNotReady is returned if the underlying storage is not ready yet.
@@ -133,15 +133,15 @@ type Options struct {
 }
 
 var (
-	startTime   prometheus.GaugeFunc
-	headMaxTime prometheus.GaugeFunc
-	headMinTime prometheus.GaugeFunc
+	startTime   dnxware.GaugeFunc
+	headMaxTime dnxware.GaugeFunc
+	headMinTime dnxware.GaugeFunc
 )
 
-func registerMetrics(db *tsdb.DB, r prometheus.Registerer) {
+func registerMetrics(db *tsdb.DB, r dnxware.Registerer) {
 
-	startTime = prometheus.NewGaugeFunc(prometheus.GaugeOpts{
-		Name: "prometheus_tsdb_lowest_timestamp_seconds",
+	startTime = dnxware.NewGaugeFunc(dnxware.GaugeOpts{
+		Name: "dnxware_tsdb_lowest_timestamp_seconds",
 		Help: "Lowest timestamp value stored in the database.",
 	}, func() float64 {
 		bb := db.Blocks()
@@ -150,14 +150,14 @@ func registerMetrics(db *tsdb.DB, r prometheus.Registerer) {
 		}
 		return float64(db.Blocks()[0].Meta().MinTime) / 1000
 	})
-	headMinTime = prometheus.NewGaugeFunc(prometheus.GaugeOpts{
-		Name: "prometheus_tsdb_head_min_time_seconds",
+	headMinTime = dnxware.NewGaugeFunc(dnxware.GaugeOpts{
+		Name: "dnxware_tsdb_head_min_time_seconds",
 		Help: "Minimum time bound of the head block.",
 	}, func() float64 {
 		return float64(db.Head().MinTime()) / 1000
 	})
-	headMaxTime = prometheus.NewGaugeFunc(prometheus.GaugeOpts{
-		Name: "prometheus_tsdb_head_max_time_seconds",
+	headMaxTime = dnxware.NewGaugeFunc(dnxware.GaugeOpts{
+		Name: "dnxware_tsdb_head_max_time_seconds",
 		Help: "Maximum timestamp of the head block.",
 	}, func() float64 {
 		return float64(db.Head().MaxTime()) / 1000
@@ -172,8 +172,8 @@ func registerMetrics(db *tsdb.DB, r prometheus.Registerer) {
 	}
 }
 
-// Open returns a new storage backed by a TSDB database that is configured for Prometheus.
-func Open(path string, l log.Logger, r prometheus.Registerer, opts *Options) (*tsdb.DB, error) {
+// Open returns a new storage backed by a TSDB database that is configured for dnxware.
+func Open(path string, l log.Logger, r dnxware.Registerer, opts *Options) (*tsdb.DB, error) {
 	if opts.MinBlockDuration > opts.MaxBlockDuration {
 		opts.MaxBlockDuration = opts.MinBlockDuration
 	}

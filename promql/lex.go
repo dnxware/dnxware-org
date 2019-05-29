@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -654,7 +654,7 @@ func lexValueSequence(l *lexer) stateFn {
 //
 // NOTE: This function as well as the helper function digitVal() and associated
 // tests have been adapted from the corresponding functions in the "go/scanner"
-// package of the Go standard library to work for Prometheus-style strings.
+// package of the Go standard library to work for dnxware-style strings.
 // None of the actual escaping/quoting logic was changed in this function - it
 // was only modified to integrate with our lexer.
 func lexEscape(l *lexer) {
@@ -893,7 +893,7 @@ func isAlphaNumeric(r rune) bool {
 
 // isDigit reports whether r is a digit. Note: we cannot use unicode.IsDigit()
 // instead because that also classifies non-Latin digits as digits. See
-// https://github.com/prometheus/prometheus/issues/939.
+// https://github.com/dnxware/dnxware/issues/939.
 func isDigit(r rune) bool {
 	return '0' <= r && r <= '9'
 }

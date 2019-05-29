@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright 2017 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -27,14 +27,14 @@ import (
 	"github.com/cockroachdb/cockroach/pkg/util/protoutil"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/pkg/errors"
-	"github.com/prometheus/tsdb"
-	tsdbLabels "github.com/prometheus/tsdb/labels"
+	"github.com/dnxware/tsdb"
+	tsdbLabels "github.com/dnxware/tsdb/labels"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/prometheus/prometheus/pkg/timestamp"
-	pb "github.com/prometheus/prometheus/prompb"
+	"github.com/dnxware/dnxware/pkg/timestamp"
+	pb "github.com/dnxware/dnxware/prompb"
 )
 
 // API encapsulates all API services.
@@ -133,7 +133,7 @@ func (s *AdminDisabled) DeleteSeries(_ context.Context, r *pb.SeriesDeleteReques
 	return nil, errAdminDisabled
 }
 
-// Admin provides an administration interface to Prometheus.
+// Admin provides an administration interface to dnxware.
 type Admin struct {
 	db func() *tsdb.DB
 }

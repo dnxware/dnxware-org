@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,7 +18,7 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/common/model"
 )
 
 // TagValue is a model.LabelValue that implements json.Marshaler and
@@ -45,8 +45,8 @@ type TagValue model.LabelValue
 // uppercase ASCII representation of their hexadecimal value.
 //
 // This encoding allows to save arbitrary Go strings in OpenTSDB. That's
-// required because Prometheus label values can contain anything, and even
-// Prometheus metric names may (and often do) contain ':' (which is disallowed
+// required because dnxware label values can contain anything, and even
+// dnxware metric names may (and often do) contain ':' (which is disallowed
 // in OpenTSDB strings). The encoding uses '_' as an escape character and
 // renders a ':' more or less recognizable as '_.'
 //

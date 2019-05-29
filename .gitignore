@@ -4,12 +4,12 @@
 /*.yml
 *.exe
 
-/prometheus
+/dnxware
 /promtool
 benchmark.txt
 /data
-/cmd/prometheus/data
-/cmd/prometheus/debug
+/cmd/dnxware/data
+/cmd/dnxware/debug
 
 !/.travis.yml
 !/.promu.yml

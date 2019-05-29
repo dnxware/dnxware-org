@@ -1,5 +1,5 @@
 scrape_configs:
-  - job_name: prometheus
+  - job_name: dnxware
     kubernetes_sd_configs:
     - role: pod
       bearer_token: 1234

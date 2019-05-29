@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -27,7 +27,7 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/pkg/errors"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/common/model"
 )
 
 const (
@@ -35,7 +35,7 @@ const (
 	contentTypeJSON = "application/json"
 )
 
-// Client allows sending batches of Prometheus samples to OpenTSDB.
+// Client allows sending batches of dnxware samples to OpenTSDB.
 type Client struct {
 	logger log.Logger
 
@@ -61,7 +61,7 @@ type StoreSamplesRequest struct {
 	Tags      map[string]TagValue `json:"tags"`
 }
 
-// tagsFromMetric translates Prometheus metric into OpenTSDB tags.
+// tagsFromMetric translates dnxware metric into OpenTSDB tags.
 func tagsFromMetric(m model.Metric) map[string]TagValue {
 	tags := make(map[string]TagValue, len(m)-1)
 	for l, v := range m {

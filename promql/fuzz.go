@@ -1,4 +1,4 @@
-// Copyright 2015 The Prometheus Authors
+// Copyright 2015 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,7 +16,7 @@
 
 package promql
 
-import "github.com/prometheus/prometheus/pkg/textparse"
+import "github.com/dnxware/dnxware/pkg/textparse"
 
 // PromQL parser fuzzing instrumentation for use with
 // https://github.com/dvyukov/go-fuzz.
@@ -24,7 +24,7 @@ import "github.com/prometheus/prometheus/pkg/textparse"
 // Fuzz each parser by building appropriately instrumented parser, ex.
 // FuzzParseMetric and execute it with it's
 //
-//     go-fuzz-build -func FuzzParseMetric -o FuzzParseMetric.zip github.com/prometheus/prometheus/promql
+//     go-fuzz-build -func FuzzParseMetric -o FuzzParseMetric.zip github.com/dnxware/dnxware/promql
 //
 // And then run the tests with the appropriate inputs
 //
@@ -48,7 +48,7 @@ const (
 // Fuzz the metric parser.
 //
 // Note that his is not the parser for the text-based exposition-format; that
-// lives in github.com/prometheus/client_golang/text.
+// lives in github.com/dnxware/client_golang/text.
 func FuzzParseMetric(in []byte) int {
 	p := textparse.New(in)
 	for p.Next() {

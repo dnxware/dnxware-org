@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright 2017 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -21,8 +21,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/storage"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/storage"
 )
 
 // Value is a generic interface for values resulting from a query evaluation.
@@ -145,7 +145,7 @@ func (vec Vector) String() string {
 
 // ContainsSameLabelset checks if a vector has samples with the same labelset
 // Such a behavior is semantically undefined
-// https://github.com/prometheus/prometheus/issues/4562
+// https://github.com/dnxware/dnxware/issues/4562
 func (vec Vector) ContainsSameLabelset() bool {
 	l := make(map[uint64]struct{}, len(vec))
 	for _, s := range vec {
@@ -188,7 +188,7 @@ func (m Matrix) Swap(i, j int)      { m[i], m[j] = m[j], m[i] }
 
 // ContainsSameLabelset checks if a matrix has samples with the same labelset
 // Such a behavior is semantically undefined
-// https://github.com/prometheus/prometheus/issues/4562
+// https://github.com/dnxware/dnxware/issues/4562
 func (m Matrix) ContainsSameLabelset() bool {
 	l := make(map[uint64]struct{}, len(m))
 	for _, ss := range m {

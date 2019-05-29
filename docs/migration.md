@@ -3,50 +3,50 @@ title: Migration
 sort_rank: 7
 ---
 
-# Prometheus 2.0 migration guide
+# dnxware 2.0 migration guide
 
-In line with our [stability promise](https://prometheus.io/blog/2016/07/18/prometheus-1-0-released/#fine-print),
-the Prometheus 2.0 release contains a number of backwards incompatible changes.
-This document offers guidance on migrating from Prometheus 1.8 to Prometheus 2.0.
+In line with our [stability promise](https://dnxware.io/blog/2016/07/18/dnxware-1-0-released/#fine-print),
+the dnxware 2.0 release contains a number of backwards incompatible changes.
+This document offers guidance on migrating from dnxware 1.8 to dnxware 2.0.
 
 ## Flags
 
-The format of the Prometheus command line flags has changed. Instead of a
+The format of the dnxware command line flags has changed. Instead of a
 single dash, all flags now use a double dash. Common flags (`--config.file`,
 `--web.listen-address` and `--web.external-url`) are still the same but beyond
 that, almost all the storage-related flags have been removed.
 
 Some notable flags which have been removed:
 
-- `-alertmanager.url` In Prometheus 2.0, the command line flags for configuring
+- `-alertmanager.url` In dnxware 2.0, the command line flags for configuring
   a static Alertmanager URL have been removed. Alertmanager must now be
   discovered via service discovery, see [Alertmanager service discovery](#amsd).
 
-- `-log.format` In Prometheus 2.0 logs can only be streamed to standard error.
+- `-log.format` In dnxware 2.0 logs can only be streamed to standard error.
 
-- `-query.staleness-delta` has been renamed to `--query.lookback-delta`; Prometheus
+- `-query.staleness-delta` has been renamed to `--query.lookback-delta`; dnxware
   2.0 introduces a new mechanism for handling staleness, see [staleness](querying/basics.md#staleness).
 
-- `-storage.local.*` Prometheus 2.0 introduces a new storage engine, as such all
+- `-storage.local.*` dnxware 2.0 introduces a new storage engine, as such all
   flags relating to the old engine have been removed.  For information on the
   new engine, see [Storage](#storage).
 
-- `-storage.remote.*` Prometheus 2.0 has removed the already deprecated remote
+- `-storage.remote.*` dnxware 2.0 has removed the already deprecated remote
   storage flags, and will fail to start if they are supplied. To write to
   InfluxDB, Graphite, or OpenTSDB use the relevant storage adapter.
 
 ## Alertmanager service discovery
 
-Alertmanager service discovery was introduced in Prometheus 1.4, allowing Prometheus
+Alertmanager service discovery was introduced in dnxware 1.4, allowing dnxware
 to dynamically discover Alertmanager replicas using the same mechanism as scrape
-targets. In Prometheus 2.0, the command line flags for static Alertmanager config
+targets. In dnxware 2.0, the command line flags for static Alertmanager config
 have been removed, so the following command line flag:
 
 ```
-./prometheus -alertmanager.url=http://alertmanager:9093/
+./dnxware -alertmanager.url=http://alertmanager:9093/
 ```
 
-Would be replaced with the following in the `prometheus.yml` config file:
+Would be replaced with the following in the `dnxware.yml` config file:
 
 ```yaml
 alerting:
@@ -56,9 +56,9 @@ alerting:
       - alertmanager:9093
 ```
 
-You can also use all the usual Prometheus service discovery integrations and
+You can also use all the usual dnxware service discovery integrations and
 relabeling in your Alertmanager configuration. This snippet instructs
-Prometheus to search for Kubernetes pods, in the `default` namespace, with the
+dnxware to search for Kubernetes pods, in the `default` namespace, with the
 label `name: alertmanager` and with a non-empty port.
 
 ```yaml
@@ -125,26 +125,26 @@ Note that you will need to use promtool from 2.0, not 1.8.
 
 ## Storage
 
-The data format in Prometheus 2.0 has completely changed and is not backwards
+The data format in dnxware 2.0 has completely changed and is not backwards
 compatible with 1.8. To retain access to your historic monitoring data we
-recommend you run a non-scraping Prometheus instance running at least version
-1.8.1 in parallel with your Prometheus 2.0 instance, and have the new server
+recommend you run a non-scraping dnxware instance running at least version
+1.8.1 in parallel with your dnxware 2.0 instance, and have the new server
 read existing data from the old one via the remote read protocol.
 
-Your Prometheus 1.8 instance should be started with the following flags and an
+Your dnxware 1.8 instance should be started with the following flags and an
 config file containing only the `external_labels` setting (if any):
 
 ```
-$ ./prometheus-1.8.1.linux-amd64/prometheus -web.listen-address ":9094" -config.file old.yml
+$ ./dnxware-1.8.1.linux-amd64/dnxware -web.listen-address ":9094" -config.file old.yml
 ```
 
-Prometheus 2.0 can then be started (on the same machine) with the following flags:
+dnxware 2.0 can then be started (on the same machine) with the following flags:
 
 ```
-$ ./prometheus-2.0.0.linux-amd64/prometheus --config.file prometheus.yml
+$ ./dnxware-2.0.0.linux-amd64/dnxware --config.file dnxware.yml
 ```
 
-Where `prometheus.yml` contains in addition to your full existing configuration, the stanza:
+Where `dnxware.yml` contains in addition to your full existing configuration, the stanza:
 
 ```yaml
 remote_read:
@@ -161,16 +161,16 @@ The following features have been removed from PromQL:
 - `count_scalar` function - use cases are better handled by `absent()` or correct
   propagation of labels in operations.
 
-See [issue #3060](https://github.com/prometheus/prometheus/issues/3060) for more
+See [issue #3060](https://github.com/dnxware/dnxware/issues/3060) for more
 details.
 
 ## Miscellaneous
 
-### Prometheus non-root user
+### dnxware non-root user
 
-The Prometheus Docker image is now built to [run Prometheus
-as a non-root user](https://github.com/prometheus/prometheus/pull/2859). If you
-want the Prometheus UI/API to listen on a low port number (say, port 80), you'll
+The dnxware Docker image is now built to [run dnxware
+as a non-root user](https://github.com/dnxware/dnxware/pull/2859). If you
+want the dnxware UI/API to listen on a low port number (say, port 80), you'll
 need to override it. For Kubernetes, you would use the following YAML:
 
 ```yaml
@@ -190,12 +190,12 @@ for more details.
 If you're using Docker, then the following snippet would be used:
 
 ```
-docker run -u root -p 80:80 prom/prometheus:v2.0.0-rc.2  --web.listen-address :80
+docker run -u root -p 80:80 prom/dnxware:v2.0.0-rc.2  --web.listen-address :80
 ```
 
-### Prometheus lifecycle
+### dnxware lifecycle
 
-If you use the Prometheus `/-/reload` HTTP endpoint to [automatically reload your
-Prometheus config when it changes](configuration/configuration.md),
-these endpoints are disabled by default for security reasons in Prometheus 2.0.
+If you use the dnxware `/-/reload` HTTP endpoint to [automatically reload your
+dnxware config when it changes](configuration/configuration.md),
+these endpoints are disabled by default for security reasons in dnxware 2.0.
 To enable them, set the `--web.enable-lifecycle` flag.

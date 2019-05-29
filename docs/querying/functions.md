@@ -118,13 +118,13 @@ to the nearest integer.
 
 `histogram_quantile(φ float, b instant-vector)` calculates the φ-quantile (0 ≤ φ
 ≤ 1) from the buckets `b` of a
-[histogram](https://prometheus.io/docs/concepts/metric_types/#histogram). (See
-[histograms and summaries](https://prometheus.io/docs/practices/histograms) for
+[histogram](https://dnxware.io/docs/concepts/metric_types/#histogram). (See
+[histograms and summaries](https://dnxware.io/docs/practices/histograms) for
 a detailed explanation of φ-quantiles and the usage of the histogram metric type
 in general.) The samples in `b` are the counts of observations in each bucket.
 Each sample must have a label `le` where the label value denotes the inclusive
 upper bound of the bucket. (Samples without such a label are silently ignored.)
-The [histogram metric type](https://prometheus.io/docs/concepts/metric_types/#histogram)
+The [histogram metric type](https://dnxware.io/docs/concepts/metric_types/#histogram)
 automatically provides time series with the `_bucket` suffix and the appropriate
 labels.
 
@@ -373,7 +373,7 @@ expression is to be evaluated.
 `timestamp(v instant-vector)` returns the timestamp of each of the samples of
 the given vector as the number of seconds since January 1, 1970 UTC.
 
-*This function was added in Prometheus 2.0*
+*This function was added in dnxware 2.0*
 
 ## `vector()`
 

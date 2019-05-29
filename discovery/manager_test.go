@@ -1,4 +1,4 @@
-// Copyright 2016 The Prometheus Authors
+// Copyright 2016 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -25,10 +25,10 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/log"
-	"github.com/prometheus/common/model"
-	"github.com/prometheus/prometheus/config"
-	sd_config "github.com/prometheus/prometheus/discovery/config"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
+	"github.com/dnxware/common/model"
+	"github.com/dnxware/dnxware/config"
+	sd_config "github.com/dnxware/dnxware/discovery/config"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
 	"gopkg.in/yaml.v2"
 )
 
@@ -751,7 +751,7 @@ func TestTargetSetRecreatesTargetGroupsEveryRun(t *testing.T) {
 
 	sOne := `
 scrape_configs:
- - job_name: 'prometheus'
+ - job_name: 'dnxware'
    static_configs:
    - targets: ["foo:9090"]
    - targets: ["bar:9090"]
@@ -772,12 +772,12 @@ scrape_configs:
 	discoveryManager.ApplyConfig(c)
 
 	<-discoveryManager.SyncCh()
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "string/0"}, "{__address__=\"bar:9090\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"bar:9090\"}", true)
 
 	sTwo := `
 scrape_configs:
- - job_name: 'prometheus'
+ - job_name: 'dnxware'
    static_configs:
    - targets: ["foo:9090"]
 `
@@ -791,8 +791,8 @@ scrape_configs:
 	discoveryManager.ApplyConfig(c)
 
 	<-discoveryManager.SyncCh()
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "string/0"}, "{__address__=\"bar:9090\"}", false)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"bar:9090\"}", false)
 }
 
 // TestTargetSetRecreatesEmptyStaticConfigs ensures that reloading a config file after
@@ -803,7 +803,7 @@ func TestTargetSetRecreatesEmptyStaticConfigs(t *testing.T) {
 
 	sOne := `
 scrape_configs:
- - job_name: 'prometheus'
+ - job_name: 'dnxware'
    static_configs:
    - targets: ["foo:9090"]
 `
@@ -823,11 +823,11 @@ scrape_configs:
 	discoveryManager.ApplyConfig(c)
 
 	<-discoveryManager.SyncCh()
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "string/0"}, "{__address__=\"foo:9090\"}", true)
 
 	sTwo := `
 scrape_configs:
- - job_name: 'prometheus'
+ - job_name: 'dnxware'
    static_configs:
 `
 	if err := yaml.UnmarshalStrict([]byte(sTwo), cfg); err != nil {
@@ -841,7 +841,7 @@ scrape_configs:
 
 	<-discoveryManager.SyncCh()
 
-	pkey := poolKey{setName: "prometheus", provider: "string/0"}
+	pkey := poolKey{setName: "dnxware", provider: "string/0"}
 	targetGroups, ok := discoveryManager.targets[pkey]
 	if !ok {
 		t.Fatalf("'%v' should be present in target groups", pkey)
@@ -878,10 +878,10 @@ func TestIdenticalConfigurationsAreCoalesced(t *testing.T) {
 
 	sOne := `
 scrape_configs:
- - job_name: 'prometheus'
+ - job_name: 'dnxware'
    file_sd_configs:
    - files: ["%s"]
- - job_name: 'prometheus2'
+ - job_name: 'dnxware2'
    file_sd_configs:
    - files: ["%s"]
 `
@@ -902,8 +902,8 @@ scrape_configs:
 	discoveryManager.ApplyConfig(c)
 
 	<-discoveryManager.SyncCh()
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus", provider: "*file.SDConfig/0"}, "{__address__=\"foo:9090\"}", true)
-	verifyPresence(t, discoveryManager.targets, poolKey{setName: "prometheus2", provider: "*file.SDConfig/0"}, "{__address__=\"foo:9090\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware", provider: "*file.SDConfig/0"}, "{__address__=\"foo:9090\"}", true)
+	verifyPresence(t, discoveryManager.targets, poolKey{setName: "dnxware2", provider: "*file.SDConfig/0"}, "{__address__=\"foo:9090\"}", true)
 	if len(discoveryManager.providers) != 1 {
 		t.Fatalf("Invalid number of providers: expected 1, got %d", len(discoveryManager.providers))
 	}
@@ -912,7 +912,7 @@ scrape_configs:
 func TestApplyConfigDoesNotModifyStaticProviderTargets(t *testing.T) {
 	cfgText := `
 scrape_configs:
- - job_name: 'prometheus'
+ - job_name: 'dnxware'
    static_configs:
    - targets: ["foo:9090"]
    - targets: ["bar:9090"]

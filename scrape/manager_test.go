@@ -1,4 +1,4 @@
-// Copyright 2013 The Prometheus Authors
+// Copyright 2013 The dnxware Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -20,14 +20,14 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/prometheus/common/model"
+	"github.com/dnxware/common/model"
 	yaml "gopkg.in/yaml.v2"
 
-	"github.com/prometheus/prometheus/config"
-	"github.com/prometheus/prometheus/discovery/targetgroup"
-	"github.com/prometheus/prometheus/pkg/labels"
-	"github.com/prometheus/prometheus/pkg/relabel"
-	"github.com/prometheus/prometheus/util/testutil"
+	"github.com/dnxware/dnxware/config"
+	"github.com/dnxware/dnxware/discovery/targetgroup"
+	"github.com/dnxware/dnxware/pkg/labels"
+	"github.com/dnxware/dnxware/pkg/relabel"
+	"github.com/dnxware/dnxware/util/testutil"
 )
 
 func TestPopulateLabels(t *testing.T) {
@@ -371,11 +371,11 @@ func TestManagerTargetsUpdates(t *testing.T) {
 }
 
 func TestSetJitter(t *testing.T) {
-	getConfig := func(prometheus string) *config.Config {
+	getConfig := func(dnxware string) *config.Config {
 		cfgText := `
 global:
  external_labels:
-   prometheus: '` + prometheus + `'
+   dnxware: '` + dnxware + `'
 `
 
 		cfg := &config.Config{}

@@ -17,7 +17,7 @@ Release cadence of first pre-releases being cut is 6 weeks.
 | v2.10          | 2019-05-22                                 | Björn Rabenstein (GitHub: @beorn7)          |
 | v2.11          | 2019-07-03                                 | **searching for volunteer**                 |
 
-If you are interested in volunteering please create a pull request against the [prometheus/prometheus](https://github.com/prometheus/prometheus) repository and propose yourself for the release series of your choice.
+If you are interested in volunteering please create a pull request against the [dnxware/dnxware](https://github.com/dnxware/dnxware) repository and propose yourself for the release series of your choice.
 
 ## Release shepherd responsibilities
 
@@ -34,7 +34,7 @@ See the next section for details on cutting an individual release.
 
 ## How to cut an individual release
 
-These instructions are currently valid for the Prometheus server, i.e. the [prometheus/prometheus repository](https://github.com/prometheus/prometheus). Applicability to other Prometheus repositories depends on the current state of each repository. We aspire to unify the release procedures as much as possible.
+These instructions are currently valid for the dnxware server, i.e. the [dnxware/dnxware repository](https://github.com/dnxware/dnxware). Applicability to other dnxware repositories depends on the current state of each repository. We aspire to unify the release procedures as much as possible.
 
 ### Branch management and versioning strategy
 
@@ -56,7 +56,7 @@ For a new major or minor release, create the corresponding release branch based 
 
 Bump the version in the `VERSION` file and update `CHANGELOG.md`. Do this in a proper PR as this gives others the opportunity to chime in on the release in general and on the addition to the changelog in particular.
 
-Note that `CHANGELOG.md` should only document changes relevant to users of Prometheus, including external API changes, performance improvements, and new features. Do not document changes of internal interfaces, code refactorings and clean-ups, changes to the build process, etc. People interested in these are asked to refer to the git history.
+Note that `CHANGELOG.md` should only document changes relevant to users of dnxware, including external API changes, performance improvements, and new features. Do not document changes of internal interfaces, code refactorings and clean-ups, changes to the build process, etc. People interested in these are asked to refer to the git history.
 
 Entries in the `CHANGELOG.md` are meant to be in this order:
 
@@ -92,9 +92,9 @@ Now all you can do is to wait for tarballs to be uploaded to the Github release 
 
 If the release has happened in the latest release branch, merge the changes into master.
 
-To update the docs, a PR needs to be created to `prometheus/docs`. See [this PR](https://github.com/prometheus/docs/pull/952/files) for inspiration.
+To update the docs, a PR needs to be created to `dnxware/docs`. See [this PR](https://github.com/dnxware/docs/pull/952/files) for inspiration.
 
-Once the binaries have been uploaded, announce the release on `prometheus-announce@googlegroups.com`. (Please do not use `prometheus-users@googlegroups.com` for announcements anymore.) Check out previous announcement mails for inspiration. 
+Once the binaries have been uploaded, announce the release on `dnxware-announce@googlegroups.com`. (Please do not use `dnxware-users@googlegroups.com` for announcements anymore.) Check out previous announcement mails for inspiration. 
 
 ### Pre-releases
 
