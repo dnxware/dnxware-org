@@ -378,7 +378,7 @@ func main() {
 	cfg.web.Notifier = notifierManager
 	cfg.web.TSDBCfg = cfg.tsdb
 
-	cfg.web.Version = &web.dnxwareVersion{
+	cfg.web.Version = &web.PrometheusVersion{
 		Version:   version.Version,
 		Revision:  version.Revision,
 		Branch:    version.Branch,
