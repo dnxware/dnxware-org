@@ -116,7 +116,7 @@ func TestReadyAndHealthy(t *testing.T) {
 			Host:   "localhost:9090",
 			Path:   "/",
 		},
-		Version: &dnxwareVersion{},
+		Version: &PrometheusVersion{},
 	}
 
 	opts.Flags = map[string]string{}

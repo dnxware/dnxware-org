@@ -131,7 +131,7 @@ type Handler struct {
 	reloadCh    chan chan error
 	options     *Options
 	config      *config.Config
-	versionInfo *dnxwareVersion
+	versionInfo *PrometheusVersion
 	birth       time.Time
 	cwd         string
 	flagsMap    map[string]string
@@ -152,8 +152,8 @@ func (h *Handler) ApplyConfig(conf *config.Config) error {
 	return nil
 }
 
-// dnxwareVersion contains build information about dnxware.
-type dnxwareVersion struct {
+// PrometheusVersion contains build information about dnxware.
+type PrometheusVersion struct {
 	Version   string `json:"version"`
 	Revision  string `json:"revision"`
 	Branch    string `json:"branch"`
@@ -172,7 +172,7 @@ type Options struct {
 	ScrapeManager *scrape.Manager
 	RuleManager   *rules.Manager
 	Notifier      *notifier.Manager
-	Version       *dnxwareVersion
+	Version       *PrometheusVersion
 	Flags         map[string]string
 
 	ListenAddress              string
@@ -606,7 +606,7 @@ func (h *Handler) status(w http.ResponseWriter, r *http.Request) {
 	status := struct {
 		Birth               time.Time
 		CWD                 string
-		Version             *dnxwareVersion
+		Version             *PrometheusVersion
 		Alertmanagers       []*url.URL
 		GoroutineCount      int
 		GOMAXPROCS          int
