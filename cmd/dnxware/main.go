@@ -378,14 +378,7 @@ func main() {
 	cfg.web.Notifier = notifierManager
 	cfg.web.TSDBCfg = cfg.tsdb
 
-	cfg.web.Version = &web.PrometheusVersion{
-		Version:   version.Version,
-		Revision:  version.Revision,
-		Branch:    version.Branch,
-		BuildUser: version.BuildUser,
-		BuildDate: version.BuildDate,
-		GoVersion: version.GoVersion,
-	}
+	
 
 	cfg.web.Flags = map[string]string{}
 
