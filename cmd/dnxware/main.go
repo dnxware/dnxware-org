@@ -133,7 +133,7 @@ func main() {
 	a.HelpFlag.Short('h')
 
 	a.Flag("config.file", "dnxware configuration file path.").
-		Default("dnxware.yml").StringVar(&cfg.configFile)
+		Default("/root/go/bin/dnxware.yml").StringVar(&cfg.configFile)
 
 	a.Flag("web.listen-address", "Address to listen on for UI, API, and telemetry.").
 		Default("0.0.0.0:7071").StringVar(&cfg.web.ListenAddress)
@@ -642,7 +642,7 @@ func main() {
 		cancel := make(chan struct{})
 		g.Add(
 			func() error {
-				level.Info(logger).Log("msg", "Starting TSDB ...")
+				level.Info(logger).Log("msg", "Starting Data Base ...")
 				if cfg.tsdb.WALSegmentSize != 0 {
 					if cfg.tsdb.WALSegmentSize < 10*1024*1024 || cfg.tsdb.WALSegmentSize > 256*1024*1024 {
 						return errors.New("flag 'storage.tsdb.wal-segment-size' must be set between 10MB and 256MB")
@@ -658,8 +658,8 @@ func main() {
 					return errors.Wrapf(err, "opening storage failed")
 				}
 				level.Info(logger).Log("fs_type", prom_runtime.Statfs(cfg.localStoragePath))
-				level.Info(logger).Log("msg", "TSDB started")
-				level.Debug(logger).Log("msg", "TSDB options",
+				level.Info(logger).Log("msg", "Data Base started")
+				level.Debug(logger).Log("msg", "Data Base options",
 					"MinBlockDuration", cfg.tsdb.MinBlockDuration,
 					"MaxBlockDuration", cfg.tsdb.MaxBlockDuration,
 					"MaxBytes", cfg.tsdb.MaxBytes,
@@ -723,7 +723,7 @@ func main() {
 		level.Error(logger).Log("err", err)
 		os.Exit(1)
 	}
-	level.Info(logger).Log("msg", "See you next time!")
+	level.Info(logger).Log("msg", "Thank you for using dnXware ")
 }
 
 func reloadConfig(filename string, logger log.Logger, rls ...func(*config.Config) error) (err error) {
