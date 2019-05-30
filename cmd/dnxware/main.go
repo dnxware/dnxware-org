@@ -320,7 +320,7 @@ func main() {
 	klog.SetLogger(log.With(logger, "component", "k8s_client_runtime"))
 
 	level.Info(logger).Log("msg", "Starting dnxware - version = 17.2 ")
-	level.Info(logger).Log("build_context", version.BuildContext())
+	// level.Info(logger).Log("build_context", version.BuildContext())
 	// level.Info(logger).Log("host_details", prom_runtime.Uname())
 	// level.Info(logger).Log("fd_limits", prom_runtime.FdLimits())
 	// level.Info(logger).Log("vm_limits", prom_runtime.VmLimits())
@@ -486,7 +486,8 @@ func main() {
 				// Don't forget to release the reloadReady channel so that waiting blocks can exit normally.
 				select {
 				case <-term:
-					level.Warn(logger).Log("msg", "Received SIGTERM, exiting gracefully...")
+					// level.Warn(logger).Log("msg", "Received SIGTERM, exiting gracefully...")
+					level.Warn(logger).Log("msg", " ")
 					reloadReady.Close()
 
 				case <-webHandler.Quit():
@@ -507,11 +508,13 @@ func main() {
 		g.Add(
 			func() error {
 				err := discoveryManagerScrape.Run()
-				level.Info(logger).Log("msg", "Scrape discovery manager stopped")
+				level.Info(logger).Log("msg", " Stopped")
+				// level.Info(logger).Log("msg", "Scrape discovery manager stopped")
 				return err
 			},
 			func(err error) {
-				level.Info(logger).Log("msg", "Stopping scrape discovery manager...")
+				// level.Info(logger).Log("msg", "Stopping scrape discovery manager...")
+				level.Info(logger).Log("msg", "Stopping ...")
 				cancelScrape()
 			},
 		)
@@ -521,11 +524,13 @@ func main() {
 		g.Add(
 			func() error {
 				err := discoveryManagerNotify.Run()
-				level.Info(logger).Log("msg", "Notify discovery manager stopped")
+				level.Info(logger).Log("msg", "stopped")
+				// level.Info(logger).Log("msg", "Notify discovery manager stopped")
 				return err
 			},
 			func(err error) {
-				level.Info(logger).Log("msg", "Stopping notify discovery manager...")
+				// level.Info(logger).Log("msg", "Stopping notify discovery manager...")
+				level.Info(logger).Log("msg", "Stopping ...")
 				cancelNotify()
 			},
 		)
@@ -541,13 +546,15 @@ func main() {
 				<-reloadReady.C
 
 				err := scrapeManager.Run(discoveryManagerScrape.SyncCh())
-				level.Info(logger).Log("msg", "Scrape manager stopped")
+				// level.Info(logger).Log("msg", "Scrape manager stopped")
+				level.Info(logger).Log("msg", "stopped")
 				return err
 			},
 			func(err error) {
 				// Scrape manager needs to be stopped before closing the local TSDB
 				// so that it doesn't try to write samples to a closed storage.
-				level.Info(logger).Log("msg", "Stopping scrape manager...")
+				// level.Info(logger).Log("msg", "Stopping scrape manager...")
+				level.Info(logger).Log("msg", "Stopping ...")
 				scrapeManager.Stop()
 			},
 		)
@@ -711,7 +718,8 @@ func main() {
 				<-reloadReady.C
 
 				notifierManager.Run(discoveryManagerNotify.SyncCh())
-				level.Info(logger).Log("msg", "Notifier manager stopped")
+				// level.Info(logger).Log("msg", "Notifier manager stopped")
+				level.Info(logger).Log("msg", "stopped")
 				return nil
 			},
 			func(err error) {
