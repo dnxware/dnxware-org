@@ -319,7 +319,7 @@ func main() {
 	klog.ClampLevel(6)
 	klog.SetLogger(log.With(logger, "component", "k8s_client_runtime"))
 
-	level.Info(logger).Log("msg", "Starting dnxware", "version 17.2")
+	level.Info(logger).Log("msg", "Starting dnxware", "version 17.2 ")
 	level.Info(logger).Log("build_context", version.BuildContext())
 	level.Info(logger).Log("host_details", prom_runtime.Uname())
 	level.Info(logger).Log("fd_limits", prom_runtime.FdLimits())
@@ -611,7 +611,7 @@ func main() {
 				reloadReady.Close()
 
 				webHandler.Ready()
-				level.Info(logger).Log("msg", "dnXware Server is UP.")
+				level.Info(logger).Log("msg", "dnXware Server is UP - ENJOY.")
 				<-cancel
 				return nil
 			},
