@@ -72,7 +72,7 @@ var (
 		Help: "Timestamp of the last successful configuration reload.",
 	})
 
-	defaultRetentionString   = "15d"
+	defaultRetentionString   = "365d"
 	defaultRetentionDuration model.Duration
 )
 
@@ -283,7 +283,7 @@ func main() {
 
 		if cfg.tsdb.RetentionDuration == 0 && cfg.tsdb.MaxBytes == 0 {
 			cfg.tsdb.RetentionDuration = defaultRetentionDuration
-			level.Info(logger).Log("msg", "no time or size retention was set so using the default time retention", "duration", defaultRetentionDuration)
+			level.Info(logger).Log("msg", "dnXware default retention time ", "duration", defaultRetentionDuration)
 		}
 
 		// Check for overflows. This limits our max retention to 100y.
@@ -319,7 +319,7 @@ func main() {
 	klog.ClampLevel(6)
 	klog.SetLogger(log.With(logger, "component", "k8s_client_runtime"))
 
-	level.Info(logger).Log("msg", "Starting dnxware", "version", version.Info())
+	level.Info(logger).Log("msg", "Starting dnxware", "version 17.2")
 	level.Info(logger).Log("build_context", version.BuildContext())
 	level.Info(logger).Log("host_details", prom_runtime.Uname())
 	level.Info(logger).Log("fd_limits", prom_runtime.FdLimits())
@@ -611,7 +611,7 @@ func main() {
 				reloadReady.Close()
 
 				webHandler.Ready()
-				level.Info(logger).Log("msg", "Server is ready to receive web requests.")
+				level.Info(logger).Log("msg", "dnXware Server is UP.")
 				<-cancel
 				return nil
 			},
@@ -727,7 +727,7 @@ func main() {
 }
 
 func reloadConfig(filename string, logger log.Logger, rls ...func(*config.Config) error) (err error) {
-	level.Info(logger).Log("msg", "Loading configuration file", "filename", filename)
+	level.Info(logger).Log("msg", "Loading required files")
 
 	defer func() {
 		if err == nil {
@@ -755,7 +755,7 @@ func reloadConfig(filename string, logger log.Logger, rls ...func(*config.Config
 	}
 
 	promql.SetDefaultEvaluationInterval(time.Duration(conf.GlobalConfig.EvaluationInterval))
-	level.Info(logger).Log("msg", "Completed loading of configuration file", "filename", filename)
+	level.Info(logger).Log("msg", "Completed loading required files")
 	return nil
 }
 
