@@ -319,11 +319,11 @@ func main() {
 	klog.ClampLevel(6)
 	klog.SetLogger(log.With(logger, "component", "k8s_client_runtime"))
 
-	level.Info(logger).Log("msg", "Starting dnxware", "version 17.2 ")
+	level.Info(logger).Log("msg", "Starting dnxware - version = 17.2 ")
 	level.Info(logger).Log("build_context", version.BuildContext())
-	level.Info(logger).Log("host_details", prom_runtime.Uname())
-	level.Info(logger).Log("fd_limits", prom_runtime.FdLimits())
-	level.Info(logger).Log("vm_limits", prom_runtime.VmLimits())
+	// level.Info(logger).Log("host_details", prom_runtime.Uname())
+	// level.Info(logger).Log("fd_limits", prom_runtime.FdLimits())
+	// level.Info(logger).Log("vm_limits", prom_runtime.VmLimits())
 
 	var (
 		localStorage  = &tsdb.ReadyStorage{}
